@@ -1,8 +1,8 @@
-// Copyright (c) 2018 The Dash Core developers
+// Copyright (c) 2018 The Thought Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "test/test_dash.h"
+#include "test/test_thought.h"
 
 #include "script/interpreter.h"
 #include "script/standard.h"
@@ -20,7 +20,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-static const CBitcoinAddress payoutAddress  ("yRq1Ky1AfFmf597rnotj7QRxsDUKePVWNF");
+static const CThoughtAddress payoutAddress  ("yRq1Ky1AfFmf597rnotj7QRxsDUKePVWNF");
 static const std::string payoutKey          ("cV3qrPWzDcnhzRMV4MqtTH4LhNPqPo26ZntGvfJhc8nqCi8Ae5xR");
 
 typedef std::map<COutPoint, std::pair<int, CAmount>> SimpleUTXOMap;
@@ -247,8 +247,8 @@ BOOST_FIXTURE_TEST_CASE(dip3_protx, TestChainDIP3Setup)
 {
     CKey sporkKey;
     sporkKey.MakeNewKey(false);
-    CBitcoinSecret sporkSecret(sporkKey);
-    CBitcoinAddress sporkAddress;
+    CThoughtSecret sporkSecret(sporkKey);
+    CThoughtAddress sporkAddress;
     sporkAddress.Set(sporkKey.GetPubKey().GetID());
     sporkManager.SetSporkAddress(sporkAddress.ToString());
     sporkManager.SetPrivKey(sporkSecret.ToString());

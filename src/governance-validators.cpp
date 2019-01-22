@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2018 The Dash Core developers
+// Copyright (c) 2014-2018 The Thought Core developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -151,7 +151,7 @@ bool CProposalValidator::ValidatePaymentAddress()
         return false;
     }
 
-    CBitcoinAddress address(strPaymentAddress);
+    CThoughtAddress address(strPaymentAddress);
     if (!address.IsValid()) {
         strErrorMessages += "payment_address is invalid;";
         return false;

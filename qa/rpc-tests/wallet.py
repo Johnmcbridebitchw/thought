@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2016 The Bitcoin Core developers
+# Copyright (c) 2014-2016 The Thought Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import ThoughtTestFramework
 from test_framework.util import *
 
-class WalletTest (BitcoinTestFramework):
+class WalletTest (ThoughtTestFramework):
 
     def check_fee_amount(self, curr_balance, balance_with_fee, fee_per_byte, tx_size):
         """Return curr_balance after asserting the fee was in range"""
@@ -56,7 +56,7 @@ class WalletTest (BitcoinTestFramework):
         assert_equal(len(self.nodes[1].listunspent()), 1)
         assert_equal(len(self.nodes[2].listunspent()), 0)
 
-        # Send 210 DASH from 0 to 2 using sendtoaddress call.
+        # Send 210 THT from 0 to 2 using sendtoaddress call.
         # Second transaction will be child of first, and will require a fee
         self.nodes[0].sendtoaddress(self.nodes[2].getnewaddress(), 110)
         self.nodes[0].sendtoaddress(self.nodes[2].getnewaddress(), 100)
@@ -81,7 +81,7 @@ class WalletTest (BitcoinTestFramework):
         self.nodes[1].generate(100)
         self.sync_all()
 
-        # node0 should end up with 1000 DASH in block rewards plus fees, but
+        # node0 should end up with 1000 THT in block rewards plus fees, but
         # minus the 210 plus fees sent to node2
         assert_equal(self.nodes[0].getbalance(), 1000-210)
         assert_equal(self.nodes[2].getbalance(), 210)
@@ -114,7 +114,7 @@ class WalletTest (BitcoinTestFramework):
         assert_equal(self.nodes[2].getbalance(), 1000)
         assert_equal(self.nodes[2].getbalance("from1"), 1000-210)
 
-        # Send 100 DASH normal
+        # Send 100 THT normal
         address = self.nodes[0].getnewaddress("test")
         fee_per_byte = Decimal('0.00001') / 1000
         self.nodes[2].settxfee(fee_per_byte * 1000)
@@ -124,7 +124,7 @@ class WalletTest (BitcoinTestFramework):
         node_2_bal = self.check_fee_amount(self.nodes[2].getbalance(), Decimal('900'), fee_per_byte, count_bytes(self.nodes[2].getrawtransaction(txid)))
         assert_equal(self.nodes[0].getbalance(), Decimal('100'))
 
-        # Send 100 DASH with subtract fee from amount
+        # Send 100 THT with subtract fee from amount
         txid = self.nodes[2].sendtoaddress(address, 100, "", "", True)
         self.nodes[2].generate(1)
         self.sync_all()
@@ -132,7 +132,7 @@ class WalletTest (BitcoinTestFramework):
         assert_equal(self.nodes[2].getbalance(), node_2_bal)
         node_0_bal = self.check_fee_amount(self.nodes[0].getbalance(), Decimal('200'), fee_per_byte, count_bytes(self.nodes[2].getrawtransaction(txid)))
 
-        # Sendmany 100 DASH
+        # Sendmany 100 THT
         txid = self.nodes[2].sendmany('from1', {address: 100}, 0, False, "", [])
         self.nodes[2].generate(1)
         self.sync_all()
@@ -140,7 +140,7 @@ class WalletTest (BitcoinTestFramework):
         node_2_bal = self.check_fee_amount(self.nodes[2].getbalance(), node_2_bal - Decimal('100'), fee_per_byte, count_bytes(self.nodes[2].getrawtransaction(txid)))
         assert_equal(self.nodes[0].getbalance(), node_0_bal)
 
-        # Sendmany 100 DASH with subtract fee from amount
+        # Sendmany 100 THT with subtract fee from amount
         txid = self.nodes[2].sendmany('from1', {address: 100}, 0, False, "", [address])
         self.nodes[2].generate(1)
         self.sync_all()
@@ -328,7 +328,7 @@ class WalletTest (BitcoinTestFramework):
             '-reindex',
             '-zapwallettxes=1',
             '-zapwallettxes=2',
-            # disabled until issue is fixed: https://github.com/bitcoin/bitcoin/issues/7463
+            # disabled until issue is fixed: https://github.com/thought/thought/issues/7463
             # '-salvagewallet',
         ]
         chainlimit = 6

@@ -1,10 +1,10 @@
-// Copyright (c) 2011-2015 The Bitcoin Core developers
-// Copyright (c) 2014-2017 The Dash Core developers
+// Copyright (c) 2011-2015 The Thought Core developers
+// Copyright (c) 2014-2017 The Thought Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_QT_CLIENTMODEL_H
-#define BITCOIN_QT_CLIENTMODEL_H
+#ifndef THOUGHT_QT_CLIENTMODEL_H
+#define THOUGHT_QT_CLIENTMODEL_H
 
 #include <QObject>
 #include <QDateTime>
@@ -38,7 +38,7 @@ enum NumConnections {
     CONNECTIONS_ALL  = (CONNECTIONS_IN | CONNECTIONS_OUT),
 };
 
-/** Model for Dash network client. */
+/** Model for Thought network client. */
 class ClientModel : public QObject
 {
     Q_OBJECT
@@ -126,4 +126,4 @@ public Q_SLOTS:
     void updateBanlist();
 };
 
-#endif // BITCOIN_QT_CLIENTMODEL_H
+#endif // THOUGHT_QT_CLIENTMODEL_H

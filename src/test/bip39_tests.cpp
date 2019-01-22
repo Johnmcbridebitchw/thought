@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2017 The Dash Core developers
+// Copyright (c) 2014-2017 The Thought Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,7 +7,7 @@
 #include "key.h"
 #include "util.h"
 #include "utilstrencodings.h"
-#include "test/test_dash.h"
+#include "test/test_thought.h"
 #include "bip39.h"
 
 #include <boost/test/unit_test.hpp>
@@ -57,9 +57,9 @@ BOOST_AUTO_TEST_CASE(bip39_vectors)
         key.SetMaster(&seed[0], 64);
         pubkey = key.Neuter();
 
-        CBitcoinExtKey b58key;
+        CThoughtExtKey b58key;
         b58key.SetKey(key);
-        // printf("CBitcoinExtKey: %s\n", b58key.ToString().c_str());
+        // printf("CThoughtExtKey: %s\n", b58key.ToString().c_str());
         BOOST_CHECK(b58key.ToString() == test[3].get_str());
     }
 }

@@ -1,5 +1,5 @@
-// Copyright (c) 2014 The Bitcoin Core developers
-// Copyright (c) 2014-2017 The Dash Core developers
+// Copyright (c) 2014 The Thought Core developers
+// Copyright (c) 2014-2017 The Thought Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -46,7 +46,7 @@ void NetworkStyle::rotateColors(QImage& img, const int iconColorHueShift, const 
             col.getHsl(&h,&s,&l);
 
             // rotate color on RGB color circle
-            // 70° should end up with the typical "testnet" green (in bitcoin)
+            // 70° should end up with the typical "testnet" green (in thought)
             h+=iconColorHueShift;
 
             // change saturation value
@@ -73,7 +73,7 @@ NetworkStyle::NetworkStyle(const QString &_appName, const int iconColorHueShift,
     // Grab theme from settings
     QString theme = GUIUtil::getThemeName();
     // load pixmap
-    QPixmap appIconPixmap(":/icons/bitcoin");
+    QPixmap appIconPixmap(":/icons/thought");
     QPixmap splashImagePixmap(":/images/" + theme + "/splash");
 
     if(iconColorHueShift != 0 && iconColorSaturationReduction != 0)

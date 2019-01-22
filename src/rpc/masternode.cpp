@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2017 The Dash Core developers
+// Copyright (c) 2014-2017 The Thought Core developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -148,8 +148,8 @@ void masternode_list_help()
             "  lastpaidblock  - Print the last block height a node was paid on the network\n"
             "  lastpaidtime   - Print the last time a node was paid on the network\n"
             "  lastseen       - Print timestamp of when a masternode was last seen on the network\n"
-            "  owneraddress   - Print the masternode owner Dash address\n"
-            "  payee          - Print the masternode payout Dash address (can be additionally filtered,\n"
+            "  owneraddress   - Print the masternode owner Thought address\n"
+            "  payee          - Print the masternode payout Thought address (can be additionally filtered,\n"
             "                   partial match)\n"
             "  protocol       - Print protocol of a masternode (can be additionally filtered, exact match)\n"
             "  keyid          - Print the masternode (not collateral) key id\n"
@@ -157,7 +157,7 @@ void masternode_list_help()
             "  sentinel       - Print sentinel version of a masternode (can be additionally filtered, exact match)\n"
             "  status         - Print masternode status: PRE_ENABLED / ENABLED / EXPIRED / SENTINEL_PING_EXPIRED / NEW_START_REQUIRED /\n"
             "                   UPDATE_REQUIRED / POSE_BAN / OUTPOINT_SPENT (can be additionally filtered, partial match)\n"
-            "  votingaddress  - Print the masternode voting Dash address\n"
+            "  votingaddress  - Print the masternode voting Thought address\n"
         );
 }
 
@@ -297,9 +297,9 @@ UniValue GetNextMasternodeForPayment(int heightShift)
     }
 
     CTxDestination payeeDest;
-    CBitcoinAddress payeeAddr;
+    CThoughtAddress payeeAddr;
     if (ExtractDestination(payeeScript, payeeDest)) {
-        payeeAddr = CBitcoinAddress(payeeDest);
+        payeeAddr = CThoughtAddress(payeeDest);
     }
 
     UniValue obj(UniValue::VOBJ);
@@ -604,7 +604,7 @@ UniValue masternode_genkey(const JSONRPCRequest& request)
     CKey secret;
     secret.MakeNewKey(fCompressed);
 
-    return CBitcoinSecret(secret).ToString();
+    return CThoughtSecret(secret).ToString();
 }
 
 void masternode_list_conf_help()
@@ -679,7 +679,7 @@ UniValue masternode_status(const JSONRPCRequest& request)
     } else {
         CMasternode mn;
         if (mnodeman.Get(activeMasternodeInfo.outpoint, mn)) {
-            mnObj.push_back(Pair("payee", CBitcoinAddress(mn.keyIDCollateralAddress).ToString()));
+            mnObj.push_back(Pair("payee", CThoughtAddress(mn.keyIDCollateralAddress).ToString()));
         }
 
         mnObj.push_back(Pair("status", legacyActiveMasternodeManager.GetStatus()));
@@ -902,7 +902,7 @@ UniValue masternodelist(const JSONRPCRequest& request)
             CTxDestination payeeDest;
             std::string payeeStr = "UNKOWN";
             if (ExtractDestination(payeeScript, payeeDest)) {
-                payeeStr = CBitcoinAddress(payeeDest).ToString();
+                payeeStr = CThoughtAddress(payeeDest).ToString();
             }
 
             if (strMode == "activeseconds") {
@@ -981,8 +981,8 @@ UniValue masternodelist(const JSONRPCRequest& request)
                 objMN.push_back(Pair("activeseconds", (int64_t)(mn.lastPing.sigTime - mn.sigTime)));
                 objMN.push_back(Pair("lastpaidtime", mn.GetLastPaidTime()));
                 objMN.push_back(Pair("lastpaidblock", mn.GetLastPaidBlock()));
-                objMN.push_back(Pair("owneraddress", CBitcoinAddress(mn.keyIDOwner).ToString()));
-                objMN.push_back(Pair("votingaddress", CBitcoinAddress(mn.keyIDVoting).ToString()));
+                objMN.push_back(Pair("owneraddress", CThoughtAddress(mn.keyIDOwner).ToString()));
+                objMN.push_back(Pair("votingaddress", CThoughtAddress(mn.keyIDVoting).ToString()));
                 obj.push_back(Pair(strOutpoint, objMN));
             } else if (strMode == "keyid") {
                 if (strFilter !="" && strOutpoint.find(strFilter) == std::string::npos) continue;
@@ -998,7 +998,7 @@ UniValue masternodelist(const JSONRPCRequest& request)
                 obj.push_back(Pair(strOutpoint, (int64_t)mn.lastPing.sigTime));
             } else if (strMode == "owneraddress") {
                 if (strFilter !="" && strOutpoint.find(strFilter) == std::string::npos) continue;
-                obj.push_back(Pair(strOutpoint, CBitcoinAddress(mn.keyIDOwner).ToString()));
+                obj.push_back(Pair(strOutpoint, CThoughtAddress(mn.keyIDOwner).ToString()));
             } else if (strMode == "payee") {
                 if (strFilter !="" && payeeStr.find(strFilter) == std::string::npos &&
                     strOutpoint.find(strFilter) == std::string::npos) continue;
@@ -1014,7 +1014,7 @@ UniValue masternodelist(const JSONRPCRequest& request)
                 obj.push_back(Pair(strOutpoint, strStatus));
             } else if (strMode == "votingaddress") {
                 if (strFilter !="" && strOutpoint.find(strFilter) == std::string::npos) continue;
-                obj.push_back(Pair(strOutpoint, CBitcoinAddress(mn.keyIDVoting).ToString()));
+                obj.push_back(Pair(strOutpoint, CThoughtAddress(mn.keyIDVoting).ToString()));
             }
         }
     }
@@ -1190,8 +1190,8 @@ UniValue masternodebroadcast(const JSONRPCRequest& request)
                 nSuccessful++;
                 resultObj.push_back(Pair("outpoint", mnb.outpoint.ToStringShort()));
                 resultObj.push_back(Pair("addr", mnb.addr.ToString()));
-                resultObj.push_back(Pair("keyIDCollateralAddress", CBitcoinAddress(mnb.keyIDCollateralAddress).ToString()));
-                resultObj.push_back(Pair("keyIDMasternode", CBitcoinAddress(mnb.legacyKeyIDOperator).ToString()));
+                resultObj.push_back(Pair("keyIDCollateralAddress", CThoughtAddress(mnb.keyIDCollateralAddress).ToString()));
+                resultObj.push_back(Pair("keyIDMasternode", CThoughtAddress(mnb.legacyKeyIDOperator).ToString()));
                 resultObj.push_back(Pair("vchSig", EncodeBase64(&mnb.vchSig[0], mnb.vchSig.size())));
                 resultObj.push_back(Pair("sigTime", mnb.sigTime));
                 resultObj.push_back(Pair("protocolVersion", mnb.nProtocolVersion));
@@ -1288,13 +1288,13 @@ UniValue sentinelping(const JSONRPCRequest& request)
 static const CRPCCommand commands[] =
 { //  category              name                      actor (function)         okSafe argNames
   //  --------------------- ------------------------  -----------------------  ------ ----------
-    { "dash",               "masternode",             &masternode,             true,  {} },
-    { "dash",               "masternodelist",         &masternodelist,         true,  {} },
-    { "dash",               "masternodebroadcast",    &masternodebroadcast,    true,  {} },
-    { "dash",               "getpoolinfo",            &getpoolinfo,            true,  {} },
-    { "dash",               "sentinelping",           &sentinelping,           true,  {} },
+    { "thought",               "masternode",             &masternode,             true,  {} },
+    { "thought",               "masternodelist",         &masternodelist,         true,  {} },
+    { "thought",               "masternodebroadcast",    &masternodebroadcast,    true,  {} },
+    { "thought",               "getpoolinfo",            &getpoolinfo,            true,  {} },
+    { "thought",               "sentinelping",           &sentinelping,           true,  {} },
 #ifdef ENABLE_WALLET
-    { "dash",               "privatesend",            &privatesend,            false, {} },
+    { "thought",               "privatesend",            &privatesend,            false, {} },
 #endif // ENABLE_WALLET
 };
 

@@ -1,0 +1,22 @@
+[Unit]
+Description=Thought's distributed currency daemon
+After=network.target
+
+[Service]
+User=thoughtcore
+Group=thoughtcore
+
+Type=forking
+PIDFile=/var/lib/thoughtd/thoughtd.pid
+ExecStart=/usr/bin/thoughtd -daemon -pid=/var/lib/thoughtd/thoughtd.pid \
+-conf=/etc/thoughtcore/thought.conf -datadir=/var/lib/thoughtd -disablewallet
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target

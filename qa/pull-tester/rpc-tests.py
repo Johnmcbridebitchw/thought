@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2016 The Bitcoin Core developers
+# Copyright (c) 2014-2016 The Thought Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -17,7 +17,7 @@ than:
       interface.
 
 For a description of arguments recognized by test scripts, see
-`qa/pull-tester/test_framework/test_framework.py:BitcoinTestFramework.main`.
+`qa/pull-tester/test_framework/test_framework.py:ThoughtTestFramework.main`.
 
 """
 
@@ -43,8 +43,8 @@ RPC_TESTS_DIR = SRCDIR + '/qa/rpc-tests/'
 #If imported values are not defined then set to zero (or disabled)
 if 'ENABLE_WALLET' not in vars():
     ENABLE_WALLET=0
-if 'ENABLE_BITCOIND' not in vars():
-    ENABLE_BITCOIND=0
+if 'ENABLE_THOUGHTD' not in vars():
+    ENABLE_THOUGHTD=0
 if 'ENABLE_UTILS' not in vars():
     ENABLE_UTILS=0
 if 'ENABLE_ZMQ' not in vars():
@@ -84,17 +84,17 @@ for arg in sys.argv[1:]:
         opts.add(arg)
 
 #Set env vars
-if "DASHD" not in os.environ:
-    os.environ["DASHD"] = BUILDDIR + '/src/dashd' + EXEEXT
+if "THOUGHTD" not in os.environ:
+    os.environ["THOUGHTD"] = BUILDDIR + '/src/thoughtd' + EXEEXT
 
 if EXEEXT == ".exe" and "-win" not in opts:
-    # https://github.com/bitcoin/bitcoin/commit/d52802551752140cf41f0d9a225a43e84404d3e9
-    # https://github.com/bitcoin/bitcoin/pull/5677#issuecomment-136646964
+    # https://github.com/thought/thought/commit/d52802551752140cf41f0d9a225a43e84404d3e9
+    # https://github.com/thought/thought/pull/5677#issuecomment-136646964
     print("Win tests currently disabled by default.  Use -win option to enable")
     sys.exit(0)
 
-if not (ENABLE_WALLET == 1 and ENABLE_UTILS == 1 and ENABLE_BITCOIND == 1):
-    print("No rpc tests to run. Wallet, utils, and bitcoind must all be enabled")
+if not (ENABLE_WALLET == 1 and ENABLE_UTILS == 1 and ENABLE_THOUGHTD == 1):
+    print("No rpc tests to run. Wallet, utils, and thoughtd must all be enabled")
     sys.exit(0)
 
 # python3-zmq may not be installed. Handle this gracefully and with some helpful info
@@ -109,11 +109,11 @@ if ENABLE_ZMQ:
 
 testScripts = [
     # longest test should go first, to favor running tests in parallel
-    'dip3-deterministicmns.py', # NOTE: needs dash_hash to pass
+    'dip3-deterministicmns.py', # NOTE: needs thought_hash to pass
     'wallet-hd.py',
     'walletbackup.py',
     # vv Tests less than 5m vv
-    'p2p-fullblocktest.py', # NOTE: needs dash_hash to pass
+    'p2p-fullblocktest.py', # NOTE: needs thought_hash to pass
     'fundrawtransaction.py',
     'fundrawtransaction-hd.py',
     'p2p-autoinstantsend.py',
@@ -126,7 +126,7 @@ testScripts = [
     'listtransactions.py',
     'multikeysporks.py',
     # vv Tests less than 60s vv
-    'sendheaders.py', # NOTE: needs dash_hash to pass
+    'sendheaders.py', # NOTE: needs thought_hash to pass
     'zapwallettxes.py',
     'importmulti.py',
     'mempool_limit.py',
@@ -159,8 +159,8 @@ testScripts = [
     'keypool-hd.py',
     'p2p-mempool.py',
     'prioritise_transaction.py',
-    'invalidblockrequest.py', # NOTE: needs dash_hash to pass
-    'invalidtxrequest.py', # NOTE: needs dash_hash to pass
+    'invalidblockrequest.py', # NOTE: needs thought_hash to pass
+    'invalidtxrequest.py', # NOTE: needs thought_hash to pass
     'p2p-versionbits-warning.py',
     'preciousblock.py',
     'importprunedfunds.py',
@@ -185,15 +185,15 @@ testScriptsExt = [
     'mempool_packages.py',
     # vv Tests less than 2m vv
     'bip68-sequence.py',
-    'getblocktemplate_longpoll.py',  # FIXME: "socket.error: [Errno 54] Connection reset by peer" on my Mac, same as  https://github.com/bitcoin/bitcoin/issues/6651
+    'getblocktemplate_longpoll.py',  # FIXME: "socket.error: [Errno 54] Connection reset by peer" on my Mac, same as  https://github.com/thought/thought/issues/6651
     'p2p-timeouts.py',
     # vv Tests less than 60s vv
     'bip9-softforks.py',
     'rpcbind_test.py',
     # vv Tests less than 30s vv
     'bip65-cltv.py',
-    'bip65-cltv-p2p.py', # NOTE: needs dash_hash to pass
-    'bipdersig-p2p.py', # NOTE: needs dash_hash to pass
+    'bip65-cltv-p2p.py', # NOTE: needs thought_hash to pass
+    'bipdersig-p2p.py', # NOTE: needs thought_hash to pass
     'bipdersig.py',
     'getblocktemplate_proposals.py',
     'txn_doublespend.py',
@@ -201,7 +201,7 @@ testScriptsExt = [
     'forknotify.py',
     'invalidateblock.py',
     'maxblocksinflight.py',
-    'p2p-acceptblock.py', # NOTE: needs dash_hash to pass
+    'p2p-acceptblock.py', # NOTE: needs thought_hash to pass
 ]
 
 
@@ -276,7 +276,7 @@ class RPCTestHandler:
         self.test_list = test_list
         self.flags = flags
         self.num_running = 0
-        # In case there is a graveyard of zombie bitcoinds, we can apply a
+        # In case there is a graveyard of zombie thoughtds, we can apply a
         # pseudorandom offset to hopefully jump over them.
         # (625 is PORT_RANGE/MAX_NODES)
         self.portseed_offset = int(time.time() * 1000) % 625
@@ -323,7 +323,7 @@ class RPCCoverage(object):
     Coverage calculation works by having each test script subprocess write
     coverage files into a particular directory. These files contain the RPC
     commands invoked during testing, as well as a complete listing of RPC
-    commands per `bitcoin-cli help` (`rpc_interface.txt`).
+    commands per `thought-cli help` (`rpc_interface.txt`).
 
     After all tests complete, the commands run are combined and diff'd against
     the complete list to calculate uncovered RPC commands.

@@ -1,10 +1,10 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2015 The Bitcoin Core developers
+// Copyright (c) 2009-2015 The Thought Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_SPENTINDEX_H
-#define BITCOIN_SPENTINDEX_H
+#ifndef THOUGHT_SPENTINDEX_H
+#define THOUGHT_SPENTINDEX_H
 
 #include "uint256.h"
 #include "amount.h"
@@ -370,4 +370,4 @@ struct CAddressIndexIteratorHeightKey {
 };
 
 
-#endif // BITCOIN_SPENTINDEX_H
+#endif // THOUGHT_SPENTINDEX_H

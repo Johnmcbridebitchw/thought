@@ -4,7 +4,7 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 from test_framework.mininode import *
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import ThoughtTestFramework
 from test_framework.util import *
 from time import *
 
@@ -20,7 +20,7 @@ can change it again.
 '''
 
 
-class MultiKeySporkTest(BitcoinTestFramework):
+class MultiKeySporkTest(ThoughtTestFramework):
     def __init__(self):
         super().__init__()
         self.num_nodes = 5

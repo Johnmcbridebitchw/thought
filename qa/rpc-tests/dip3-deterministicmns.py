@@ -9,13 +9,13 @@
 
 from test_framework.blocktools import create_block, create_coinbase, get_masternode_payment
 from test_framework.mininode import CTransaction, ToHex, FromHex, CTxOut, COIN, CCbTx
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import ThoughtTestFramework
 from test_framework.util import *
 
 class Masternode(object):
     pass
 
-class DIP3Test(BitcoinTestFramework):
+class DIP3Test(ThoughtTestFramework):
     def __init__(self):
         super().__init__()
         self.num_initial_mn = 11 # Should be >= 11 to make sure quorums are not always the same MNs
@@ -54,7 +54,7 @@ class DIP3Test(BitcoinTestFramework):
         print("funding controller node")
         while self.nodes[0].getbalance() < (self.num_initial_mn + 3) * 1000:
             self.nodes[0].generate(1) # generate enough for collaterals
-        print("controller node has {} dash".format(self.nodes[0].getbalance()))
+        print("controller node has {} thought".format(self.nodes[0].getbalance()))
 
         # Make sure we're below block 143 (which activates dip3)
         print("testing rejection of ProTx before dip3 activation")

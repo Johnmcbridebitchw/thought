@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2016 The Bitcoin Core developers
+# Copyright (c) 2014-2016 The Thought Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,10 +7,10 @@
 # Test merkleblock fetch/validation
 #
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import ThoughtTestFramework
 from test_framework.util import *
 
-class MerkleBlockTest(BitcoinTestFramework):
+class MerkleBlockTest(ThoughtTestFramework):
 
     def __init__(self):
         super().__init__()
@@ -72,7 +72,7 @@ class MerkleBlockTest(BitcoinTestFramework):
         txid_unspent = txid1 if txin_spent["txid"] != txid1 else txid2
 
         # We can't find the block from a fully-spent tx
-        # Doesn't apply to Dash Core - we have txindex always on
+        # Doesn't apply to Thought Core - we have txindex always on
         # assert_raises(JSONRPCException, self.nodes[2].gettxoutproof, [txid_spent])
         # ...but we can if we specify the block
         assert_equal(self.nodes[2].verifytxoutproof(self.nodes[2].gettxoutproof([txid_spent], blockhash)), [txid_spent])

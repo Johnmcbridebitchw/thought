@@ -2,7 +2,7 @@
 #
 # linearize-data.py: Construct a linear, no-fork version of the chain.
 #
-# Copyright (c) 2013-2014 The Bitcoin Core developers
+# Copyright (c) 2013-2014 The Thought Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 #
@@ -14,7 +14,7 @@ import os
 import os.path
 import sys
 import hashlib
-import dash_hash
+import thought_hash
 import datetime
 import time
 from collections import namedtuple
@@ -59,7 +59,7 @@ def calc_hdr_hash(blk_hdr):
 	#hash2_o = hash2.digest()
 
 	#return hash2_o
-        pow_hash = dash_hash.getPoWHash(blk_hdr)
+        pow_hash = thought_hash.getPoWHash(blk_hdr)
         return pow_hash
 
 def calc_hash_str(blk_hdr):

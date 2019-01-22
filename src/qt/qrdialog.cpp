@@ -1,11 +1,11 @@
-// Copyright (c) 2011-2013 The Bitcoin Core developers
+// Copyright (c) 2011-2013 The Thought Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "qrdialog.h"
 #include "ui_qrdialog.h"
 
-#include "bitcoinunits.h"
+#include "thoughtunits.h"
 #include "guiconstants.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
@@ -22,7 +22,7 @@
 #endif
 
 #if defined(HAVE_CONFIG_H)
-#include "config/dash-config.h" /* for USE_QRCODE */
+#include "config/thought-config.h" /* for USE_QRCODE */
 #endif
 
 #ifdef USE_QRCODE

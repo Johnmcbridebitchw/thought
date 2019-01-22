@@ -1,9 +1,9 @@
-// Copyright (c) 2011-2015 The Bitcoin Core developers
+// Copyright (c) 2011-2015 The Thought Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_QT_QRDIALOG_H
-#define BITCOIN_QT_QRDIALOG_H
+#ifndef THOUGHT_QT_QRDIALOG_H
+#define THOUGHT_QT_QRDIALOG_H
 
 #include "walletmodel.h"
 
@@ -67,4 +67,4 @@ private:
     QString strQRCodeTitle;
 };
 
-#endif // BITCOIN_QT_QRDIALOG_H
+#endif // THOUGHT_QT_QRDIALOG_H

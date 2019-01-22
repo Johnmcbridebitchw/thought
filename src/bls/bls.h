@@ -1,9 +1,9 @@
-// Copyright (c) 2018 The Dash Core developers
+// Copyright (c) 2018 The Thought Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef DASH_CRYPTO_BLS_H
-#define DASH_CRYPTO_BLS_H
+#ifndef THOUGHT_CRYPTO_BLS_H
+#define THOUGHT_CRYPTO_BLS_H
 
 #include "hash.h"
 #include "serialize.h"
@@ -228,7 +228,7 @@ public:
     void AggregateInsecure(const CBLSSecretKey& o);
     static CBLSSecretKey AggregateInsecure(const std::vector<CBLSSecretKey>& sks);
 
-#ifndef BUILD_BITCOIN_INTERNAL
+#ifndef BUILD_THOUGHT_INTERNAL
     void MakeNewKey();
 #endif
     bool SecretKeyShare(const std::vector<CBLSSecretKey>& msk, const CBLSId& id);
@@ -309,4 +309,4 @@ typedef std::shared_ptr<BLSSignatureVector> BLSSignatureVectorPtr;
 
 bool BLSInit();
 
-#endif // DASH_CRYPTO_BLS_H
+#endif // THOUGHT_CRYPTO_BLS_H

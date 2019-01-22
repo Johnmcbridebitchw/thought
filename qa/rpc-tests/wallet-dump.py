@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-# Copyright (c) 2016 The Bitcoin Core developers
+# Copyright (c) 2016 The Thought Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import ThoughtTestFramework
 from test_framework.util import *
 
 
@@ -52,7 +52,7 @@ def read_dump(file_name, addrs, hd_master_addr_old):
         return found_addr, found_addr_chg, found_addr_rsv, hd_master_addr_ret
 
 
-class WalletDumpTest(BitcoinTestFramework):
+class WalletDumpTest(ThoughtTestFramework):
 
     def __init__(self):
         super().__init__()
@@ -97,7 +97,7 @@ class WalletDumpTest(BitcoinTestFramework):
 
         #encrypt wallet, restart, unlock and dump
         self.nodes[0].encryptwallet('test')
-        bitcoind_processes[0].wait()
+        thoughtd_processes[0].wait()
         self.nodes[0] = start_node(0, self.options.tmpdir, self.extra_args[0])
         self.nodes[0].walletpassphrase('test', 10)
         # Should be a no-op:
@@ -107,7 +107,7 @@ class WalletDumpTest(BitcoinTestFramework):
         found_addr, found_addr_chg, found_addr_rsv, hd_master_addr_enc = \
             read_dump(tmpdir + "/node0/wallet.encrypted.dump", addrs, hd_master_addr_unenc)
         assert_equal(found_addr, test_addr_count)
-        # TODO clarify if we want the behavior that is tested below in Dash (only when HD seed was generated and not user-provided)
+        # TODO clarify if we want the behavior that is tested below in Thought (only when HD seed was generated and not user-provided)
         # assert_equal(found_addr_chg, 180 + 50)  # old reserve keys are marked as change now
         assert_equal(found_addr_rsv, 180)  # keypool size
 

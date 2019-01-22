@@ -261,7 +261,7 @@ void MasternodeList::updateMyMasternodeInfo(QString strAlias, QString strAddr, c
     QTableWidgetItem* activeSecondsItem = new QTableWidgetItem(QString::fromStdString(DurationToDHMS(fFound ? (infoMn.nTimeLastPing - infoMn.sigTime) : 0)));
     QTableWidgetItem* lastSeenItem = new QTableWidgetItem(QString::fromStdString(DateTimeStrFormat("%Y-%m-%d %H:%M",
         fFound ? infoMn.nTimeLastPing + GetOffsetFromUtc() : 0)));
-    QTableWidgetItem* pubkeyItem = new QTableWidgetItem(QString::fromStdString(fFound ? CBitcoinAddress(infoMn.keyIDCollateralAddress).ToString() : ""));
+    QTableWidgetItem* pubkeyItem = new QTableWidgetItem(QString::fromStdString(fFound ? CThoughtAddress(infoMn.keyIDCollateralAddress).ToString() : ""));
 
     ui->tableWidgetMyMasternodes->setItem(nNewRow, 0, aliasItem);
     ui->tableWidgetMyMasternodes->setItem(nNewRow, 1, addrItem);
@@ -374,7 +374,7 @@ void MasternodeList::updateNodeList()
         QTableWidgetItem* statusItem = new QTableWidgetItem(QString::fromStdString(mn.GetStatus()));
         QTableWidgetItem* activeSecondsItem = new QTableWidgetItem(QString::fromStdString(DurationToDHMS(mn.lastPing.sigTime - mn.sigTime)));
         QTableWidgetItem* lastSeenItem = new QTableWidgetItem(QString::fromStdString(DateTimeStrFormat("%Y-%m-%d %H:%M", mn.lastPing.sigTime + offsetFromUtc)));
-        QTableWidgetItem* pubkeyItem = new QTableWidgetItem(QString::fromStdString(CBitcoinAddress(mn.keyIDCollateralAddress).ToString()));
+        QTableWidgetItem* pubkeyItem = new QTableWidgetItem(QString::fromStdString(CThoughtAddress(mn.keyIDCollateralAddress).ToString()));
 
         if (strCurrentFilter != "") {
             strToFilter = addressItem->text() + " " +
@@ -455,7 +455,7 @@ void MasternodeList::updateDIP3List()
         CTxDestination payeeDest;
         QString payeeStr;
         if (ExtractDestination(dmn->pdmnState->scriptPayout, payeeDest)) {
-            payeeStr = QString::fromStdString(CBitcoinAddress(payeeDest).ToString());
+            payeeStr = QString::fromStdString(CThoughtAddress(payeeDest).ToString());
         } else {
             payeeStr = tr("UNKNOWN");
         }
@@ -468,7 +468,7 @@ void MasternodeList::updateDIP3List()
             if (dmn->pdmnState->scriptOperatorPayout != CScript()) {
                 CTxDestination operatorDest;
                 if (ExtractDestination(dmn->pdmnState->scriptOperatorPayout, operatorDest)) {
-                    operatorRewardStr += tr("to %1").arg(QString::fromStdString(CBitcoinAddress(operatorDest).ToString()));
+                    operatorRewardStr += tr("to %1").arg(QString::fromStdString(CThoughtAddress(operatorDest).ToString()));
                 } else {
                     operatorRewardStr += tr("to UNKNOWN");
                 }
@@ -688,7 +688,7 @@ void MasternodeList::ShowQRCode(std::string strAlias)
         strHTML += "<b>" + tr("Version") +      ": </b>" + (mn.lastPing.nDaemonVersion > DEFAULT_DAEMON_VERSION ? GUIUtil::HtmlEscape(FormatVersion(mn.lastPing.nDaemonVersion)) : tr("Unknown")) + "<br>";
         strHTML += "<b>" + tr("Sentinel") +     ": </b>" + (mn.lastPing.nSentinelVersion > DEFAULT_SENTINEL_VERSION ? GUIUtil::HtmlEscape(SafeIntVersionToString(mn.lastPing.nSentinelVersion)) : tr("Unknown")) + "<br>";
         strHTML += "<b>" + tr("Status") +       ": </b>" + GUIUtil::HtmlEscape(CMasternode::StateToString(mn.nActiveState)) + "<br>";
-        strHTML += "<b>" + tr("Payee") +        ": </b>" + GUIUtil::HtmlEscape(CBitcoinAddress(mn.pubKeyCollateralAddress.GetID()).ToString()) + "<br>";
+        strHTML += "<b>" + tr("Payee") +        ": </b>" + GUIUtil::HtmlEscape(CThoughtAddress(mn.pubKeyCollateralAddress.GetID()).ToString()) + "<br>";
         strHTML += "<b>" + tr("Active") +       ": </b>" + GUIUtil::HtmlEscape(DurationToDHMS(mn.lastPing.sigTime - mn.sigTime)) + "<br>";
         strHTML += "<b>" + tr("Last Seen") +    ": </b>" + GUIUtil::HtmlEscape(DateTimeStrFormat("%Y-%m-%d %H:%M", mn.lastPing.sigTime + GetOffsetFromUtc())) + "<br>";
     }

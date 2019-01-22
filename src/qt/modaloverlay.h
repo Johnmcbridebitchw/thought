@@ -1,9 +1,9 @@
-// Copyright (c) 2016 The Bitcoin Core developers
+// Copyright (c) 2016 The Thought Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_QT_MODALOVERLAY_H
-#define BITCOIN_QT_MODALOVERLAY_H
+#ifndef THOUGHT_QT_MODALOVERLAY_H
+#define THOUGHT_QT_MODALOVERLAY_H
 
 #include <QDateTime>
 #include <QWidget>
@@ -49,4 +49,4 @@ private:
     bool foreverHidden;
 };
 
-#endif // BITCOIN_QT_MODALOVERLAY_H
+#endif // THOUGHT_QT_MODALOVERLAY_H

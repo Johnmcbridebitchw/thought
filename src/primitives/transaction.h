@@ -1,10 +1,10 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2015 The Bitcoin Core developers
+// Copyright (c) 2009-2015 The Thought Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_PRIMITIVES_TRANSACTION_H
-#define BITCOIN_PRIMITIVES_TRANSACTION_H
+#ifndef THOUGHT_PRIMITIVES_TRANSACTION_H
+#define THOUGHT_PRIMITIVES_TRANSACTION_H
 
 #include "amount.h"
 #include "script/script.h"
@@ -374,7 +374,7 @@ static inline CTransactionRef MakeTransactionRef() { return std::make_shared<con
 template <typename Tx> static inline CTransactionRef MakeTransactionRef(Tx&& txIn) { return std::make_shared<const CTransaction>(std::forward<Tx>(txIn)); }
 
 /** Implementation of BIP69
- * https://github.com/bitcoin/bips/blob/master/bip-0069.mediawiki
+ * https://github.com/thought/bips/blob/master/bip-0069.mediawiki
  */
 struct CompareInputBIP69
 {
@@ -401,4 +401,4 @@ struct CompareOutputBIP69
     }
 };
 
-#endif // BITCOIN_PRIMITIVES_TRANSACTION_H
+#endif // THOUGHT_PRIMITIVES_TRANSACTION_H

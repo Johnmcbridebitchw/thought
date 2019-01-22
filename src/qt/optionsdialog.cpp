@@ -1,15 +1,15 @@
-// Copyright (c) 2011-2015 The Bitcoin Core developers
+// Copyright (c) 2011-2015 The Thought Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include "config/dash-config.h"
+#include "config/thought-config.h"
 #endif
 
 #include "optionsdialog.h"
 #include "ui_optionsdialog.h"
 
-#include "bitcoinunits.h"
+#include "thoughtunits.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
 
@@ -92,19 +92,19 @@ OptionsDialog::OptionsDialog(QWidget *parent, bool enableWallet) :
     }
     
     /* Theme selector */
-    ui->theme->addItem(QString("DASH-light"), QVariant("light"));
-    ui->theme->addItem(QString("DASH-light-hires"), QVariant("light-hires"));
-    ui->theme->addItem(QString("DASH-light-retro"), QVariant("light-retro"));
-    ui->theme->addItem(QString("DASH-light-hires-retro"), QVariant("light-hires-retro"));
-    ui->theme->addItem(QString("DASH-blue"), QVariant("drkblue"));
-    ui->theme->addItem(QString("DASH-Crownium"), QVariant("crownium"));
-    ui->theme->addItem(QString("DASH-traditional"), QVariant("trad"));
+    ui->theme->addItem(QString("THOUGHT-light"), QVariant("light"));
+    ui->theme->addItem(QString("THOUGHT-light-hires"), QVariant("light-hires"));
+    ui->theme->addItem(QString("THOUGHT-light-retro"), QVariant("light-retro"));
+    ui->theme->addItem(QString("THOUGHT-light-hires-retro"), QVariant("light-hires-retro"));
+    ui->theme->addItem(QString("THOUGHT-blue"), QVariant("drkblue"));
+    ui->theme->addItem(QString("THOUGHT-Crownium"), QVariant("crownium"));
+    ui->theme->addItem(QString("THOUGHT-traditional"), QVariant("trad"));
     
     /* Language selector */
     QDir translations(":translations");
 
-    ui->bitcoinAtStartup->setToolTip(ui->bitcoinAtStartup->toolTip().arg(tr(PACKAGE_NAME)));
-    ui->bitcoinAtStartup->setText(ui->bitcoinAtStartup->text().arg(tr(PACKAGE_NAME)));
+    ui->thoughtAtStartup->setToolTip(ui->thoughtAtStartup->toolTip().arg(tr(PACKAGE_NAME)));
+    ui->thoughtAtStartup->setText(ui->thoughtAtStartup->text().arg(tr(PACKAGE_NAME)));
 
     ui->lang->setToolTip(ui->lang->toolTip().arg(tr(PACKAGE_NAME)));
     ui->lang->addItem(QString("(") + tr("default") + QString(")"), QVariant(""));
@@ -138,7 +138,7 @@ OptionsDialog::OptionsDialog(QWidget *parent, bool enableWallet) :
     ui->thirdPartyTxUrls->setPlaceholderText("https://example.com/tx/%s");
 #endif
 
-    ui->unit->setModel(new BitcoinUnits(this));
+    ui->unit->setModel(new ThoughtUnits(this));
 
     /* Widget-to-option mapper */
     mapper = new QDataWidgetMapper(this);
@@ -203,7 +203,7 @@ void OptionsDialog::setModel(OptionsModel *_model)
 void OptionsDialog::setMapper()
 {
     /* Main */
-    mapper->addMapping(ui->bitcoinAtStartup, OptionsModel::StartAtStartup);
+    mapper->addMapping(ui->thoughtAtStartup, OptionsModel::StartAtStartup);
     mapper->addMapping(ui->threadsScriptVerif, OptionsModel::ThreadsScriptVerif);
     mapper->addMapping(ui->databaseCache, OptionsModel::DatabaseCache);
 

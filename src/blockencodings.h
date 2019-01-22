@@ -1,9 +1,9 @@
-// Copyright (c) 2016 The Bitcoin Core developers
+// Copyright (c) 2016 The Thought Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_BLOCK_ENCODINGS_H
-#define BITCOIN_BLOCK_ENCODINGS_H
+#ifndef THOUGHT_BLOCK_ENCODINGS_H
+#define THOUGHT_BLOCK_ENCODINGS_H
 
 #include "primitives/block.h"
 

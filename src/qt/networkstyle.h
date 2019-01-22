@@ -1,10 +1,10 @@
-// Copyright (c) 2014 The Bitcoin Core developers
-// Copyright (c) 2014-2017 The Dash Core developers
+// Copyright (c) 2014 The Thought Core developers
+// Copyright (c) 2014-2017 The Thought Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_QT_NETWORKSTYLE_H
-#define BITCOIN_QT_NETWORKSTYLE_H
+#ifndef THOUGHT_QT_NETWORKSTYLE_H
+#define THOUGHT_QT_NETWORKSTYLE_H
 
 #include <QIcon>
 #include <QPixmap>
@@ -35,4 +35,4 @@ private:
     void rotateColors(QImage& img, const int iconColorHueShift, const int iconColorSaturationReduction);
 };
 
-#endif // BITCOIN_QT_NETWORKSTYLE_H
+#endif // THOUGHT_QT_NETWORKSTYLE_H

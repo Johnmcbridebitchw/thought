@@ -1,10 +1,10 @@
 // Copyright (c) 2010 Satoshi Nakamoto
-// Copyright (c) 2009-2015 The Bitcoin Core developers
+// Copyright (c) 2009-2015 The Thought Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_RPCSERVER_H
-#define BITCOIN_RPCSERVER_H
+#ifndef THOUGHT_RPCSERVER_H
+#define THOUGHT_RPCSERVER_H
 
 #include "amount.h"
 #include "rpc/protocol.h"
@@ -143,7 +143,7 @@ public:
 };
 
 /**
- * Dash RPC command dispatcher.
+ * Thought RPC command dispatcher.
  */
 class CRPCTable
 {
@@ -208,4 +208,4 @@ void StopRPC();
 std::string JSONRPCExecBatch(const UniValue& vReq);
 void RPCNotifyBlockChange(bool ibd, const CBlockIndex *);
 
-#endif // BITCOIN_RPCSERVER_H
+#endif // THOUGHT_RPCSERVER_H

@@ -1,8 +1,8 @@
-Cross-compiliation of Dash Core
+Cross-compiliation of Thought Core
 ===============================
 
-Dash Core can be cross-compiled on Linux to all other supported host systems. This is done by changing
-the `HOST` parameter when building the dependencies and then specifying another `--prefix` directory when building Dash.
+Thought Core can be cross-compiled on Linux to all other supported host systems. This is done by changing
+the `HOST` parameter when building the dependencies and then specifying another `--prefix` directory when building Thought.
 
 The following instructions are only tested on Debian Stretch and Ubuntu Bionic.
 
@@ -19,7 +19,7 @@ Additionally, the Mac OSX SDK must be downloaded and extracted manually:
 ```bash
 $ mkdir -p depends/sdk-sources
 $ mkdir -p depends/SDKs
-$ curl https://bitcoincore.org/depends-sources/sdks/MacOSX10.11.sdk.tar.gz -o depends/sdk-sources/MacOSX10.11.sdk.tar.gz
+$ curl https://thoughtcore.org/depends-sources/sdks/MacOSX10.11.sdk.tar.gz -o depends/sdk-sources/MacOSX10.11.sdk.tar.gz
 $ tar -C depends/SDKs -xf depends/sdk-sources/MacOSX10.11.sdk.tar.gz
 ```
 
@@ -29,7 +29,7 @@ When building the dependencies, as described in [build-generic](build-generic.md
 $ make HOST=x86_64-apple-darwin11 -j4
 ```
 
-When building Dash Core, use
+When building Thought Core, use
 
 ```bash
 $ ./configure --prefix `pwd`/depends/x86_64-apple-darwin11
@@ -65,7 +65,7 @@ When building the dependencies, as described in [build-generic](build-generic.md
 $ make HOST=x86_64-w64-mingw32 -j4
 ```
 
-When building Dash Core, use
+When building Thought Core, use
 
 ```bash
 $ ./configure --prefix `pwd`/depends/x86_64-w64-mingw32
@@ -88,7 +88,7 @@ When building the dependencies, as described in [build-generic](build-generic.md
 $ make HOST=arm-linux-gnueabihf -j4
 ```
 
-When building Dash Core, use
+When building Thought Core, use
 
 ```bash
 $ ./configure --prefix `pwd`/depends/arm-linux-gnueabihf

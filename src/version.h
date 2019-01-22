@@ -1,10 +1,10 @@
-// Copyright (c) 2012-2014 The Bitcoin Core developers
-// Copyright (c) 2014-2017 The Dash Core developers
+// Copyright (c) 2012-2014 The Thought Core developers
+// Copyright (c) 2014-2017 The Thought Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_VERSION_H
-#define BITCOIN_VERSION_H
+#ifndef THOUGHT_VERSION_H
+#define THOUGHT_VERSION_H
 
 /**
  * network protocol versioning
@@ -50,4 +50,4 @@ static const int SHORT_IDS_BLOCKS_VERSION = 70209;
 //! introduction of DIP3/deterministic masternodes
 static const int DMN_PROTO_VERSION = 70213;
 
-#endif // BITCOIN_VERSION_H
+#endif // THOUGHT_VERSION_H

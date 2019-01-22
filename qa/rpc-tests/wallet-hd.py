@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-# Copyright (c) 2016 The Bitcoin Core developers
+# Copyright (c) 2016 The Thought Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test Hierarchical Deterministic wallet function."""
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import ThoughtTestFramework
 from test_framework.util import *
 
-class WalletHDTest(BitcoinTestFramework):
+class WalletHDTest(ThoughtTestFramework):
 
     def __init__(self):
         super().__init__()
@@ -30,7 +30,7 @@ class WalletHDTest(BitcoinTestFramework):
             start_node(1, self.options.tmpdir, ['-usehd=0'], redirect_stderr=True)
             raise AssertionError("Must not allow to turn off HD on an already existing HD wallet")
         except Exception as e:
-            assert("dashd exited with status 1 during initialization" in str(e))
+            assert("thoughtd exited with status 1 during initialization" in str(e))
         # assert_start_raises_init_error(1, self.options.tmpdir, ['-usehd=0'], 'already existing HD wallet')
         # self.nodes[1] = start_node(1, self.options.tmpdir, self.node_args[1])
         self.nodes[1] = start_node(1, self.options.tmpdir, ['-usehd=1', '-keypool=0'], redirect_stderr=True)

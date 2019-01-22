@@ -1,4 +1,4 @@
-// Copyright (c) 2018 The Dash Core developers
+// Copyright (c) 2018 The Thought Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -30,9 +30,9 @@ extern UniValue signrawtransaction(const JSONRPCRequest& request);
 extern UniValue sendrawtransaction(const JSONRPCRequest& request);
 #endif//ENABLE_WALLET
 
-// Allows to specify Dash address or priv key. In case of Dash address, the priv key is taken from the wallet
+// Allows to specify Thought address or priv key. In case of Thought address, the priv key is taken from the wallet
 static CKey ParsePrivKey(const std::string &strKeyOrAddress, bool allowAddresses = true) {
-    CBitcoinAddress address;
+    CThoughtAddress address;
     if (allowAddresses && address.SetString(strKeyOrAddress) && address.IsValid()) {
 #ifdef ENABLE_WALLET
         if (!pwalletMain) {
@@ -48,7 +48,7 @@ static CKey ParsePrivKey(const std::string &strKeyOrAddress, bool allowAddresses
 #endif//ENABLE_WALLET
     }
 
-    CBitcoinSecret secret;
+    CThoughtSecret secret;
     if (!secret.SetString(strKeyOrAddress) || !secret.IsValid()) {
         throw std::runtime_error(strprintf("invalid priv-key/address %s", strKeyOrAddress));
     }
@@ -57,7 +57,7 @@ static CKey ParsePrivKey(const std::string &strKeyOrAddress, bool allowAddresses
 
 static CKeyID ParsePubKeyIDFromAddress(const std::string& strAddress, const std::string& paramName)
 {
-    CBitcoinAddress address(strAddress);
+    CThoughtAddress address(strAddress);
     CKeyID keyID;
     if (!address.IsValid() || !address.GetKeyID(keyID)) {
         throw JSONRPCError(RPC_INVALID_PARAMETER, strprintf("%s must be a valid P2PKH address, not %s", paramName, strAddress));
@@ -225,13 +225,13 @@ void protx_register_fund_help()
 {
     throw std::runtime_error(
             "protx register_fund \"collateralAddress\" \"ipAndPort\" \"ownerAddress\" \"operatorPubKey\" \"votingAddress\" operatorReward \"payoutAddress\" ( \"fundAddress\" )\n"
-            "\nCreates, funds and sends a ProTx to the network. The resulting transaction will move 1000 Dash\n"
+            "\nCreates, funds and sends a ProTx to the network. The resulting transaction will move 1000 Thought\n"
             "to the address specified by collateralAddress and will then function as the collateral of your\n"
             "masternode.\n"
             "A few of the limitations you see in the arguments are temporary and might be lifted after DIP3\n"
             "is fully deployed.\n"
             "\nArguments:\n"
-            "1. \"collateralAddress\"   (string, required) The dash address to send the collateral to.\n"
+            "1. \"collateralAddress\"   (string, required) The thought address to send the collateral to.\n"
             "                         Must be a P2PKH address.\n"
             "2. \"ipAndPort\"           (string, required) IP and port in the form \"IP:PORT\".\n"
             "                         Must be unique on the network. Can be set to 0, which will require a ProUpServTx afterwards.\n"
@@ -245,7 +245,7 @@ void protx_register_fund_help()
             "                         If set to an empty string, ownerAddress will be used.\n"
             "6. \"operatorReward\"      (numeric, required) The fraction in % to share with the operator. The value must be\n"
             "                         between 0.00 and 100.00.\n"
-            "7. \"payoutAddress\"       (string, required) The dash address to use for masternode reward payments.\n"
+            "7. \"payoutAddress\"       (string, required) The thought address to use for masternode reward payments.\n"
             "8. \"fundAddress\"         (string, optional) If specified wallet will only use coins from this address to fund ProTx.\n"
             "                         If not specified, payoutAddress is the one that is going to be used.\n"
             "                         The private key belonging to this address must be known in your wallet.\n"
@@ -334,7 +334,7 @@ UniValue protx_register(const JSONRPCRequest& request)
     ptx.nVersion = CProRegTx::CURRENT_VERSION;
 
     if (isFundRegister) {
-        CBitcoinAddress collateralAddress(request.params[paramIdx].get_str());
+        CThoughtAddress collateralAddress(request.params[paramIdx].get_str());
         if (!collateralAddress.IsValid()) {
             throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, strprintf("invalid collaterall address: %s", request.params[paramIdx].get_str()));
         }
@@ -381,7 +381,7 @@ UniValue protx_register(const JSONRPCRequest& request)
     }
     ptx.nOperatorReward = operatorReward;
 
-    CBitcoinAddress payoutAddress(request.params[paramIdx + 5].get_str());
+    CThoughtAddress payoutAddress(request.params[paramIdx + 5].get_str());
     if (!payoutAddress.IsValid()) {
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, strprintf("invalid payout address: %s", request.params[paramIdx + 5].get_str()));
     }
@@ -396,11 +396,11 @@ UniValue protx_register(const JSONRPCRequest& request)
         ptx.vchSig.resize(65);
     }
 
-    CBitcoinAddress fundAddress = payoutAddress;
+    CThoughtAddress fundAddress = payoutAddress;
     if (request.params.size() > paramIdx + 6) {
-        fundAddress = CBitcoinAddress(request.params[paramIdx + 6].get_str());
+        fundAddress = CThoughtAddress(request.params[paramIdx + 6].get_str());
         if (!fundAddress.IsValid())
-            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Dash address: ") + request.params[paramIdx + 6].get_str());
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Thought address: ") + request.params[paramIdx + 6].get_str());
     }
 
     FundSpecialTx(tx, ptx, fundAddress.Get());
@@ -428,7 +428,7 @@ UniValue protx_register(const JSONRPCRequest& request)
         }
         CTxDestination txDest;
         CKeyID keyID;
-        if (!ExtractDestination(coin.out.scriptPubKey, txDest) || !CBitcoinAddress(txDest).GetKeyID(keyID)) {
+        if (!ExtractDestination(coin.out.scriptPubKey, txDest) || !CThoughtAddress(txDest).GetKeyID(keyID)) {
             throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, strprintf("collateral type not supported: %s", ptx.collateralOutpoint.ToStringShort()));
         }
 
@@ -439,14 +439,14 @@ UniValue protx_register(const JSONRPCRequest& request)
 
             UniValue ret(UniValue::VOBJ);
             ret.push_back(Pair("tx", EncodeHexTx(tx)));
-            ret.push_back(Pair("collateralAddress", CBitcoinAddress(txDest).ToString()));
+            ret.push_back(Pair("collateralAddress", CThoughtAddress(txDest).ToString()));
             ret.push_back(Pair("signMessage", ptx.MakeSignString()));
             return ret;
         } else {
             // lets prove we own the collateral
             CKey key;
             if (!pwalletMain->GetKey(keyID, key)) {
-                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, strprintf("collateral key not in wallet: %s", CBitcoinAddress(keyID).ToString()));
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, strprintf("collateral key not in wallet: %s", CThoughtAddress(keyID).ToString()));
             }
             SignSpecialTxPayloadByString(tx, ptx, key);
             SetTxPayload(tx, ptx);
@@ -539,7 +539,7 @@ UniValue protx_update_service(const JSONRPCRequest& request)
         if (request.params[4].get_str().empty()) {
             ptx.scriptOperatorPayout = dmn->pdmnState->scriptOperatorPayout;
         } else {
-            CBitcoinAddress payoutAddress(request.params[4].get_str());
+            CThoughtAddress payoutAddress(request.params[4].get_str());
             if (!payoutAddress.IsValid()) {
                 throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, strprintf("invalid operator payout address: %s", request.params[4].get_str()));
             }
@@ -553,9 +553,9 @@ UniValue protx_update_service(const JSONRPCRequest& request)
 
     // param feeSourceAddress
     if (request.params.size() >= 6) {
-        CBitcoinAddress feeSourceAddress = CBitcoinAddress(request.params[5].get_str());
+        CThoughtAddress feeSourceAddress = CThoughtAddress(request.params[5].get_str());
         if (!feeSourceAddress.IsValid())
-            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Dash address: ") + request.params[5].get_str());
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Thought address: ") + request.params[5].get_str());
         feeSource = feeSourceAddress.Get();
     } else {
         if (ptx.scriptOperatorPayout != CScript()) {
@@ -590,7 +590,7 @@ void protx_update_registrar_help()
             "3. \"votingAddress\"       (string, required) The voting key address. The private key does not have to be known by your wallet.\n"
             "                         It has to match the private key which is later used when voting on proposals.\n"
             "                         If set to an empty string, the last on-chain voting key of the masternode will be used.\n"
-            "4. \"payoutAddress\"       (string, required) The dash address to use for masternode reward payments\n"
+            "4. \"payoutAddress\"       (string, required) The thought address to use for masternode reward payments\n"
             "                         If set to an empty string, the last on-chain payout address of the masternode will be used.\n"
             "5. \"feeSourceAddress\"    (string, optional) If specified wallet will only use coins from this address to fund ProTx.\n"
             "                         If not specified, payoutAddress is the one that is going to be used.\n"
@@ -625,7 +625,7 @@ UniValue protx_update_registrar(const JSONRPCRequest& request)
         ptx.keyIDVoting = ParsePubKeyIDFromAddress(request.params[3].get_str(), "operator address");
     }
 
-    CBitcoinAddress payoutAddress(request.params[4].get_str());
+    CThoughtAddress payoutAddress(request.params[4].get_str());
     if (!payoutAddress.IsValid()) {
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, strprintf("invalid payout address: %s", request.params[4].get_str()));
     }
@@ -633,7 +633,7 @@ UniValue protx_update_registrar(const JSONRPCRequest& request)
 
     CKey keyOwner;
     if (!pwalletMain->GetKey(dmn->pdmnState->keyIDOwner, keyOwner)) {
-        throw std::runtime_error(strprintf("Private key for owner address %s not found in your wallet", CBitcoinAddress(dmn->pdmnState->keyIDOwner).ToString()));
+        throw std::runtime_error(strprintf("Private key for owner address %s not found in your wallet", CThoughtAddress(dmn->pdmnState->keyIDOwner).ToString()));
     }
 
     CMutableTransaction tx;
@@ -643,11 +643,11 @@ UniValue protx_update_registrar(const JSONRPCRequest& request)
     // make sure we get anough fees added
     ptx.vchSig.resize(65);
 
-    CBitcoinAddress feeSourceAddress = payoutAddress;
+    CThoughtAddress feeSourceAddress = payoutAddress;
     if (request.params.size() > 5) {
-        feeSourceAddress = CBitcoinAddress(request.params[5].get_str());
+        feeSourceAddress = CThoughtAddress(request.params[5].get_str());
         if (!feeSourceAddress.IsValid())
-            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Dash address: ") + request.params[5].get_str());
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Thought address: ") + request.params[5].get_str());
     }
 
     FundSpecialTx(tx, ptx, feeSourceAddress.Get());
@@ -712,9 +712,9 @@ UniValue protx_revoke(const JSONRPCRequest& request)
     tx.nType = TRANSACTION_PROVIDER_UPDATE_REVOKE;
 
     if (request.params.size() > 4) {
-        CBitcoinAddress feeSourceAddress = CBitcoinAddress(request.params[4].get_str());
+        CThoughtAddress feeSourceAddress = CThoughtAddress(request.params[4].get_str());
         if (!feeSourceAddress.IsValid())
-            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Dash address: ") + request.params[4].get_str());
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Thought address: ") + request.params[4].get_str());
         FundSpecialTx(tx, ptx, feeSourceAddress.Get());
     } else if (dmn->pdmnState->scriptOperatorPayout != CScript()) {
         // Using funds from previousely specified operator payout address

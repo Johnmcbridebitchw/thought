@@ -1,9 +1,9 @@
 Gitian building
 ================
 
-*Setup instructions for a Gitian build of Dash Core using a Debian VM or physical system.*
+*Setup instructions for a Gitian build of Thought Core using a Debian VM or physical system.*
 
-Gitian is the deterministic build process that is used to build the Dash
+Gitian is the deterministic build process that is used to build the Thought
 Core executables. It provides a way to be reasonably sure that the
 executables are really built from the source on GitHub. It also makes sure that
 the same, tested dependencies are used and statically built into the executable.
@@ -11,7 +11,7 @@ the same, tested dependencies are used and statically built into the executable.
 Multiple developers build the source code by following a specific descriptor
 ("recipe"), cryptographically sign the result, and upload the resulting signature.
 These results are compared and only if they match, the build is accepted and uploaded
-to dash.org.
+to thought.org.
 
 More independent Gitian builders are needed, which is why this guide exists.
 It is preferred you follow these steps yourself instead of using someone else's
@@ -26,7 +26,7 @@ Table of Contents
 - [Installing Gitian](#installing-gitian)
 - [Setting up the Gitian image](#setting-up-the-gitian-image)
 - [Getting and building the inputs](#getting-and-building-the-inputs)
-- [Building Dash Core](#building-dash-core)
+- [Building Thought Core](#building-thought-core)
 - [Building an alternative repository](#building-an-alternative-repository)
 - [Signing externally](#signing-externally)
 - [Uploading signatures](#uploading-signatures)
@@ -41,7 +41,7 @@ Debian Linux was chosen as the host distribution because it has a lightweight in
 Any kind of virtualization can be used, for example:
 - [VirtualBox](https://www.virtualbox.org/) (covered by this guide)
 - [KVM](http://www.linux-kvm.org/page/Main_Page)
-- [LXC](https://linuxcontainers.org/), see also [Gitian host docker container](https://github.com/gdm85/tenku/tree/master/docker/gitian-bitcoin-host/README.md).
+- [LXC](https://linuxcontainers.org/), see also [Gitian host docker container](https://github.com/gdm85/tenku/tree/master/docker/gitian-thought-host/README.md).
 
 You can also install Gitian on actual hardware instead of using virtualization.
 
@@ -305,12 +305,12 @@ cd ..
 
 **Note**: When sudo asks for a password, enter the password for the user *debian* not for *root*.
 
-Clone the git repositories for Dash Core and Gitian.
+Clone the git repositories for Thought Core and Gitian.
 
 ```bash
 git clone https://github.com/devrandom/gitian-builder.git
-git clone https://github.com/dashpay/dash
-git clone https://github.com/dashpay/gitian.sigs.git
+git clone https://github.com/thoughtnetwork/thought
+git clone https://github.com/thoughtnetwork/gitian.sigs.git
 ```
 
 Setting up the Gitian image
@@ -347,16 +347,16 @@ Getting and building the inputs
 At this point you have two options, you can either use the automated script (found in [contrib/gitian-build.py](/contrib/gitian-build.py)) or you could manually do everything by following this guide. If you're using the automated script, then run it with the "--setup" command. Afterwards, run it with the "--build" command (example: "contrib/gitian-building.sh -b signer 0.13.0"). Otherwise ignore this.
 
 Follow the instructions in [doc/release-process.md](release-process.md#fetch-and-create-inputs-first-time-or-when-dependency-versions-change)
-in the Dash Core repository under 'Fetch and create inputs' to install sources which require
+in the Thought Core repository under 'Fetch and create inputs' to install sources which require
 manual intervention. Also optionally follow the next step: 'Seed the Gitian sources cache
 and offline git repositories' which will fetch the remaining files required for building
 offline.
 
-Building Dash Core
+Building Thought Core
 ----------------
 
-To build Dash Core (for Linux, OS X and Windows) just follow the steps under 'perform
-Gitian builds' in [doc/release-process.md](release-process.md#perform-gitian-builds) in the Dash Core repository.
+To build Thought Core (for Linux, OS X and Windows) just follow the steps under 'perform
+Gitian builds' in [doc/release-process.md](release-process.md#perform-gitian-builds) in the Thought Core repository.
 
 This may take some time as it will build all the dependencies needed for each descriptor.
 These dependencies will be cached after a successful build to avoid rebuilding them when possible.
@@ -371,12 +371,12 @@ tail -f var/build.log
 Output from `gbuild` will look something like
 
 ```bash
-    Initialized empty Git repository in /home/debian/gitian-builder/inputs/dash/.git/
+    Initialized empty Git repository in /home/debian/gitian-builder/inputs/thought/.git/
     remote: Counting objects: 57959, done.
     remote: Total 57959 (delta 0), reused 0 (delta 0), pack-reused 57958
     Receiving objects: 100% (57959/57959), 53.76 MiB | 484.00 KiB/s, done.
     Resolving deltas: 100% (41590/41590), done.
-    From https://github.com/dashpay/dash
+    From https://github.com/thoughtnetwork/thought
     ... (new tags, new branch etc)
     --- Building for bionic amd64 ---
     Stopping target if it is up
@@ -402,18 +402,18 @@ and inputs.
 
 For example:
 ```bash
-URL=https://github.com/crowning-/dash.git
+URL=https://github.com/crowning-/thought.git
 COMMIT=b616fb8ef0d49a919b72b0388b091aaec5849b96
-./bin/gbuild --commit dash=${COMMIT} --url dash=${URL} ../dash/contrib/gitian-descriptors/gitian-linux.yml
-./bin/gbuild --commit dash=${COMMIT} --url dash=${URL} ../dash/contrib/gitian-descriptors/gitian-win.yml
-./bin/gbuild --commit dash=${COMMIT} --url dash=${URL} ../dash/contrib/gitian-descriptors/gitian-osx.yml
+./bin/gbuild --commit thought=${COMMIT} --url thought=${URL} ../thought/contrib/gitian-descriptors/gitian-linux.yml
+./bin/gbuild --commit thought=${COMMIT} --url thought=${URL} ../thought/contrib/gitian-descriptors/gitian-win.yml
+./bin/gbuild --commit thought=${COMMIT} --url thought=${URL} ../thought/contrib/gitian-descriptors/gitian-osx.yml
 ```
 
 Building fully offline
 -----------------------
 
 For building fully offline including attaching signatures to unsigned builds, the detached-sigs repository
-and the dash git repository with the desired tag must both be available locally, and then gbuild must be
+and the thought git repository with the desired tag must both be available locally, and then gbuild must be
 told where to find them. It also requires an apt-cacher-ng which is fully-populated but set to offline mode, or
 manually disabling gitian-builder's use of apt-get to update the VM build environment.
 
@@ -432,7 +432,7 @@ cd /path/to/gitian-builder
 LXC_ARCH=amd64 LXC_SUITE=bionic on-target -u root apt-get update
 LXC_ARCH=amd64 LXC_SUITE=bionic on-target -u root \
   -e DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends -y install \
-  $( sed -ne '/^packages:/,/[^-] .*/ {/^- .*/{s/"//g;s/- //;p}}' ../dash/contrib/gitian-descriptors/*|sort|uniq )
+  $( sed -ne '/^packages:/,/[^-] .*/ {/^- .*/{s/"//g;s/- //;p}}' ../thought/contrib/gitian-descriptors/*|sort|uniq )
 LXC_ARCH=amd64 LXC_SUITE=bionic on-target -u root apt-get -q -y purge grub
 LXC_ARCH=amd64 LXC_SUITE=bionic on-target -u root -e DEBIAN_FRONTEND=noninteractive apt-get -y dist-upgrade
 ```
@@ -452,12 +452,12 @@ Then when building, override the remote URLs that gbuild would otherwise pull fr
 ```bash
 
 cd /some/root/path/
-git clone https://github.com/dashpay/dash-detached-sigs.git
+git clone https://github.com/thoughtnetwork/thought-detached-sigs.git
 
-BTCPATH=/some/root/path/dash
-SIGPATH=/some/root/path/dash-detached-sigs
+BTCPATH=/some/root/path/thought
+SIGPATH=/some/root/path/thought-detached-sigs
 
-./bin/gbuild --url dash=${BTCPATH},signature=${SIGPATH} ../dash/contrib/gitian-descriptors/gitian-win-signer.yml
+./bin/gbuild --url thought=${BTCPATH},signature=${SIGPATH} ../thought/contrib/gitian-descriptors/gitian-win-signer.yml
 ```
 
 Signing externally
@@ -472,9 +472,9 @@ When you execute `gsign` you will get an error from GPG, which can be ignored. C
 in `gitian.sigs` to your signing machine and do
 
 ```bash
-    gpg --detach-sign ${VERSION}-linux/${SIGNER}/dash-linux-build.assert
-    gpg --detach-sign ${VERSION}-win/${SIGNER}/dash-win-build.assert
-    gpg --detach-sign ${VERSION}-osx-unsigned/${SIGNER}/dash-osx-build.assert
+    gpg --detach-sign ${VERSION}-linux/${SIGNER}/thought-linux-build.assert
+    gpg --detach-sign ${VERSION}-win/${SIGNER}/thought-win-build.assert
+    gpg --detach-sign ${VERSION}-osx-unsigned/${SIGNER}/thought-osx-build.assert
 ```
 
 This will create the `.sig` files that can be committed together with the `.assert` files to assert your
@@ -484,6 +484,6 @@ Uploading signatures (not yet implemented)
 ---------------------
 
 In the future it will be possible to push your signatures (both the `.assert` and `.assert.sig` files) to the
-[dash/gitian.sigs](https://github.com/dashpay/gitian.sigs/) repository, or if that's not possible to create a pull
+[thought/gitian.sigs](https://github.com/thoughtnetwork/gitian.sigs/) repository, or if that's not possible to create a pull
 request.
 There will be an official announcement when this repository is online.

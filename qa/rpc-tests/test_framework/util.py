@@ -36,7 +36,7 @@ PORT_MIN = 11000
 # The number of ports to "reserve" for p2p and rpc, each
 PORT_RANGE = 5000
 
-BITCOIND_PROC_WAIT_TIMEOUT = 60
+THOUGHTD_PROC_WAIT_TIMEOUT = 60
 
 
 class PortSeed:
@@ -199,14 +199,14 @@ def sync_masternodes(rpc_connections, fast_mnsync=False):
     for node in rpc_connections:
         wait_to_sync(node, fast_mnsync)
 
-bitcoind_processes = {}
+thoughtd_processes = {}
 
 def initialize_datadir(dirname, n):
     datadir = os.path.join(dirname, "node"+str(n))
     if not os.path.isdir(datadir):
         os.makedirs(datadir)
     rpc_u, rpc_p = rpc_auth_pair(n)
-    with open(os.path.join(datadir, "dash.conf"), 'w', encoding='utf8') as f:
+    with open(os.path.join(datadir, "thought.conf"), 'w', encoding='utf8') as f:
         f.write("regtest=1\n")
         f.write("rpcuser=" + rpc_u + "\n")
         f.write("rpcpassword=" + rpc_p + "\n")
@@ -230,14 +230,14 @@ def rpc_url(i, rpchost=None):
             host = rpchost
     return "http://%s:%s@%s:%d" % (rpc_u, rpc_p, host, int(port))
 
-def wait_for_bitcoind_start(process, url, i):
+def wait_for_thoughtd_start(process, url, i):
     '''
-    Wait for dashd to start. This means that RPC is accessible and fully initialized.
-    Raise an exception if dashd exits during initialization.
+    Wait for thoughtd to start. This means that RPC is accessible and fully initialized.
+    Raise an exception if thoughtd exits during initialization.
     '''
     while True:
         if process.poll() is not None:
-            raise Exception('dashd exited with status %i during initialization' % process.returncode)
+            raise Exception('thoughtd exited with status %i during initialization' % process.returncode)
         try:
             rpc = get_rpc_proxy(url, i)
             blocks = rpc.getblockcount()
@@ -271,10 +271,10 @@ def initialize_chain(test_dir, num_nodes, cachedir, extra_args=None, redirect_st
                 shutil.rmtree(os.path.join(cachedir,"node"+str(i)))
 
         set_genesis_mocktime()
-        # Create cache directories, run dashds:
+        # Create cache directories, run thoughtds:
         for i in range(MAX_NODES):
             datadir=initialize_datadir(cachedir, i)
-            args = [ os.getenv("DASHD", "dashd"), "-server", "-keypool=1", "-datadir="+datadir, "-discover=0", "-mocktime="+str(GENESISTIME) ]
+            args = [ os.getenv("THOUGHTD", "thoughtd"), "-server", "-keypool=1", "-datadir="+datadir, "-discover=0", "-mocktime="+str(GENESISTIME) ]
             if i > 0:
                 args.append("-connect=127.0.0.1:"+str(p2p_port(0)))
             if extra_args is not None:
@@ -282,10 +282,10 @@ def initialize_chain(test_dir, num_nodes, cachedir, extra_args=None, redirect_st
             stderr = None
             if redirect_stderr:
                 stderr = sys.stdout
-            bitcoind_processes[i] = subprocess.Popen(args, stderr=stderr)
+            thoughtd_processes[i] = subprocess.Popen(args, stderr=stderr)
             if os.getenv("PYTHON_DEBUG", ""):
-                print("initialize_chain: dashd started, waiting for RPC to come up")
-            wait_for_bitcoind_start(bitcoind_processes[i], rpc_url(i), i)
+                print("initialize_chain: thoughtd started, waiting for RPC to come up")
+            wait_for_thoughtd_start(thoughtd_processes[i], rpc_url(i), i)
             if os.getenv("PYTHON_DEBUG", ""):
                 print("initialize_chain: RPC successfully started")
 
@@ -326,7 +326,7 @@ def initialize_chain(test_dir, num_nodes, cachedir, extra_args=None, redirect_st
         from_dir = os.path.join(cachedir, "node"+str(i))
         to_dir = os.path.join(test_dir,  "node"+str(i))
         shutil.copytree(from_dir, to_dir)
-        initialize_datadir(test_dir, i) # Overwrite port/rpcport in dash.conf
+        initialize_datadir(test_dir, i) # Overwrite port/rpcport in thought.conf
 
 def initialize_chain_clean(test_dir, num_nodes):
     """
@@ -358,11 +358,11 @@ def _rpchost_to_args(rpchost):
 
 def start_node(i, dirname, extra_args=None, rpchost=None, timewait=None, binary=None, redirect_stderr=False):
     """
-    Start a dashd and return RPC connection to it
+    Start a thoughtd and return RPC connection to it
     """
     datadir = os.path.join(dirname, "node"+str(i))
     if binary is None:
-        binary = os.getenv("DASHD", "dashd")
+        binary = os.getenv("THOUGHTD", "thoughtd")
     # RPC tests still depend on free transactions
     args = [ binary, "-datadir="+datadir, "-server", "-keypool=1", "-discover=0", "-rest", "-blockprioritysize=50000", "-mocktime="+str(get_mocktime()) ]
     # Don't try auto backups (they fail a lot when running tests)
@@ -375,11 +375,11 @@ def start_node(i, dirname, extra_args=None, rpchost=None, timewait=None, binary=
     if redirect_stderr:
         stderr = sys.stdout
 
-    bitcoind_processes[i] = subprocess.Popen(args, stderr=stderr)
+    thoughtd_processes[i] = subprocess.Popen(args, stderr=stderr)
     if os.getenv("PYTHON_DEBUG", ""):
-        print("start_node: dashd started, waiting for RPC to come up")
+        print("start_node: thoughtd started, waiting for RPC to come up")
     url = rpc_url(i, rpchost)
-    wait_for_bitcoind_start(bitcoind_processes[i], url, i)
+    wait_for_thoughtd_start(thoughtd_processes[i], url, i)
     if os.getenv("PYTHON_DEBUG", ""):
         print("start_node: RPC successfully started")
     proxy = get_rpc_proxy(url, i, timeout=timewait)
@@ -391,7 +391,7 @@ def start_node(i, dirname, extra_args=None, rpchost=None, timewait=None, binary=
 
 def start_nodes(num_nodes, dirname, extra_args=None, rpchost=None, timewait=None, binary=None, redirect_stderr=False):
     """
-    Start multiple dashds, return RPC connections to them
+    Start multiple thoughtds, return RPC connections to them
     """
     if extra_args is None: extra_args = [ None for _ in range(num_nodes) ]
     if binary is None: binary = [ None for _ in range(num_nodes) ]
@@ -412,14 +412,14 @@ def stop_node(node, i):
         node.stop()
     except http.client.CannotSendRequest as e:
         print("WARN: Unable to stop node: " + repr(e))
-    return_code = bitcoind_processes[i].wait(timeout=BITCOIND_PROC_WAIT_TIMEOUT)
+    return_code = thoughtd_processes[i].wait(timeout=THOUGHTD_PROC_WAIT_TIMEOUT)
     assert_equal(return_code, 0)
-    del bitcoind_processes[i]
+    del thoughtd_processes[i]
 
 def stop_nodes(nodes):
     for i, node in enumerate(nodes):
         stop_node(node, i)
-    assert not bitcoind_processes.values() # All connections must be gone now
+    assert not thoughtd_processes.values() # All connections must be gone now
 
 def set_node_times(nodes, t):
     for node in nodes:
@@ -547,10 +547,10 @@ def assert_fee_amount(fee, tx_size, fee_per_kB):
     """Assert the fee was in range"""
     target_fee = tx_size * fee_per_kB / 1000
     if fee < target_fee:
-        raise AssertionError("Fee of %s DASH too low! (Should be %s DASH)"%(str(fee), str(target_fee)))
+        raise AssertionError("Fee of %s THOUGHT too low! (Should be %s THOUGHT)"%(str(fee), str(target_fee)))
     # allow the wallet's estimation to be at most 2 bytes off
     if fee > (tx_size + 2) * fee_per_kB / 1000:
-        raise AssertionError("Fee of %s DASH too high! (Should be %s DASH)"%(str(fee), str(target_fee)))
+        raise AssertionError("Fee of %s THOUGHT too high! (Should be %s THOUGHT)"%(str(fee), str(target_fee)))
 
 def assert_equal(thing1, thing2, *args):
     if thing1 != thing2 or any(thing1 != arg for arg in args):

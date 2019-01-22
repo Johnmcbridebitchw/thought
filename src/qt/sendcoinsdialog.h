@@ -1,9 +1,9 @@
-// Copyright (c) 2011-2015 The Bitcoin Core developers
+// Copyright (c) 2011-2015 The Thought Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_QT_SENDCOINSDIALOG_H
-#define BITCOIN_QT_SENDCOINSDIALOG_H
+#ifndef THOUGHT_QT_SENDCOINSDIALOG_H
+#define THOUGHT_QT_SENDCOINSDIALOG_H
 
 #include "walletmodel.h"
 
@@ -28,7 +28,7 @@ QT_BEGIN_NAMESPACE
 class QUrl;
 QT_END_NAMESPACE
 
-/** Dialog for sending bitcoins */
+/** Dialog for sending thoughts */
 class SendCoinsDialog : public QDialog
 {
     Q_OBJECT
@@ -123,4 +123,4 @@ private:
     int secDelay;
 };
 
-#endif // BITCOIN_QT_SENDCOINSDIALOG_H
+#endif // THOUGHT_QT_SENDCOINSDIALOG_H

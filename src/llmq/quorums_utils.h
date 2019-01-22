@@ -1,9 +1,9 @@
-// Copyright (c) 2018 The Dash Core developers
+// Copyright (c) 2018 The Thought Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef DASH_QUORUMS_UTILS_H
-#define DASH_QUORUMS_UTILS_H
+#ifndef THOUGHT_QUORUMS_UTILS_H
+#define THOUGHT_QUORUMS_UTILS_H
 
 #include "consensus/params.h"
 
@@ -25,4 +25,4 @@ public:
 
 }
 
-#endif//DASH_QUORUMS_UTILS_H
+#endif//THOUGHT_QUORUMS_UTILS_H
