@@ -1138,19 +1138,18 @@ double ConvertBitsToDouble(unsigned int nBits)
 }
 
 //Thought GetBlockSubsidy
-CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
+//CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
+//using dash function declaration
 CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params& consensusParams, bool fSuperblockPartOnly)
 {
-    nHeight = nPrevHeight + 1;
-    int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
+    int halvings = (nPrevHeight + 1) / consensusParams.nSubsidyHalvingInterval;
     // Force block reward to zero when right shift is undefined.
-    if (halvings >= 64)
-        return 0;
+            return 0;
 
     CAmount nSubsidy = 314 * COIN;
     // Subsidy is cut in half every 210,000 blocks which will occur approximately every 4 years.
     // Special case for the first block allows premine.
-    if(nHeight == 1)
+    if((nPrevHeight + 1) == 1)
     {
         nSubsidy = 809016994 * COIN;
     }
