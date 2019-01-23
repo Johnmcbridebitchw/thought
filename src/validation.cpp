@@ -1139,7 +1139,9 @@ double ConvertBitsToDouble(unsigned int nBits)
 
 //Thought GetBlockSubsidy
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
+CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params& consensusParams, bool fSuperblockPartOnly)
 {
+    nHeight = nPrevHeight + 1;
     int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
     // Force block reward to zero when right shift is undefined.
     if (halvings >= 64)
