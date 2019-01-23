@@ -409,9 +409,9 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
 
     //LogPrint(BCLog::MIDAS, "Actual time %d, Scheduled time for this block height = %d\n", now, BlockHeightTime );
     //LogPrint(BCLog::MIDAS, "Nominal block interval = %d, regulating on interval %d to get back to schedule.\n",
-          params.nPowTargetSpacing, nIntervalDesired );
+    //      params.nPowTargetSpacing, nIntervalDesired );
     //LogPrint(BCLog::MIDAS, "Intervals of last 5/7/9/17 blocks = %d / %d / %d / %d.\n",
-          avgOf5, avgOf7, avgOf9, avgOf17);
+    //      avgOf5, avgOf7, avgOf9, avgOf17);
     //LogPrint(BCLog::MIDAS, "Difficulty Before Adjustment: %08x  %s\n", pindexLast->nBits, bnOld.ToString());
     //LogPrint(BCLog::MIDAS, "Difficulty After Adjustment:  %08x  %s\n", bnNew.GetCompact(), bnNew.ToString());
 
