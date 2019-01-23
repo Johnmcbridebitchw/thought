@@ -297,7 +297,7 @@ public:
         nPoolMaxTransactions = 3;
         nFulfilledRequestExpireTime = 60*60; // fulfilled requests expire in 1 hour
 
-        vSporkAddresses = {"Xgtyuk76vhuFW2iT7UAiHgNdWXCf3J34wh"};
+        vSporkAddresses = {"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAErW8OTp/275004ywxP2jf68ybuKawkonZ5qq75iPG4J3UKxrLKCUn1T64yKeJNbZwHEDusAi4J//HitX74wQZCQ=="};
         nMinSporkKeys = 1;
         fBIP9CheckMasternodesUpgraded = true;
         consensus.fLLMQAllowDummyCommitments = false;
@@ -447,7 +447,7 @@ public:
         nPoolMaxTransactions = 3;
         nFulfilledRequestExpireTime = 5*60; // fulfilled requests expire in 5 minutes
 
-        vSporkAddresses = {"yjPtiKh2uwk3bDutTEA2q9mCtXyiZRWn55"};
+        vSporkAddresses = {"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE/apNVSb+5qsV++Kr8G0THnY/QultkzVqtPoRbinpI6D346SBKWHHcJszcSo3GCnHPvQG23S/3E82++e6ePyW0g=="};
         nMinSporkKeys = 1;
         fBIP9CheckMasternodesUpgraded = true;
         consensus.fLLMQAllowDummyCommitments = true;
@@ -589,7 +589,7 @@ public:
         nPoolMaxTransactions = 3;
         nFulfilledRequestExpireTime = 5*60; // fulfilled requests expire in 5 minutes
 
-        vSporkAddresses = {"yjPtiKh2uwk3bDutTEA2q9mCtXyiZRWn55"};
+        vSporkAddresses = {"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE/apNVSb+5qsV++Kr8G0THnY/QultkzVqtPoRbinpI6D346SBKWHHcJszcSo3GCnHPvQG23S/3E82++e6ePyW0g=="};
         nMinSporkKeys = 1;
         // devnets are started with no blocks and no MN, so we can't check for upgraded MN (as there are none)
         fBIP9CheckMasternodesUpgraded = false;
