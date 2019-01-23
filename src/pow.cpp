@@ -446,7 +446,7 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
 }
 
 // Dash CheckProofOfWork
-/*bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params& params)
+bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params& params)
 {
     bool fNegative;
     bool fOverflow;
@@ -464,8 +464,9 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
 
     return true;
 }
-*/
 
+
+/* try just use Dash CheckProofOfWork
 //MIDAS CheckProofOfWork disabling cuckoo related
 bool CheckProofOfWork(const CBlockHeader& blockHeader, unsigned int nBits, const Consensus::Params& params)
 {
@@ -483,7 +484,7 @@ bool CheckProofOfWork(const CBlockHeader& blockHeader, unsigned int nBits, const
     {
         retval = false;
     }
-    /* cuckoo disabled
+    //  cuckoo disabled
     else
     {
         if (blockHeader.isCuckooPow())
@@ -516,7 +517,7 @@ bool CheckProofOfWork(const CBlockHeader& blockHeader, unsigned int nBits, const
                     retval = false;
                 }
             }
-        } */
+    //    }
         else
         {
             // Check proof of work matches claimed amount
@@ -529,3 +530,4 @@ bool CheckProofOfWork(const CBlockHeader& blockHeader, unsigned int nBits, const
     //} cuckoo disabled
     return retval;
 }
+*/
