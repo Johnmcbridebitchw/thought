@@ -240,7 +240,7 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 3226; // 80% of 4032
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000009f10b25816221"); // 967800
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000000016221"); // 967800
 
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x006b52a5d017eb2590d25750c46542b2de43f7a3fdc6394d95db458cbcb35f85"); // 967800
