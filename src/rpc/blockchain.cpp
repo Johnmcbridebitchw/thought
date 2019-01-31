@@ -98,6 +98,12 @@ UniValue blockheaderToJSON(const CBlockIndex* blockindex)
     result.push_back(Pair("bits", strprintf("%08x", blockindex->nBits)));
     result.push_back(Pair("difficulty", GetDifficulty(blockindex)));
     result.push_back(Pair("chainwork", blockindex->nChainWork.GetHex()));
+    UniValue cuckooProof(UniValue::VARR);
+    for (int i=0; i<42; i++) {
+        cuckooProof.push_back((uint64_t)blockindex->cuckooProof[i]);
+    }
+    result.push_back(Pair("cuckooProof", cuckooProof));
+
 
     if (blockindex->pprev)
         result.push_back(Pair("previousblockhash", blockindex->pprev->GetBlockHash().GetHex()));
@@ -759,6 +765,7 @@ UniValue getblockheaders(const JSONRPCRequest& request)
             "  \"time\" : ttt,                  (numeric) The block time in seconds since epoch (Jan 1 1970 GMT)\n"
             "  \"mediantime\" : ttt,            (numeric) The median block time in seconds since epoch (Jan 1 1970 GMT)\n"
             "  \"nonce\" : n,                   (numeric) The nonce\n"
+            "  \"cuckooProof\" : [n1, n2... n42] (array of numerics) The Cuckoo Cycle proof of work\n"
             "  \"bits\" : \"1d00ffff\",           (string)  The bits\n"
             "  \"difficulty\" : x.xxx,          (numeric) The difficulty\n"
             "  \"chainwork\" : \"0000...1f3\"     (string)  Expected number of hashes required to produce the current chain (in hex)\n"

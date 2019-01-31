@@ -6,6 +6,17 @@ Source: https://github.com/thought/thought
 
 Files: *
 Copyright: 2009-2017, Thought Core Developers
+Copyright: 2009-2019, Thought Networks LLC
+
+EXPECTED_HOLDER_NAMES = [
+     "Jan-Klaas Kollhof\n",
+     "Sam Rushing\n",
+     "ArtForz -- public domain half-a-node\n",
+     "Thought Networks LLC\n",
+     "John Tromp\n",
+     "Ray Dillinger\n", ]
+
+
 License: Expat
 Comment: The Thought Core Developers encompasses the current developers listed on thought.org,
          as well as the numerous contributors to the project.

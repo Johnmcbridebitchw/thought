@@ -1889,6 +1889,10 @@ int32_t ComputeBlockVersion(const CBlockIndex* pindexPrev, const Consensus::Para
         }
     }
 
+    if (pindexPrev != NULL && ((pindexPrev->nHeight + 1) >= params.CuckooHardForkBlockHeight)) {
+            nVersion |= CUCKOO_HARDFORK_VERSION_MASK;
+    }
+
     return nVersion;
 }
 
@@ -3264,6 +3268,11 @@ bool CheckBlock(const CBlock& block, CValidationState& state, const Consensus::P
     if (fCheckMerkleRoot) {
         bool mutated;
         uint256 hashMerkleRoot2 = BlockMerkleRoot(block, &mutated);
+/* debug for coinbase tx - pg
+        LogPrintf("Coinbase: %s\n", block.vtx[0]->ToString());
+        LogPrintf("Coinbase hash: %s\n", block.vtx[0]->GetHash().ToString());
+        LogPrintf("BlockMerkleRoot: in(%), calc(%s)\n", block.hashMerkleRoot.ToString(), hashMerkleRoot2.ToString());
+*/
         if (block.hashMerkleRoot != hashMerkleRoot2)
             return state.DoS(100, false, REJECT_INVALID, "bad-txnmrklroot", true, "hashMerkleRoot mismatch");
 
@@ -3357,6 +3366,8 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
 {
     const int nHeight = pindexPrev == NULL ? 0 : pindexPrev->nHeight + 1;
     // Check proof of work
+
+    /* Dash check proof of work
     if(Params().NetworkIDString() == CBaseChainParams::MAIN && nHeight <= 68589){
         // architecture issues with DGW v1 and v2)
         unsigned int nBitsNext = GetNextWorkRequired(pindexPrev, &block, consensusParams);
@@ -3369,6 +3380,21 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
     } else {
         if (block.nBits != GetNextWorkRequired(pindexPrev, &block, consensusParams))
             return state.DoS(100, false, REJECT_INVALID, "bad-diffbits", false, strprintf("incorrect proof of work at %d", nHeight));
+    }
+*/
+
+// Modified for MIDAS implementation - blocks generated during the implementation period have no transactions and
+    // can be assumed to have valid proof-of-work.  Before and after still get checked. PAG
+    const Consensus::Params& consensusParams = params.GetConsensus();
+    if (block.nBits != GetNextWorkRequired(pindexPrev, &block, consensusParams))
+    {
+      if (nHeight > consensusParams.CuckooHardForkBlockHeight && nHeight <= consensusParams.CuckooRequiredBlockHeight)
+      {
+        // The chain did not reject SHA blocks mined on 0.15.99 nodes after the Cuckoo fork, until CuckooRequiredBlockHeight, so we have to allow them here.
+       ;;
+      }
+      else if (nHeight < consensusParams.midasStartHeight || nHeight >= consensusParams.midasValidHeight)
+        return state.DoS(100, false, REJECT_INVALID, "bad-diffbits", false, "incorrect proof of work");
     }
 
     // Check timestamp against prev
@@ -3489,6 +3515,15 @@ static bool AcceptBlockHeader(const CBlockHeader& block, CValidationState& state
         if (!ContextualCheckBlockHeader(block, state, chainparams.GetConsensus(), pindexPrev, GetAdjustedTime()))
             return error("%s: Consensus::ContextualCheckBlockHeader: %s, %s", __func__, hash.ToString(), FormatStateMessage(state));
     }
+
+    // Make sure we're using the right POW
+          int currentBlockHeight = pindexPrev->nHeight+1;
+          if (currentBlockHeight > chainparams.GetConsensus().CuckooRequiredBlockHeight &&
+              !block.isCuckooPow())
+          {
+              return state.DoS(100, false, REJECT_INVALID, "bad-pow", false, strprintf("%s : bad pow algorithm", __func__));
+          }
+
     if (pindex == NULL)
         pindex = AddToBlockIndex(block);
 

@@ -1,5 +1,7 @@
 #!/bin/sh
-# Copyright (c) 2013-2016 The Thought Core developers
+# Copyright (c) 2013-2016 The Dash Core developers
+# Copyright (c) 2017-2018 Thought Networks LLC
+
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 

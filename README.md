@@ -1,9 +1,7 @@
 Thought Core staging tree 0.13.0
 ===============================
 
-`master:` [![Build Status](https://travis-ci.org/thoughtnetwork/thought.svg?branch=master)](https://travis-ci.org/thoughtnetwork/thought) `develop:` [![Build Status](https://travis-ci.org/thoughtnetwork/thought.svg?branch=develop)](https://travis-ci.org/thoughtnetwork/thought/branches)
-
-https://www.thought.org
+https://thought.live
 
 
 What is Thought?
@@ -53,7 +51,7 @@ There are also [regression and integration tests](/qa) of the RPC interface, wri
 in Python, that are run automatically on the build server.
 These tests can be run (if the [test dependencies](/qa) are installed) with: `qa/pull-tester/rpc-tests.py`
 
-The Travis CI system makes sure that every pull request is built for Windows, Linux, and OS X, and that unit/sanity tests are run automatically.
+
 
 ### Manual Quality Assurance (QA) Testing
 
@@ -61,17 +59,3 @@ Changes should be tested by somebody other than the developer who wrote the
 code. This is especially important for large or high-risk changes. It is useful
 to add a test plan to the pull request description if testing the changes is
 not straightforward.
-
-Translations
-------------
-
-Changes to translations as well as new translations can be submitted to
-[Thought Core's Transifex page](https://www.transifex.com/projects/p/thought/).
-
-Translations are periodically pulled from Transifex and merged into the git repository. See the
-[translation process](doc/translation_process.md) for details on how this works.
-
-**Important**: We do not accept translation changes as GitHub pull requests because the next
-pull from Transifex would automatically overwrite them again.
-
-Translators should also follow the [forum](https://www.thought.org/forum/topic/thought-worldwide-collaboration.88/).

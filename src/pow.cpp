@@ -200,9 +200,21 @@ unsigned int GetNextWorkRequiredBTC(const CBlockIndex* pindexLast, const CBlockH
 {
     unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
 
+    int currentBlockHeight = pindexLast->nHeight+1;
+
     // Genesis block
     if (pindexLast == NULL)
         return nProofOfWorkLimit;
+
+        // Special rule for post-cuckoo fork, so that the difficulty can come down
+        // far enough for mining.
+            if (currentBlockHeight > params.CuckooHardForkBlockHeight &&
+                currentBlockHeight < params.CuckooHardForkBlockHeight + 50)
+            {
+                return nProofOfWorkLimit;
+
+
+
 
     // Only change once per interval
     if ((pindexLast->nHeight+1) % params.DifficultyAdjustmentInterval() != 0)
@@ -291,13 +303,12 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
 
     // Special rule for post-cuckoo fork, so that the difficulty can come down
     // far enough for mining.
-/* cuckoo disabled for dash
-    if (currentBlockHeight > params.CuckooHardForkBlockHeight &&
-        currentBlockHeight < params.CuckooHardForkBlockHeight + 50)
-    {
-        return nProofOfWorkLimit;
-    }
-*/
+      if (currentBlockHeight > params.CuckooHardForkBlockHeight &&
+          currentBlockHeight < params.CuckooHardForkBlockHeight + 50)
+          {
+            return nProofOfWorkLimit;
+          }
+
 
     if (params.fPowAllowMinDifficultyBlocks)
     {
@@ -445,6 +456,7 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
     return bnNew.GetCompact();
 }
 
+/*
 // Dash CheckProofOfWork
 bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params& params)
 {
@@ -464,10 +476,10 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params&
 
     return true;
 }
+*/
 
 
-/* try just use Dash CheckProofOfWork
-//MIDAS CheckProofOfWork disabling cuckoo related
+//MIDAS CheckProofOfWork
 bool CheckProofOfWork(const CBlockHeader& blockHeader, unsigned int nBits, const Consensus::Params& params)
 {
     bool fNegative;
@@ -484,8 +496,7 @@ bool CheckProofOfWork(const CBlockHeader& blockHeader, unsigned int nBits, const
     {
         retval = false;
     }
-    //  cuckoo disabled
-    else
+        else
     {
         if (blockHeader.isCuckooPow())
         {
@@ -509,7 +520,7 @@ bool CheckProofOfWork(const CBlockHeader& blockHeader, unsigned int nBits, const
 
                 vec.resize(32);
                 arith_uint256 cpow = UintToArith256((const uint256)vec);
-                LogPrint(BCLog::MIDAS, "Difficulty In: %s\n", cpow.GetHex());
+                LogPrint("MIDAS", "Difficulty In: %s\n", cpow.GetHex());
 
                 if (cpow > bnTarget)
                 {
@@ -517,7 +528,7 @@ bool CheckProofOfWork(const CBlockHeader& blockHeader, unsigned int nBits, const
                     retval = false;
                 }
             }
-    //    }
+        }
         else
         {
             // Check proof of work matches claimed amount
@@ -527,7 +538,31 @@ bool CheckProofOfWork(const CBlockHeader& blockHeader, unsigned int nBits, const
                 retval = false;
             }
         }
-    //} cuckoo disabled
+    }
     return retval;
 }
-*/
+
+bool CheckCuckooProofOfWork(const CBlockHeader& blockHeader, const Consensus::Params& params) {
+    // Serialize header and trim to 80 bytes
+    bool retval = false;
+    std::vector<unsigned char> serializedHeader;
+    CVectorWriter(SER_NETWORK, INIT_PROTO_VERSION, serializedHeader, 0, blockHeader);
+    serializedHeader.resize(80);
+
+    unsigned char hash[32];
+    CSHA256().Write((const unsigned char *)serializedHeader.data(), 80).Finalize(hash);
+
+    // Check for valid cuckoo cycle
+    cuckoo_cycle::cuckoo_verify_code vc =  CCuckooCycleVerifier::verify((unsigned int *)blockHeader.cuckooProof, hash, params.cuckooGraphSize);
+    if (cuckoo_cycle::POW_OK == vc)
+    {
+      LogPrint("MIDAS", "Cuckoo cycle verified!\n");
+      retval = true;
+    }
+    else
+    {
+      LogPrint("cuckoo", "Cuckoo cycle not verified, code %d\n", vc);
+    }
+
+    return retval;
+}
