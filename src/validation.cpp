@@ -1144,12 +1144,13 @@ CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params&
 {
     int halvings = (nPrevHeight + 1) / consensusParams.nSubsidyHalvingInterval;
     // Force block reward to zero when right shift is undefined.
+	if (halvings >=64)
             return 0;
 
     CAmount nSubsidy = 314 * COIN;
     // Subsidy is cut in half every 210,000 blocks which will occur approximately every 4 years.
     // Special case for the first block allows premine.
-    if((nPrevHeight + 1) == 1)
+    if ((nPrevHeight + 1) == 1)
     {
         nSubsidy = 809016994 * COIN;
     }
@@ -3385,7 +3386,7 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
 
 // Modified for MIDAS implementation - blocks generated during the implementation period have no transactions and
     // can be assumed to have valid proof-of-work.  Before and after still get checked. PAG
-    const Consensus::Params& consensusParams = params.GetConsensus();
+//    const Consensus::Params& consensusParams = params.GetConsensus();
     if (block.nBits != GetNextWorkRequired(pindexPrev, &block, consensusParams))
     {
       if (nHeight > consensusParams.CuckooHardForkBlockHeight && nHeight <= consensusParams.CuckooRequiredBlockHeight)
@@ -3482,6 +3483,7 @@ static bool AcceptBlockHeader(const CBlockHeader& block, CValidationState& state
     uint256 hash = block.GetHash();
     BlockMap::iterator miSelf = mapBlockIndex.find(hash);
     CBlockIndex *pindex = NULL;
+    CBlockIndex* pindexPrev = NULL;
 
     // TODO : ENABLE BLOCK CACHE IN SPECIFIC CASES
     if (hash != chainparams.GetConsensus().hashGenesisBlock) {
@@ -3500,7 +3502,6 @@ static bool AcceptBlockHeader(const CBlockHeader& block, CValidationState& state
             return error("%s: Consensus::CheckBlockHeader: %s, %s", __func__, hash.ToString(), FormatStateMessage(state));
 
         // Get prev block index
-        CBlockIndex* pindexPrev = NULL;
         BlockMap::iterator mi = mapBlockIndex.find(block.hashPrevBlock);
         if (mi == mapBlockIndex.end())
             return state.DoS(10, error("%s: prev block not found", __func__), 0, "bad-prevblk");

@@ -1,3 +1,4 @@
+
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2015 The Thought Core developers
 // Distributed under the MIT software license, see the accompanying
@@ -14,6 +15,7 @@
 #include "streams.h"
 #include "hash.h"
 #include "version.h"
+#include "crypto/cuckoo.h"
 
 #include <math.h>
 
@@ -206,16 +208,6 @@ unsigned int GetNextWorkRequiredBTC(const CBlockIndex* pindexLast, const CBlockH
     if (pindexLast == NULL)
         return nProofOfWorkLimit;
 
-        // Special rule for post-cuckoo fork, so that the difficulty can come down
-        // far enough for mining.
-            if (currentBlockHeight > params.CuckooHardForkBlockHeight &&
-                currentBlockHeight < params.CuckooHardForkBlockHeight + 50)
-            {
-                return nProofOfWorkLimit;
-
-
-
-
     // Only change once per interval
     if ((pindexLast->nHeight+1) % params.DifficultyAdjustmentInterval() != 0)
     {
@@ -245,7 +237,7 @@ unsigned int GetNextWorkRequiredBTC(const CBlockIndex* pindexLast, const CBlockH
     assert(pindexFirst);
 
    return CalculateNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), params);
-}
+ }
 
 /* Dash GetNextWorkRequired - includes DGW and KGW, can add MIDAS in here eventually
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
@@ -286,13 +278,10 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
     int64_t nSlowInterval = (params.nPowTargetSpacing * 11) / 10; // seconds per block desired when far ahead of schedule
     int64_t nIntervalDesired  = params.nPowTargetSpacing;
 
-/* cuckoo disabled for dash
+    // cuckoo disabled for dash
     int currentBlockHeight = pindexLast->nHeight+1;
     const uint256 usedPowLimit = (currentBlockHeight >= params.CuckooHardForkBlockHeight)? params.cuckooPowLimit : params.powLimit;
 
-    unsigned int nProofOfWorkLimit = UintToArith256(usedPowLimit).GetCompact();
-*/
-//added this from original pre cuckoo pow
     assert(pindexLast != nullptr);
     unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
 
@@ -553,7 +542,7 @@ bool CheckCuckooProofOfWork(const CBlockHeader& blockHeader, const Consensus::Pa
     CSHA256().Write((const unsigned char *)serializedHeader.data(), 80).Finalize(hash);
 
     // Check for valid cuckoo cycle
-    cuckoo_cycle::cuckoo_verify_code vc =  CCuckooCycleVerifier::verify((unsigned int *)blockHeader.cuckooProof, hash, params.cuckooGraphSize);
+    cuckoo_cycle::cuckoo_verify_code vc = CCuckooCycleVerifier::verify((unsigned int *)blockHeader.cuckooProof, hash, params.cuckooGraphSize);
     if (cuckoo_cycle::POW_OK == vc)
     {
       LogPrint("MIDAS", "Cuckoo cycle verified!\n");

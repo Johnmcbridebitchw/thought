@@ -10,6 +10,9 @@
 #include "serialize.h"
 #include "uint256.h"
 
+static const int32_t CUCKOO_HARDFORK_VERSION_MASK = 0x40000000UL;
+static const int64_t CUCKOO_HARDFORK_MIN_TIME = 1528835939; // 12 Jun 2018
+
 /** Nodes collect new transactions into a block, hash them into a hash tree,
  * and scan through nonce values to make the block's hash satisfy proof-of-work
  * requirements.  When they solve the proof-of-work, they broadcast the block
@@ -27,6 +30,7 @@ public:
     uint32_t nTime;
     uint32_t nBits;
     uint32_t nNonce;
+    uint32_t cuckooProof[42];
 
     CBlockHeader()
     {
@@ -35,17 +39,24 @@ public:
 
     ADD_SERIALIZE_METHODS;
 
-    template <typename Stream, typename Operation>
+  template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action) {
-        READWRITE(this->nVersion);
-        READWRITE(hashPrevBlock);
-        READWRITE(hashMerkleRoot);
-        READWRITE(nTime);
-        READWRITE(nBits);
-        READWRITE(nNonce);
+    	if (!(s.GetType() & SER_GETHASH) || !isCuckooPow()) {
+    				READWRITE(this->nVersion);
+    				READWRITE(hashPrevBlock);
+    				READWRITE(hashMerkleRoot);
+    				READWRITE(nTime);
+    				READWRITE(nBits);
+    				READWRITE(nNonce);
+    	}
+    	if (isCuckooPow()) {
+    	   for (int i=0; i<42; i++) {
+    	       READWRITE(cuckooProof[i]);
+    	   }
+    	}
     }
 
-    void SetNull()
+void SetNull()
     {
         nVersion = 0;
         hashPrevBlock.SetNull();
@@ -53,6 +64,9 @@ public:
         nTime = 0;
         nBits = 0;
         nNonce = 0;
+        for (int i=0; i<42; i++) {
+          cuckooProof[i] = 0;
+        }
     }
 
     bool IsNull() const
@@ -66,8 +80,18 @@ public:
     {
         return (int64_t)nTime;
     }
-};
 
+    bool isCuckooPow() const
+    {
+      if ((nVersion & CUCKOO_HARDFORK_VERSION_MASK) == 0)
+    			return false;
+
+      if (nTime < CUCKOO_HARDFORK_MIN_TIME)
+    			return false;
+
+      return true;
+    }
+};
 
 class CBlock : public CBlockHeader
 {
@@ -113,7 +137,10 @@ public:
         block.nTime          = nTime;
         block.nBits          = nBits;
         block.nNonce         = nNonce;
-        return block;
+	for (int i=0; i<42; i++) {
+          block.cuckooProof[i] = cuckooProof[i];
+        }  
+      return block;
     }
 
     std::string ToString() const;

@@ -196,6 +196,7 @@ public:
     unsigned int nTime;
     unsigned int nBits;
     unsigned int nNonce;
+    unsigned int cuckooProof[42];
 
     //! (memory only) Sequential id assigned to distinguish order in which blocks are received.
     int32_t nSequenceId;
@@ -224,6 +225,9 @@ public:
         nTime          = 0;
         nBits          = 0;
         nNonce         = 0;
+	for (int i=0; i<42; i++) {
+          cuckooProof[i] = 0;
+        }
     }
 
     CBlockIndex()
@@ -240,7 +244,10 @@ public:
         nTime          = block.nTime;
         nBits          = block.nBits;
         nNonce         = block.nNonce;
-    }
+	for (int i=0; i<42; i++) {
+          cuckooProof[i] = block.cuckooProof[i];
+        }    
+}
 
     CDiskBlockPos GetBlockPos() const {
         CDiskBlockPos ret;
@@ -270,7 +277,10 @@ public:
         block.nTime          = nTime;
         block.nBits          = nBits;
         block.nNonce         = nNonce;
-        return block;
+	for (int i=0; i<42; i++) {
+          block.cuckooProof[i] = cuckooProof[i];
+        }        
+	return block;
     }
 
     uint256 GetBlockHash() const
@@ -391,6 +401,11 @@ public:
         READWRITE(nTime);
         READWRITE(nBits);
         READWRITE(nNonce);
+	if ((nTime >= CUCKOO_HARDFORK_MIN_TIME) && (this->nVersion & CUCKOO_HARDFORK_VERSION_MASK) == CUCKOO_HARDFORK_VERSION_MASK) {
+          for (int i=0; i<42; i++) {
+        	READWRITE(cuckooProof[i]);
+          }
+        }
     }
 
     uint256 GetBlockHash() const
@@ -404,7 +419,10 @@ public:
         block.nTime           = nTime;
         block.nBits           = nBits;
         block.nNonce          = nNonce;
-        return block.GetHash();
+	for (int i=0; i<42; i++) {
+          block.cuckooProof[i] = cuckooProof[i];
+        }        
+	return block.GetHash();
     }
 
 
