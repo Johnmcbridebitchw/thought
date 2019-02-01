@@ -469,7 +469,7 @@ bool CheckProofOfWork(const CBlockHeader& blockHeader, uint256 hash, unsigned in
 
 
 //MIDAS CheckProofOfWork
-bool CheckProofOfWork(const CBlockHeader& blockHeader, unint256 hash, unsigned int nBits, const Consensus::Params& params)
+bool CheckProofOfWork(const CBlockHeader& blockHeader, uint256 hash, unsigned int nBits, const Consensus::Params& params)
 {
     bool fNegative;
     bool fOverflow;
@@ -542,7 +542,7 @@ bool CheckCuckooProofOfWork(const CBlockHeader& blockHeader, const Consensus::Pa
     CSHA256().Write((const unsigned char *)serializedHeader.data(), 80).Finalize(hash);
 
     // Check for valid cuckoo cycle
-    cuckoo_cycle::cuckoo_verify_code vc = CCuckooCycleVerifier::verify((unsigned int *)blockHeader.cuckooProof, hash, params.cuckooGraphSize);
+    cuckoo_cycle::cuckoo_verify_code vc= CCuckooCycleVerifier::verify((unsigned int *)blockHeader.cuckooProof, hash, params.cuckooGraphSize);
     if (cuckoo_cycle::POW_OK == vc)
     {
       LogPrint("MIDAS", "Cuckoo cycle verified!\n");
