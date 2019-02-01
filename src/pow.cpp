@@ -398,11 +398,13 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
     bnNew = bnOld / difficultyfactor;
     bnNew *= 10000;
 
-    /* cuckoo related
+    // cuckoo related
     const arith_uint256 bnPowLimit = UintToArith256(usedPowLimit);
-    */
+
+    /*
     //added for no cuckoo
     const arith_uint256 bnPowLimit = UintToArith256(params.powLimit);
+    */
 
     if (bnNew > bnPowLimit)
       bnNew = bnPowLimit;

@@ -66,6 +66,10 @@ CBlockIndex* CChain::FindEarliestAtLeast(int64_t nTime) const
     return (lower == vChain.end() ? NULL : *lower);
 }
 
+bool CChain::isHardForkActive(const Consensus::Params& params) {
+  return Height() >= (params.CuckooHardForkBlockHeight - 1);
+}
+
 /** Turn the lowest '1' bit in the binary representation of a number into a '0'. */
 int static inline InvertLowestOne(int n) { return n & (n - 1); }
 

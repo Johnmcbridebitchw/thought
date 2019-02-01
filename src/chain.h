@@ -225,8 +225,8 @@ public:
         nTime          = 0;
         nBits          = 0;
         nNonce         = 0;
-	for (int i=0; i<42; i++) {
-          cuckooProof[i] = 0;
+	      for (int i=0; i<42; i++) {
+        cuckooProof[i] = 0;
         }
     }
 
@@ -244,9 +244,9 @@ public:
         nTime          = block.nTime;
         nBits          = block.nBits;
         nNonce         = block.nNonce;
-	for (int i=0; i<42; i++) {
-          cuckooProof[i] = block.cuckooProof[i];
-        }    
+	      for (int i=0; i<42; i++) {
+        cuckooProof[i] = block.cuckooProof[i];
+        }
 }
 
     CDiskBlockPos GetBlockPos() const {
@@ -277,9 +277,9 @@ public:
         block.nTime          = nTime;
         block.nBits          = nBits;
         block.nNonce         = nNonce;
-	for (int i=0; i<42; i++) {
-          block.cuckooProof[i] = cuckooProof[i];
-        }        
+	      for (int i=0; i<42; i++) {
+        block.cuckooProof[i] = cuckooProof[i];
+        }
 	return block;
     }
 
@@ -419,9 +419,9 @@ public:
         block.nTime           = nTime;
         block.nBits           = nBits;
         block.nNonce          = nNonce;
-	for (int i=0; i<42; i++) {
-          block.cuckooProof[i] = cuckooProof[i];
-        }        
+	      for (int i=0; i<42; i++) {
+        block.cuckooProof[i] = cuckooProof[i];
+        }
 	return block.GetHash();
     }
 
@@ -495,6 +495,9 @@ public:
 
     /** Find the earliest block with timestamp equal or greater than the given. */
     CBlockIndex* FindEarliestAtLeast(int64_t nTime) const;
+
+    /** Is the NEXT block expected to be a hard fork block */
+    bool isHardForkActive(const Consensus::Params& params);
 };
 
 #endif // THOUGHT_CHAIN_H
