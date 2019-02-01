@@ -447,7 +447,7 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
 
 /*
 // Dash CheckProofOfWork
-bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params& params)
+bool CheckProofOfWork(const CBlockHeader& blockHeader, uint256 hash, unsigned int nBits, const Consensus::Params& params)
 {
     bool fNegative;
     bool fOverflow;
@@ -469,7 +469,7 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params&
 
 
 //MIDAS CheckProofOfWork
-bool CheckProofOfWork(const CBlockHeader& blockHeader, unsigned int nBits, const Consensus::Params& params)
+bool CheckProofOfWork(const CBlockHeader& blockHeader, unint256 hash, unsigned int nBits, const Consensus::Params& params)
 {
     bool fNegative;
     bool fOverflow;
