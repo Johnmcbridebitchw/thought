@@ -241,6 +241,11 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nWindowSize = 4032;
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 3226; // 80% of 4032
 
+	// Implementation of MIDAS
+        consensus.midasStartHeight = 337;
+        consensus.midasValidHeight = 512;
+
+
         consensus.CuckooHardForkBlockHeight = 246500;
         consensus.CuckooRequiredBlockHeight = 248800;
 
@@ -403,8 +408,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 50; // 50% of 100
 
         // Implementation of MIDAS
-        consensus.midasStartHeight = 337;
-        consensus.midasValidHeight = 512;
+        consensus.midasStartHeight = 2;
+        consensus.midasValidHeight = 2;
 
         // Block to hard fork to Cuckoo Cycle POW
         consensus.CuckooHardForkBlockHeight = 44;
