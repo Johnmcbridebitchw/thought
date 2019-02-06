@@ -598,7 +598,26 @@ AC_SUBST(LIBMEMENV)
 
 if test x$enable_wallet != xno; then
     dnl Check for libdb_cxx only if wallet enabled
-    THOUGHT_FIND_BDB48
+    # THOUGHT_FIND_BDB48
+    if test "x$BDB_CFLAGS" = "x"; then
+      AC_MSG_CHECKING([for Berkeley DB C++ headers])
+      # no need for binary compatibility with bitcoin, so getting rid of some
+      # of the autoconf magic here
+      AC_ARG_VAR(BDB_CFLAGS, [C compiler flags for BerkeleyDB, bypasses autodetection])
+      AC_ARG_VAR(BDB_LIBS, [Linker flags for BerkeleyDB, bypasses autodetection])
+      # TODO: Ideally this could find the library version and make sure it matches the headers being used
+      for searchlib in db_cxx-5 db_cxx-5.3 db_cxx; do
+        AC_CHECK_LIB([$searchlib],[main],[
+          BDB_LIBS="-l${searchlib}"
+          break
+        ])
+      done
+    fi
+    if test "x$BDB_LIBS" = "x"; then
+        AC_MSG_ERROR([libdb_cxx-5 missing, ]AC_PACKAGE_NAME[ requires this library for wallet functionality (--disable-wallet to disable wallet functionality)])
+    fi
+    AC_SUBST(BDB_LIBS)
+    BDB_CPPFLAGS=${BDB_CFLAGS}
 fi
 
 dnl Check for libminiupnpc (optional)
