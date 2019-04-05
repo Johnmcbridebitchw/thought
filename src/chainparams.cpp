@@ -436,7 +436,7 @@ public:
         assert(genesis.hashMerkleRoot == uint256S("483a98bfa350f319e52eceaa79585fab8e5ac49c6235f720915e9c671a03c2d6"));
 
         vFixedSeeds.clear();
-      //  vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_test, pnSeed6_test + ARRAYLEN(pnSeed6_test));
+        vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_test, pnSeed6_test + ARRAYLEN(pnSeed6_test));
 
         vSeeds.clear();
         // nodes with support for servicebits filtering should be at the top
