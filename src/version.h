@@ -43,16 +43,19 @@ static const int BIP0031_VERSION = 60000;
 static const int MEMPOOL_GD_VERSION = 60002;
 
 //! "filter*" commands are disabled without NODE_BLOOM after and including this version
-static const int NO_BLOOM_VERSION = 70201;
+/* dash static const int NO_BLOOM_VERSION = 70201; */
+static const int NO_BLOOM_VERSION = 70011;
 
 //! "sendheaders" command and announcing blocks with headers starts with this version
-static const int SENDHEADERS_VERSION = 70201;
+/* dash static const int SENDHEADERS_VERSION = 70201; */
+static const int SENDHEADERS_VERSION = 70012;
 
 //! DIP0001 was activated in this version
 static const int DIP0001_PROTOCOL_VERSION = 70208;
 
 //! short-id-based block download starts with this version
-static const int SHORT_IDS_BLOCKS_VERSION = 70209;
+/* dash static const int SHORT_IDS_BLOCKS_VERSION = 70209; */
+static const int SHORT_IDS_BLOCKS_VERSION = 70014;
 
 //! introduction of DIP3/deterministic masternodes
 static const int DMN_PROTO_VERSION = 70213;
