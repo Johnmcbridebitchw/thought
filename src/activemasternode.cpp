@@ -394,12 +394,12 @@ void CActiveLegacyMasternodeManager::ManageStateInitial(CConnman& connman)
         bool fConnected = ConnectSocket(activeMasternodeInfo.service, hSocket, nConnectTimeout) && IsSelectableSocket(hSocket);
         CloseSocket(hSocket);
 
-        if (!fConnected) {
-            nState = ACTIVE_MASTERNODE_NOT_CAPABLE;
-            strNotCapableReason = "Could not connect to " + activeMasternodeInfo.service.ToString();
-            LogPrintf("CActiveLegacyMasternodeManager::ManageStateInitial -- %s: %s\n", GetStateString(), strNotCapableReason);
-            return;
-        }
+      //  if (!fConnected) {
+      //      nState = ACTIVE_MASTERNODE_NOT_CAPABLE;
+      //      strNotCapableReason = "Could not connect to " + activeMasternodeInfo.service.ToString();
+      //      LogPrintf("CActiveLegacyMasternodeManager::ManageStateInitial -- %s: %s\n", GetStateString(), strNotCapableReason);
+      //      return;
+      //  }
     }
     // Default to REMOTE
     eType = MASTERNODE_REMOTE;
