@@ -24,4 +24,5 @@ if [ '!' -f configure ]; then
 	./autogen.sh
 fi
 
-./configure "--prefix=$BASEDIR/depends/$HOST" $@
+export CONFIG_SITE="$BASEDIR/depends/$HOST/share/config.site"
+./configure --prefix=/ $@
