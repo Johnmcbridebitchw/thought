@@ -856,6 +856,14 @@ if config.dmg is not None:
         if p.returncode:
             print("Error running osascript.")
 
+            # if the osascript fails, the image won't look as pretty, but it
+            # will still work. We just have to eject it ourselves.
+            try:
+                subprocess.check_call(['hdiutil', 'eject', disk_root])
+            except subprocess.CalledProcessError as e:
+                print("Could not eject disk image.")
+                sys.exit(e.returncode)
+
         if verbose >= 2:
             print("+ Finalizing .dmg disk image +")
             time.sleep(5)
