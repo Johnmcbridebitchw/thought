@@ -16,7 +16,7 @@
 #include "streams.h"
 #include "hash.h"
 #include "version.h"
-#include "crypto/cuckoo.h"
+#include "crypto/cuckoo/verify.h"
 
 #include <math.h>
 
@@ -540,14 +540,14 @@ bool CheckCuckooProofOfWork(const CBlockHeader& blockHeader, const Consensus::Pa
     bool retval = false;
     std::vector<unsigned char> serializedHeader;
     CVectorWriter(SER_NETWORK, INIT_PROTO_VERSION, serializedHeader, 0, blockHeader);
-    serializedHeader.resize(80);
+    serializedHeader.resize(cuckoo::HEADERSIZE);
 
     unsigned char hash[32];
-    CSHA256().Write((const unsigned char *)serializedHeader.data(), 80).Finalize(hash);
+    CSHA256().Write((const unsigned char *)serializedHeader.data(), cuckoo::HEADERSIZE).Finalize(hash);
 
     // Check for valid cuckoo cycle
-    cuckoo_cycle::cuckoo_verify_code vc= CCuckooCycleVerifier::verify((unsigned int *)blockHeader.cuckooProof, hash, params.cuckooGraphSize);
-    if (cuckoo_cycle::POW_OK == vc)
+    auto vc = cuckoo::verify((unsigned int *)blockHeader.cuckooProof, hash, params.cuckooGraphSize);
+    if (cuckoo::POW_OK == vc)
     {
       LogPrint("MIDAS", "Cuckoo cycle verified!\n");
       retval = true;

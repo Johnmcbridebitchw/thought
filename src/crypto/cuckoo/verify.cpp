@@ -22,27 +22,12 @@
     SOFTWARE.
 
 */
-#include "crypto/cuckoo.h"
+#include "crypto/cuckoo/verify.h"
 #include "compat/endian.h"
 
+namespace cuckoo {
 
-#ifndef ROTL
-#define ROTL(x,b) (uint64_t)( ((x) << (b)) | ( (x) >> (64 - (b))) )
-#endif 
-#ifndef SIPROUND
-#define SIPROUND \
-  do { \
-    v0 += v1; v2 += v3; v1 = ROTL(v1,13); \
-    v3 = ROTL(v3,16); v1 ^= v0; v3 ^= v2; \
-    v0 = ROTL(v0,32); v2 += v1; v0 += v3; \
-    v1 = ROTL(v1,17);   v3 = ROTL(v3,21); \
-    v1 ^= v2; v3 ^= v0; v2 = ROTL(v2,32); \
-  } while(0)
-#endif
-
-
-
-uint64_t CCuckooCycleVerifier::siphash24(const cuckoo_cycle::siphash_keys *keys, const uint64_t nonce) {
+uint64_t siphash24(const siphash_keys *keys, const uint64_t nonce) {
   uint64_t v0 = keys->k0, v1 = keys->k1, v2 = keys->k2, v3 = keys->k3 ^ nonce;
   SIPROUND; SIPROUND;
   v0 ^= nonce;
@@ -51,49 +36,51 @@ uint64_t CCuckooCycleVerifier::siphash24(const cuckoo_cycle::siphash_keys *keys,
   return (v0 ^ v1) ^ (v2  ^ v3);
 }
 
-void CCuckooCycleVerifier::siphash_setkeys(cuckoo_cycle::siphash_keys *keys, const unsigned char *keybuf) {
+void siphash_setkeys(siphash_keys *keys, const unsigned char *keybuf) {
   keys->k0 = htole64(((uint64_t *)keybuf)[0]);
   keys->k1 = htole64(((uint64_t *)keybuf)[1]);
   keys->k2 = htole64(((uint64_t *)keybuf)[2]);
   keys->k3 = htole64(((uint64_t *)keybuf)[3]);
 }
 
-uint32_t CCuckooCycleVerifier::sipnode(cuckoo_cycle::siphash_keys *keys, uint32_t nonce, uint32_t uorv, uint32_t edgemask) {
+uint32_t sipnode(siphash_keys *keys, uint32_t nonce, uint32_t uorv, uint32_t edgemask) {
 	return (siphash24(keys, 2*nonce + uorv) & edgemask) << 1 | uorv;
 }
 
-cuckoo_cycle::cuckoo_verify_code CCuckooCycleVerifier::verify(uint32_t nonces[CUCKOO_CYCLE_PROOFSIZE], const unsigned char *buf, uint32_t graphSize) {
+verify_code verify(uint32_t nonces[PROOFSIZE], const unsigned char *buf, uint32_t graphSize) {
 
   uint32_t nnodes = ((uint32_t)1 << graphSize);
   uint32_t nedges = ((uint32_t)1 << (graphSize - 1));
   uint32_t edgemask =  ((uint32_t)nedges - 1);
 
-  cuckoo_cycle::siphash_keys keys;
+  siphash_keys keys;
   siphash_setkeys(&keys, buf);
-  uint32_t uvs[2*CUCKOO_CYCLE_PROOFSIZE];
+  uint32_t uvs[2*PROOFSIZE];
   uint32_t xor0=0,xor1=0;
-  for (uint32_t n = 0; n < CUCKOO_CYCLE_PROOFSIZE; n++) {
+  for (uint32_t n = 0; n < PROOFSIZE; n++) {
     if (nonces[n] > nnodes)
-      return cuckoo_cycle::POW_TOO_BIG;
+      return POW_TOO_BIG;
     if (n && nonces[n] <= nonces[n-1])
-      return cuckoo_cycle::POW_TOO_SMALL;
-	xor0 ^= uvs[2 * n] = CCuckooCycleVerifier::sipnode(&keys, nonces[n], 0, edgemask);
-	xor1 ^= uvs[2 * n + 1] = CCuckooCycleVerifier::sipnode(&keys, nonces[n], 1, edgemask);
+      return POW_TOO_SMALL;
+	xor0 ^= uvs[2 * n] = sipnode(&keys, nonces[n], 0, edgemask);
+	xor1 ^= uvs[2 * n + 1] = sipnode(&keys, nonces[n], 1, edgemask);
   }
   if (xor0|xor1)              // matching endpoints imply zero xors
-    return cuckoo_cycle::POW_NON_MATCHING;
+    return POW_NON_MATCHING;
   uint32_t n = 0, i = 0, j;
   do {                        // follow cycle
-    for (uint32_t k = j = i; (k = (k+2) % (2*CUCKOO_CYCLE_PROOFSIZE)) != i; ) {
+    for (uint32_t k = j = i; (k = (k+2) % (2*PROOFSIZE)) != i; ) {
       if (uvs[k] == uvs[i]) { // find other edge endpoint identical to one at i
         if (j != i)           // already found one before
-          return cuckoo_cycle::POW_BRANCH;
+          return POW_BRANCH;
         j = k;
       }
     }
-    if (j == i) return cuckoo_cycle::POW_DEAD_END;  // no matching endpoint
+    if (j == i) return POW_DEAD_END;  // no matching endpoint
     i = j^1;
     n++;
   } while (i != 0);           // must cycle back to start or we would have found branch
-  return n == CUCKOO_CYCLE_PROOFSIZE ? cuckoo_cycle::POW_OK : cuckoo_cycle::POW_SHORT_CYCLE;
+  return n == PROOFSIZE ? POW_OK : POW_SHORT_CYCLE;
 }
+
+};

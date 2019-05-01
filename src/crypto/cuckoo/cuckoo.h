@@ -20,41 +20,48 @@
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
-
 */
+
 #ifndef CUCKOO_H_
 #define CUCKOO_H_
-#include <stdint.h>    // for types uint32_t,uint64_t
-#include <string.h> // for functions strlen, memset
 
+#include <cstdint>
+#include <cstddef>
 
+#ifndef ROTL
+#define ROTL(x,b) (uint64_t)( ((x) << (b)) | ( (x) >> (64 - (b))) )
+#endif 
+#ifndef SIPROUND
+#define SIPROUND \
+  do { \
+    v0 += v1; v2 += v3; v1 = ROTL(v1,13); \
+    v3 = ROTL(v3,16); v1 ^= v0; v3 ^= v2; \
+    v0 = ROTL(v0,32); v2 += v1; v0 += v3; \
+    v1 = ROTL(v1,17);   v3 = ROTL(v3,21); \
+    v1 ^= v2; v3 ^= v0; v2 = ROTL(v2,32); \
+  } while(0)
+#endif
 
-namespace cuckoo_cycle 
-{
-	typedef struct {
-	  uint64_t k0;
-	  uint64_t k1;
-	  uint64_t k2;
-	  uint64_t k3;
-	} siphash_keys;
-	enum cuckoo_verify_code { POW_OK, POW_TOO_BIG, POW_TOO_SMALL, POW_NON_MATCHING, POW_BRANCH, POW_DEAD_END, POW_SHORT_CYCLE};
-}
+namespace cuckoo {
 
+typedef struct {
+    uint64_t k0;
+    uint64_t k1;
+    uint64_t k2;
+    uint64_t k3;
+} siphash_keys;
 
-class CCuckooCycleVerifier
-{
-private:
-	static uint32_t sipnode(cuckoo_cycle::siphash_keys *keys, uint32_t nonce, uint32_t uorv, uint32_t edgemask);
-	// set siphash keys from 16 byte char array
-	static void siphash_setkeys(cuckoo_cycle::siphash_keys *keys, const unsigned char *keybuf);
-	// SipHash-2-4 specialized to precomputed key and 8 byte nonces
-	static uint64_t siphash24(const cuckoo_cycle::siphash_keys *keys, const uint64_t nonce);
+/// Number of nonces in a cuckoo proof.
+constexpr size_t PROOFSIZE = 42;
 
-public:
-    static const size_t CUCKOO_CYCLE_PROOFSIZE = 42;
+/// Size in bytes of the header blob used to generate siphash keys.
+constexpr size_t HEADERSIZE = 80;
 
-    CCuckooCycleVerifier();
-	static cuckoo_cycle::cuckoo_verify_code verify(uint32_t nonces[CUCKOO_CYCLE_PROOFSIZE], const unsigned char *buf, uint32_t edgebits);
+static_assert(
+    HEADERSIZE >= sizeof(siphash_keys),
+    "Header size must be at least as big as struct siphash_keys"
+);
+
 };
 
 #endif  // CUCKOO_H_
