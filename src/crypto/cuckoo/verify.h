@@ -23,17 +23,17 @@
     SOFTWARE.
 */
 
-#ifndef CUCKOO_VERIFIER_H_
-#define CUCKOO_VERIFIER_H_
+#ifndef CUCKOO_VERIFY_H_
+#define CUCKOO_VERIFY_H_
 
 #include "crypto/cuckoo/cuckoo.h"
 
-/// Cuckoo cycle-related classes.
+/// Cuckoo cycle-related functions and classes.
 namespace cuckoo {
 
 uint32_t sipnode(siphash_keys *keys, uint32_t nonce, uint32_t uorv, uint32_t edgemask);
 
-// set siphash keys from 16 byte char array
+// set siphash keys from 64 byte char array
 void siphash_setkeys(siphash_keys *keys, const unsigned char *keybuf);
 
 // SipHash-2-4 specialized to precomputed key and 8 byte nonces
@@ -62,4 +62,4 @@ verify_code verify(uint32_t nonces[PROOFSIZE], const unsigned char *buf, uint32_
 
 };
 
-#endif  // CUCKOO_VERIFIER_H_
+#endif  // CUCKOO_VERIFY_H_
