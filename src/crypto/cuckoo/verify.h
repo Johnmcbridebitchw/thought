@@ -6,20 +6,13 @@
 
 #include "crypto/cuckoo/cuckoo.h"
 
-/// Cuckoo cycle-related functions and classes.
+
 namespace cuckoo {
-
-uint32_t sipnode(siphash_keys *keys, uint32_t nonce, uint32_t uorv, uint32_t edgemask);
-
-// set siphash keys from 64 byte char array
-void siphash_setkeys(siphash_keys *keys, const unsigned char *keybuf);
-
-// SipHash-2-4 specialized to precomputed key and 8 byte nonces
-uint64_t siphash24(const siphash_keys *keys, const uint64_t nonce);
 
 /// Result of cuckoo proof verification.
 /// Value descriptions taken from tromp/cuckoo.h
-enum verify_code {
+enum verify_code
+{
     POW_OK,  ///< Valid proof.
     POW_TOO_BIG,  ///< Edge too big.
     POW_TOO_SMALL,  ///< Edges not ascending.
@@ -38,6 +31,6 @@ enum verify_code {
  */
 verify_code verify(uint32_t nonces[PROOFSIZE], const unsigned char *buf, uint32_t graphSize);
 
-};
+}
 
 #endif  // CUCKOO_VERIFY_H_

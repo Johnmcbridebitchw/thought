@@ -28,28 +28,20 @@
 #include <cstdint>
 #include <cstddef>
 
-#ifndef ROTL
-#define ROTL(x,b) (uint64_t)( ((x) << (b)) | ( (x) >> (64 - (b))) )
-#endif 
-#ifndef SIPROUND
-#define SIPROUND \
-  do { \
-    v0 += v1; v2 += v3; v1 = ROTL(v1,13); \
-    v3 = ROTL(v3,16); v1 ^= v0; v3 ^= v2; \
-    v0 = ROTL(v0,32); v2 += v1; v0 += v3; \
-    v1 = ROTL(v1,17);   v3 = ROTL(v3,21); \
-    v1 ^= v2; v3 ^= v0; v2 = ROTL(v2,32); \
-  } while(0)
-#endif
+#include "primitives/block.h"
 
+/// Cuckoo cycle-related functions and classes.
 namespace cuckoo {
 
-typedef struct {
+typedef struct
+{
     uint64_t k0;
     uint64_t k1;
     uint64_t k2;
     uint64_t k3;
 } siphash_keys;
+
+typedef uint32_t word_t;
 
 /// Number of nonces in a cuckoo proof.
 constexpr size_t PROOFSIZE = 42;
@@ -57,10 +49,15 @@ constexpr size_t PROOFSIZE = 42;
 /// Size in bytes of the header blob used to generate siphash keys.
 constexpr size_t HEADERSIZE = 80;
 
-static_assert(
-    HEADERSIZE >= sizeof(siphash_keys),
-    "Header size must be at least as big as struct siphash_keys"
-);
+uint32_t sipnode(siphash_keys const *keys, uint32_t nonce, uint32_t uorv, uint32_t edgemask);
+
+// set siphash keys from 64 byte char array
+void siphash_setkeys(siphash_keys *keys, unsigned char const *keybuf);
+
+// SipHash-2-4 specialized to precomputed key and 8 byte nonces
+uint64_t siphash24(siphash_keys const *keys, const uint64_t nonce);
+
+void hash_blockheader(CBlockHeader const &header, unsigned char hash[32]);
 
 };
 

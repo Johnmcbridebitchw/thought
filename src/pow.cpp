@@ -538,12 +538,9 @@ bool CheckProofOfWork(const CBlockHeader& blockHeader, uint256 hash, unsigned in
 bool CheckCuckooProofOfWork(const CBlockHeader& blockHeader, const Consensus::Params& params) {
     // Serialize header and trim to 80 bytes
     bool retval = false;
-    std::vector<unsigned char> serializedHeader;
-    CVectorWriter(SER_NETWORK, INIT_PROTO_VERSION, serializedHeader, 0, blockHeader);
-    serializedHeader.resize(cuckoo::HEADERSIZE);
 
     unsigned char hash[32];
-    CSHA256().Write((const unsigned char *)serializedHeader.data(), cuckoo::HEADERSIZE).Finalize(hash);
+    cuckoo::hash_blockheader(blockHeader, hash);
 
     // Check for valid cuckoo cycle
     auto vc = cuckoo::verify((unsigned int *)blockHeader.cuckooProof, hash, params.cuckooGraphSize);
