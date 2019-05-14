@@ -14,7 +14,7 @@ are carried out collectively by the network. Thought Core is the name of the ope
 source software which enables the use of this currency.
 
 For more information, as well as an immediately useable, binary version of
-the Thought Core software, see https://www.thought.org/get-thought/.
+the Thought Core software, see https://www.thought.live/get-thought/.
 
 
 License
