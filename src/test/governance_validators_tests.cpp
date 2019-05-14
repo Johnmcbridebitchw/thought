@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2017 The Thought Core developers
+// Copyright (c) 2014-2017 The Bitcoin Core developers
 
 #include "governance-validators.h"
 #include "utilstrencodings.h"
