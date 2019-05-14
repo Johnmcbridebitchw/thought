@@ -1,3 +1,6 @@
+// Copyright (c) 2016 The Dash Core developers
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 #include "masternodelist.h"
 #include "ui_masternodelist.h"
 
