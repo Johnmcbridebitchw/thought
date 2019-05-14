@@ -1,4 +1,5 @@
-// Copyright (c) 2015 The Thought Core developers
+// Copyright (c) 2015 The Bitcoin Core developers
+// Copyright (c) 2019 Thought Networks, LLC
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -58,7 +59,7 @@ class CZMQPublishHashGovernanceObjectNotifier : public CZMQAbstractPublishNotifi
 {
 public:
     bool NotifyGovernanceObject(const CGovernanceObject &object) override;
-};
+
 
 class CZMQPublishHashInstantSendDoubleSpendNotifier : public CZMQAbstractPublishNotifier
 {
