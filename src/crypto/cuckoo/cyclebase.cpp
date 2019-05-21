@@ -22,6 +22,9 @@ void cyclebase::alloc(uint32_t graphSize)
 
     us = new uint32_t[maxpathlen];
     vs = new uint32_t[maxpathlen];
+
+    memset(us, 0, maxpathlen * sizeof(uint32_t));
+    memset(vs, 0, maxpathlen * sizeof(uint32_t));
 }
 
 void cyclebase::freemem()  // not a destructor, as memory may have been allocated elsewhere, bypassing alloc()
@@ -36,10 +39,10 @@ void cyclebase::freemem()  // not a destructor, as memory may have been allocate
 void cyclebase::reset()
 {
     solutions.clear();
-    memset(cuckoo, -1, ncuckoo * sizeof(word_t)); // for prevcycle nil
+    // for prevcycle nil
+    // memset(cuckoo, std::numeric_limits<word_t>::max(), ncuckoo * sizeof(word_t));
+    memset(cuckoo, 0, ncuckoo * sizeof(word_t));
     memset(pathcount, 0, ncuckoo * sizeof(uint32_t));
-    memset(us, 0, maxpathlen * sizeof(uint32_t));
-    memset(vs, 0, maxpathlen * sizeof(uint32_t));
     ncycles = 0;
 }
 
@@ -53,7 +56,8 @@ int cyclebase::path(uint32_t u0, uint32_t *us) const
             while (nu-- && us[nu] != u) ;
             if (nu < 0)
                 printf("maximum path length exceeded\n");
-            else printf("illegal % 4d-cycle from node %d\n", maxpathlen-nu, u0);
+            else
+                printf("illegal % 4d-cycle from node %d\n", maxpathlen-nu, u0);
             exit(0);
         }
         us[nu] = u;
@@ -131,6 +135,8 @@ void cyclebase::cycles()
     int len, len2;
     auto us2 = new word_t[maxpathlen];
     auto vs2 = new word_t[maxpathlen];
+    assert(us2 != 0);
+    assert(vs2 != 0);
     for (int i=0; i < ncycles; i++) {
         word_t u = cycleedges[i].u, v = cycleedges[i].v;
         int   nu = path(u, us),    nv = path(v, vs);

@@ -568,6 +568,14 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nWindowSize = 100;
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 50; // 50% of 100
 
+        // Implementation of MIDAS
+        consensus.midasStartHeight = 2;
+        consensus.midasValidHeight = 2;
+
+        // Block to hard fork to Cuckoo Cycle POW
+        consensus.CuckooHardForkBlockHeight = 2;
+        consensus.CuckooRequiredBlockHeight = 2;
+
         // The best chain should have at least this much work.
         consensus.nMinimumChainWork = uint256S("0x000000000000000000000000000000000000000000000000000000000000000");
 
@@ -704,6 +712,14 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].bit = 3;
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 0;
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 999999999999ULL;
+
+        // Implementation of MIDAS
+        consensus.midasStartHeight = 2;
+        consensus.midasValidHeight = 2;
+
+        // Block to hard fork to Cuckoo Cycle POW
+        consensus.CuckooHardForkBlockHeight = 2;
+        consensus.CuckooRequiredBlockHeight = 2;
 
         // The best chain should have at least this much work.
         consensus.nMinimumChainWork = uint256S("0x00");

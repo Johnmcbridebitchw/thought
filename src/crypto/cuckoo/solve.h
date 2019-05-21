@@ -8,10 +8,11 @@
 #include <memory>
 
 #include "crypto/cuckoo/cuckoo.h"
+#include "consensus/params.h"
 
 namespace cuckoo {
 
-std::unique_ptr<std::vector<uint32_t>> solve(CBlockHeader &header, uint32_t graphSize);
+bool solve(CBlockHeader &header, Consensus::Params const &params);
 
 };
 
