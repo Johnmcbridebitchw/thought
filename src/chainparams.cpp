@@ -274,9 +274,10 @@ public:
         assert(consensus.hashGenesisBlock == uint256S("0x00000000917e049641189c33d6b1275155e89b7b498b3b4f16d488f60afe513b"));
         assert(genesis.hashMerkleRoot == uint256S("0x483a98bfa350f319e52eceaa79585fab8e5ac49c6235f720915e9c671a03c2d6"));
 
-
-        vSeeds.push_back(CDNSSeedData("phee.thought.live", "phi.thought.live"));
-        vSeeds.push_back(CDNSSeedData("pho.thought.live", "phum.thought.live"));
+        vSeeds.push_back(CDNSSeedData("phee.thought.live", "phee.thought.live"));
+        vSeeds.push_back(CDNSSeedData("phi.thought.live", "phi.thought.live"));
+        vSeeds.push_back(CDNSSeedData("pho.thought.live", "pho.thought.live"));
+        vSeeds.push_back(CDNSSeedData("phum.thought.live", "phum.thought.live"));
 
         // Thought addresses start with 'X'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,7);
