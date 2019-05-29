@@ -17,7 +17,7 @@ static const int PROTOCOL_VERSION = 70213;
 */
 
 //changing for cuckoo thoughtbtc
-static const int PROTOCOL_VERSION = 70016;
+static const int PROTOCOL_VERSION = 70017;
 
 //! initial proto version, to be increased after version/verack negotiation
 static const int INIT_PROTO_VERSION = 209;
@@ -52,7 +52,7 @@ static const int NO_BLOOM_VERSION = 70011;
 static const int SENDHEADERS_VERSION = 70012;
 
 //! DIP0001 was activated in this version
-static const int DIP0001_PROTOCOL_VERSION = 70208;
+static const int DIP0001_PROTOCOL_VERSION = 70017;
 
 //! short-id-based block download starts with this version
 /* dash static const int SHORT_IDS_BLOCKS_VERSION = 70209; */
