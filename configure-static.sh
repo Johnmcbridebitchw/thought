@@ -8,21 +8,13 @@ set -x
 
 BASEDIR=$(pwd)
 
-if [ -f Makefile ]; then
-	make distclean
-fi
-
 if [ "x${HOST}y" = "xy" ]; then
 	export HOST="$(./depends/config.guess)"
 fi
 
-cd depends
-make
-cd ..
+(cd depends && make)
 
-if [ '!' -f configure ]; then
-	./autogen.sh
-fi
+./autogen.sh
 
 export CONFIG_SITE="$BASEDIR/depends/$HOST/share/config.site"
 ./configure --prefix=/ $@
