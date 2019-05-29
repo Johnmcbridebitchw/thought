@@ -59,7 +59,7 @@ class CZMQPublishHashGovernanceObjectNotifier : public CZMQAbstractPublishNotifi
 {
 public:
     bool NotifyGovernanceObject(const CGovernanceObject &object) override;
-
+};
 
 class CZMQPublishHashInstantSendDoubleSpendNotifier : public CZMQAbstractPublishNotifier
 {
