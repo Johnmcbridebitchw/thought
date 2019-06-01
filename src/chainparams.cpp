@@ -184,12 +184,12 @@ public:
         consensus.nMasternodePaymentsIncreasePeriod = 890*60; // 17280 - actual historical value, increase every 2 months
         consensus.nInstantSendConfirmationsRequired = 6;
         consensus.nInstantSendKeepLock = 24;
-        consensus.nBudgetPaymentsStartBlock = 328008; // actual historical value
-        consensus.nBudgetPaymentsCycleBlocks = 16616; // ~(60*24*30)/2.6, actual number of blocks per month is 200700 / 12 = 16725
+        consensus.nBudgetPaymentsStartBlock = 385627; // actual historical value
+        consensus.nBudgetPaymentsCycleBlocks = 26700; // ~(60*24*30)/1.618, actual number of blocks per month is 324846 / 12 = 27070
         consensus.nBudgetPaymentsWindowBlocks = 100;
         consensus.nSuperblockStartBlock = 614820; // The block at which 12.1 goes live (end of final 12.0 budget cycle)
         consensus.nSuperblockStartHash = uint256S("0000000000020cb27c7ef164d21003d5d20cdca2f54dd9a9ca6d45f4d47f8aa3");
-        consensus.nSuperblockCycle = 16616; // ~(60*24*30)/2.6, actual number of blocks per month is 200700 / 12 = 16725
+        consensus.nSuperblockCycle = 26700; // ~(60*24*30)/1.618, actual number of blocks per month is 324846 / 12 = 27070
         consensus.nGovernanceMinQuorum = 10;
         consensus.nGovernanceFilterElements = 20000;
         consensus.nMasternodeMinimumConfirmations = 15;
@@ -197,7 +197,7 @@ public:
         consensus.BIP34Hash = uint256S("0x00000000917e049641189c33d6b1275155e89b7b498b3b4f16d488f60afe513b");
         consensus.BIP65Height = 0; // 00000000000076d8fcea02ec0963de4abfd01e771fec0863f960c2c64fe6f357
         consensus.BIP66Height = 0; // 00000000000b1fa2dfa312863570e13fae9ca7b5566cb27e55422620b469aefa
-        consensus.DIP0001Height = 782208;
+        consensus.DIP0001Height = 385627;
         consensus.powLimit = uint256S("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20
         consensus.cuckooPowLimit = uint256S("00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.cuckooGraphSize = 24;
@@ -215,32 +215,33 @@ public:
 
         // Deployment of BIP68, BIP112, and BIP113.
         consensus.vDeployments[Consensus::DEPLOYMENT_CSV].bit = 0;
-        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nStartTime = 1486252800; // Feb 5th, 2017
-        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nTimeout = 1517788800; // Feb 5th, 2018
+        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nStartTime = 1558877442; // May 26th, 2019
+        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nTimeout = 1564427763; // July 29th, 2019
+        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nWindowSize = 100;
+        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nThreshold = 2; // force CSV
 
         // Deployment of DIP0001
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].bit = 1;
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].nStartTime = 1508025600; // Oct 15th, 2017
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].nTimeout = 1539561600; // Oct 15th, 2018
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].nWindowSize = 4032;
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].nThreshold = 3226; // 80% of 4032
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].nStartTime = 1558877442; // Dec 13th, 2018
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].nTimeout = 1564427763; // Dec 13th, 2019
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].nWindowSize = 100;
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].nThreshold = 2; // force DIP001, 50% of 100
 
         // Deployment of BIP147
         consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].bit = 2;
-        consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].nStartTime = 1524477600; // Apr 23th, 2018
-        consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].nTimeout = 1556013600; // Apr 23th, 2019
-        consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].nWindowSize = 4032;
-        consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].nThreshold = 3226; // 80% of 4032
+        consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].nStartTime = 1558877442; // Dec 13th, 2018
+        consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].nTimeout = 1564427763; // Dec 13th, 2019
+        consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].nWindowSize = 100;
+        consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].nThreshold = 2; // force BIP147, 50% of 100
 
-        // Deployment of DIP0003 - this afftects BIP34, dash moves nheight from coinbase. The CbTx special transaction payload will then contain the height, which is checked in CheckCbTx
-        // ajh - so moving this out in time to 2025
+        // Deployment of DIP0003
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].bit = 3;
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 1735689600; // Jan 1st, 2025
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 1767225600; // Jan 1st, 2026
         //consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 1546300800; // Jan 1st, 2019
         //consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 1577836800; // Jan 1st, 2020
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nWindowSize = 4032;
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 3226; // 80% of 4032
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nWindowSize = 100;
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 2; // 50% of 100
 
 	// Implementation of MIDAS
         consensus.midasStartHeight = 337;
@@ -251,10 +252,10 @@ public:
         consensus.CuckooRequiredBlockHeight = 248800;
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000000016221"); // 967800
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000009f10b2b026a9b"); // 388285
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x006b52a5d017eb2590d25750c46542b2de43f7a3fdc6394d95db458cbcb35f85"); // 967800
+        consensus.defaultAssumeValid = uint256S("0x00e0d38562e2f576c3c501f4768b282824a7f9489778537c49e3b5492923f5c5"); // 388285
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -326,6 +327,7 @@ public:
             ( 43010, uint256S("00000000328f2e44914cf6af972de811d0f4869f9b4e9217e4093dd297c79f49"))
             ( 229731, uint256S("000000006645878b6aa7c4f10044b9914e994f11e1c3905c72b7f7612c417a94"))
             ( 248000, uint256S("006b52a5d017eb2590d25750c46542b2de43f7a3fdc6394d95db458cbcb35f85"))
+            ( 388285, uint256S("00e0d38562e2f576c3c501f4768b282824a7f9489778537c49e3b5492923f5c5"))
         };
 
         chainTxData = ChainTxData{
@@ -384,22 +386,22 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_CSV].bit = 0;
         consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nStartTime = 1558877442; // May 26th, 2019
         consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nTimeout = 1564427763; // July 29th, 2019
-        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nWindowSize = 1;
-        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nThreshold = 0; // force CSV
+        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nWindowSize = 100;
+        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nThreshold = 2; // force CSV
 
         // Deployment of DIP0001
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].bit = 1;
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].nStartTime = 1558877442; // Dec 13th, 2018
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].nTimeout = 1564427763; // Dec 13th, 2019
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].nWindowSize = 1;
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].nThreshold = 0; // force DIP001, 50% of 100
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].nWindowSize = 100;
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].nThreshold = 2; // force DIP001, 50% of 100
 
         // Deployment of BIP147
         consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].bit = 2;
         consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].nStartTime = 1558877442; // Dec 13th, 2018
         consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].nTimeout = 1564427763; // Dec 13th, 2019
-        consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].nWindowSize = 1;
-        consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].nThreshold = 0; // force BIP147, 50% of 100
+        consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].nWindowSize = 100;
+        consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].nThreshold = 2; // force BIP147, 50% of 100
 
         // Deployment of DIP0003
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].bit = 3;
@@ -408,7 +410,7 @@ public:
         //consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 1546300800; // Jan 1st, 2019
         //consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 1577836800; // Jan 1st, 2020
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nWindowSize = 100;
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 50; // 50% of 100
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 2; // 50% of 100
 
         // Implementation of MIDAS
         consensus.midasStartHeight = 2;
@@ -420,10 +422,10 @@ public:
 
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x00000000000000000000000000000000000000000000000000000000000000ff"); // 4000
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000002c0287622c"); // 154509
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x000b288b55c8f6c919369ee26f517861f6552c294b7d262339c80de906fe01c8"); // 4000
+        consensus.defaultAssumeValid = uint256S("0x001ecb9553a2d270c7055fee8b91401ac63f6c5f8e8926d958d88b679d8ccb70"); // 154509
 
         pchMessageStart[0] = 0x2b;
         pchMessageStart[1] = 0x99;
@@ -483,8 +485,9 @@ public:
 
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
-            (    0, uint256S("0x00000000917e049641189c33d6b1275155e89b7b498b3b4f16d488f60afe513b"))
-            (   128, uint256S("0x000b288b55c8f6c919369ee26f517861f6552c294b7d262339c80de906fe01c8"))
+            ( 0, uint256S("0x00000000917e049641189c33d6b1275155e89b7b498b3b4f16d488f60afe513b"))
+            ( 128, uint256S("0x000b288b55c8f6c919369ee26f517861f6552c294b7d262339c80de906fe01c8"))
+            ( 154509, uint256S("0x001ecb9553a2d270c7055fee8b91401ac63f6c5f8e8926d958d88b679d8ccb70"))
                   };
 
         chainTxData = ChainTxData{
