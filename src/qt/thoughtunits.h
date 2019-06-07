@@ -61,7 +61,7 @@ public:
         THT,
         mTHT,
         uTHT,
-        duffs
+        notions
     };
 
     enum SeparatorStyle

@@ -23,7 +23,7 @@ QList<ThoughtUnits::Unit> ThoughtUnits::availableUnits()
     unitlist.append(THT);
     unitlist.append(mTHT);
     unitlist.append(uTHT);
-    unitlist.append(duffs);
+    unitlist.append(notions);
     return unitlist;
 }
 
@@ -34,7 +34,7 @@ bool ThoughtUnits::valid(int unit)
     case THT:
     case mTHT:
     case uTHT:
-    case duffs:
+    case notions:
         return true;
     default:
         return false;
@@ -50,7 +50,7 @@ QString ThoughtUnits::name(int unit)
             case THT: return QString("THT");
             case mTHT: return QString("mTHT");
             case uTHT: return QString::fromUtf8("μTHT");
-            case duffs: return QString("duffs");
+            case notions: return QString("notions");
             default: return QString("???");
         }
     }
@@ -61,7 +61,7 @@ QString ThoughtUnits::name(int unit)
             case THT: return QString("tTHT");
             case mTHT: return QString("mtTHT");
             case uTHT: return QString::fromUtf8("μtTHT");
-            case duffs: return QString("tduffs");
+            case notions: return QString("tnotions");
             default: return QString("???");
         }
     }
@@ -76,7 +76,7 @@ QString ThoughtUnits::description(int unit)
             case THT: return QString("Thought");
             case mTHT: return QString("Milli-Thought (1 / 1" THIN_SP_UTF8 "000)");
             case uTHT: return QString("Micro-Thought (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
-            case duffs: return QString("Ten Nano-Thought (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case notions: return QString("Ten Nano-Thought (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
             default: return QString("???");
         }
     }
@@ -87,7 +87,7 @@ QString ThoughtUnits::description(int unit)
             case THT: return QString("TestThoughts");
             case mTHT: return QString("Milli-TestThought (1 / 1" THIN_SP_UTF8 "000)");
             case uTHT: return QString("Micro-TestThought (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
-            case duffs: return QString("Ten Nano-TestThought (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case notions: return QString("Ten Nano-TestThought (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
             default: return QString("???");
         }
     }
@@ -100,7 +100,7 @@ qint64 ThoughtUnits::factor(int unit)
     case THT:  return 100000000;
     case mTHT: return 100000;
     case uTHT: return 100;
-    case duffs: return 1;
+    case notions: return 1;
     default:   return 100000000;
     }
 }
@@ -112,7 +112,7 @@ int ThoughtUnits::decimals(int unit)
     case THT: return 8;
     case mTHT: return 5;
     case uTHT: return 2;
-    case duffs: return 0;
+    case notions: return 0;
     default: return 0;
     }
 }
