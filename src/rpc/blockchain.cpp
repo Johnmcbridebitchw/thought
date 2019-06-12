@@ -65,16 +65,22 @@ double GetDifficulty(const CBlockIndex* blockindex)
     double dDiff =
         (double)0x0000ffff / (double)(blockindex->nBits & 0x00ffffff);
 
-    while (nShift < 29)
-    {
-        dDiff *= 256.0;
-        nShift++;
-    }
-    while (nShift > 29)
-    {
-        dDiff /= 256.0;
-        nShift--;
-    }
+        int scale = 29;
+       // Scale the calculation for the much different cuckoo min difficulty.
+       if (chainActive.Height() >= Params().GetConsensus().CuckooHardForkBlockHeight)
+       {
+         scale = 32;
+       }
+       while (nShift < scale)
+       {
+           dDiff *= 256.0;
+           nShift++;
+       }
+       while (nShift > scale)
+       {
+           dDiff /= 256.0;
+           nShift--;
+       }
 
     return dDiff;
 }
