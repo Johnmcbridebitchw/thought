@@ -24,6 +24,9 @@ THOUGHT_QT_BIN=$(top_builddir)/src/qt/$(THOUGHT_GUI_NAME)$(EXEEXT)
 THOUGHT_CLI_BIN=$(top_builddir)/src/$(THOUGHT_CLI_NAME)$(EXEEXT)
 THOUGHT_WIN_INSTALLER=$(PACKAGE)-$(PACKAGE_VERSION)-win$(WINDOWS_BITS)-setup$(EXEEXT)
 
+THOUGHT_TARBALL=$(PACKAGE)-$(PACKAGE_VERSION)-$(host_triplet).tar.gz
+TARBALL_DIR=$(abs_builddir)/$(PACKAGE)-build
+
 empty :=
 space := $(empty) $(empty)
 
@@ -157,6 +160,13 @@ if TARGET_WINDOWS
 deploy: $(THOUGHT_WIN_INSTALLER)
 endif
 
+binary-tarball: $(THOUGHT_TARBALL)
+
+$(THOUGHT_TARBALL): all
+	$(MKDIR_P) $(TARBALL_DIR)
+	$(MAKE) install "DESTDIR=$(TARBALL_DIR)/$(PACKAGE)"
+	(cd $(TARBALL_DIR) && tar czf ../$(THOUGHT_TARBALL) $(PACKAGE)/bin $(PACKAGE)/share)
+
 $(THOUGHT_QT_BIN): FORCE
 	$(MAKE) -C src qt/$(@F)
 
@@ -223,7 +233,7 @@ dist_noinst_SCRIPTS = autogen.sh
 
 EXTRA_DIST = $(top_srcdir)/share/genbuild.sh qa/pull-tester/rpc-tests.py qa/rpc-tests $(DIST_CONTRIB) $(DIST_DOCS) $(WINDOWS_PACKAGING) $(OSX_PACKAGING) $(BIN_CHECKS)
 
-CLEANFILES = $(OSX_DMG) $(THOUGHT_WIN_INSTALLER)
+CLEANFILES = $(OSX_DMG) $(THOUGHT_WIN_INSTALLER) $(THOUGHT_TARBALL) $(TARBALL_DIR)
 
 # This file is problematic for out-of-tree builds if it exists.
 DISTCLEANFILES = qa/pull-tester/tests_config.pyc

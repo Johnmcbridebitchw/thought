@@ -120,3 +120,6 @@ thought-*.tar.xz
 .project
 .settings/
 .cproject
+
+# tarball creation directory
+thoughtcore-build/
