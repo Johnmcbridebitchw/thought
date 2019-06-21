@@ -10,6 +10,7 @@
 #include "ui_optionsdialog.h"
 
 #include "thoughtunits.h"
+#include "notificationlevels.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
 
@@ -139,6 +140,7 @@ OptionsDialog::OptionsDialog(QWidget *parent, bool enableWallet) :
 #endif
 
     ui->unit->setModel(new ThoughtUnits(this));
+    ui->notifications->setModel(new NotificationLevels(this));
 
     /* Widget-to-option mapper */
     mapper = new QDataWidgetMapper(this);
@@ -243,7 +245,7 @@ void OptionsDialog::setMapper()
     mapper->addMapping(ui->lang, OptionsModel::Language);
     mapper->addMapping(ui->unit, OptionsModel::DisplayUnit);
     mapper->addMapping(ui->thirdPartyTxUrls, OptionsModel::ThirdPartyTxUrls);
-
+    mapper->addMapping(ui->notifications, OptionsModel::TxNotificationLevel);
 }
 
 void OptionsDialog::setOkButtonState(bool fState)

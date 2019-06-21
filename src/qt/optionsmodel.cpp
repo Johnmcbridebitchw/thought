@@ -10,6 +10,7 @@
 #include "optionsmodel.h"
 
 #include "thoughtunits.h"
+#include "notificationlevels.h"
 #include "guiutil.h"
 
 #include "amount.h"
@@ -81,6 +82,10 @@ void OptionsModel::Init(bool resetSettings)
     if (!settings.contains("strThirdPartyTxUrls"))
         settings.setValue("strThirdPartyTxUrls", "");
     strThirdPartyTxUrls = settings.value("strThirdPartyTxUrls", "").toString();
+
+    if (!settings.contains("nNotificationLevel"))
+        settings.setValue("nNotificationLevel", NotificationLevel::All);
+    nNotificationLevel = settings.value("nNotificationLevel").toInt();
 
     if (!settings.contains("theme"))
         settings.setValue("theme", "");
@@ -290,6 +295,8 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
             return nDisplayUnit;
         case ThirdPartyTxUrls:
             return strThirdPartyTxUrls;
+        case TxNotificationLevel:
+            return nNotificationLevel;
 #ifdef ENABLE_WALLET
         case Digits:
             return settings.value("digits");
@@ -466,6 +473,10 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
                 settings.setValue("strThirdPartyTxUrls", strThirdPartyTxUrls);
                 setRestartRequired(true);
             }
+            break;
+        case TxNotificationLevel:
+            nNotificationLevel = value.toInt();
+            settings.setValue("nNotificationLevel", nNotificationLevel);
             break;
 #ifdef ENABLE_WALLET
         case Digits:

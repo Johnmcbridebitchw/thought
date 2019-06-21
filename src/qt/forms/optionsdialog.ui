@@ -810,6 +810,30 @@ https://www.transifex.com/projects/p/thought/</string>
         </layout>
        </item>
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4_Display">
+         <item>
+          <widget class="QLabel" name="notificationsLabel">
+           <property name="text">
+            <string>Transaction &amp;notifications:</string>
+           </property>
+           <property name="textFormat">
+            <enum>Qt::PlainText</enum>
+           </property>
+           <property name="buddy">
+            <cstring>notifications</cstring>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QValueComboBox" name="notifications">
+           <property name="toolTip">
+            <string>Choose which transactions you are notified about.</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>

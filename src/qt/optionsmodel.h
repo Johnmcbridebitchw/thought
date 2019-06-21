@@ -41,6 +41,7 @@ public:
         ProxyPortTor,           // int
         DisplayUnit,            // ThoughtUnits::Unit
         ThirdPartyTxUrls,       // QString
+        TxNotificationLevel,    // NotificationLevels::Level
         Digits,                 // QString
         Theme,                  // QString
         Language,               // QString
@@ -92,6 +93,7 @@ private:
     QString language;
     int nDisplayUnit;
     QString strThirdPartyTxUrls;
+    int nNotificationLevel;
     bool fCoinControlFeatures;
     bool fShowAdvancedPSUI;
     /* settings that were overridden by command-line */

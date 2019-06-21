@@ -11,6 +11,7 @@
 #include "thoughtgui.h"
 
 #include "thoughtunits.h"
+#include "notificationlevels.h"
 #include "clientmodel.h"
 #include "guiconstants.h"
 #include "guiutil.h"
@@ -1242,6 +1243,11 @@ void ThoughtGUI::showEvent(QShowEvent *event)
 void ThoughtGUI::incomingTransaction(const QString& date, int unit, const CAmount& amount, const QString& type, const QString& address, const QString& label)
 {
     // On new transaction, make an info balloon
+    QSettings settings;
+    NotificationLevel level = static_cast<NotificationLevel>(settings.value("nNotificationLevel").toInt());
+    if (level == NotificationLevel::None || (level == NotificationLevel::NonMining && type == "Mined"))
+        return;
+
     QString msg = tr("Date: %1\n").arg(date) +
                   tr("Amount: %1\n").arg(ThoughtUnits::formatWithUnit(unit, amount, true)) +
                   tr("Type: %1\n").arg(type);
