@@ -128,6 +128,7 @@ TestChainSetup::TestChainSetup(int blockCount) : TestingSetup(CBaseChainParams::
 CBlock
 TestChainSetup::CreateAndProcessBlock(const std::vector<CMutableTransaction>& txns, const CScript& scriptPubKey)
 {
+    std::printf("CreateAndProcessBlock\n");
     const CChainParams& chainparams = Params();
     auto block = CreateBlock(txns, scriptPubKey);
 
@@ -185,7 +186,9 @@ CBlock TestChainSetup::CreateBlock(const std::vector<CMutableTransaction>& txns,
     IncrementExtraNonce(&block, chainActive.Tip(), extraNonce);
 
     if (block.isCuckooPow()) {
-        cuckoo::solve(block, chainparams.GetConsensus());
+        if (!cuckoo::solve(block, chainparams.GetConsensus())) {
+            throw std::runtime_error("failed to solve cuckoo block");
+        }
     }
 
     while (!CheckProofOfWork(block.GetBlockHeader(), block.GetHash(), block.nBits, chainparams.GetConsensus())) ++block.nNonce;

@@ -343,10 +343,6 @@ crypto_libthought_crypto_a_SOURCES = \
   crypto/sha512.h \
   crypto/cuckoo/cuckoo.h \
   crypto/cuckoo/cuckoo.cpp \
-  crypto/cuckoo/cyclebase.h \
-  crypto/cuckoo/cyclebase.cpp \
-  crypto/cuckoo/context.h \
-  crypto/cuckoo/context.cpp \
   crypto/cuckoo/solve.h \
   crypto/cuckoo/solve.cpp \
   crypto/cuckoo/verify.h \

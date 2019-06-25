@@ -51,12 +51,13 @@ constexpr size_t HEADERSIZE = 80;
 
 uint32_t sipnode(siphash_keys const *keys, uint32_t nonce, uint32_t uorv, uint32_t edgemask);
 
-// set siphash keys from 64 byte char array
+/// set siphash keys from 64 byte char array
 void siphash_setkeys(siphash_keys *keys, unsigned char const *keybuf);
 
-// SipHash-2-4 specialized to precomputed key and 8 byte nonces
+/// SipHash-2-4 specialized to precomputed key and 8 byte nonces
 uint64_t siphash24(siphash_keys const *keys, const uint64_t nonce);
 
+/// Hashes the given block header for use as a siphash_keys structure
 void hash_blockheader(CBlockHeader const &header, unsigned char hash[32]);
 
 };
