@@ -72,7 +72,7 @@ std::unique_ptr<CContext::solution_t> CContext::solution(node_t *us, int nu, nod
         if (cycle.find(e) != cycle.end()) {
             nonces->emplace_back(nonce_);
             found++;
-            // CContext::Solve already checks the length, so we can return early
+            // CContext::GetNextSolution already checks the length, so we can return early
             if (found == PROOFSIZE) {
                 return nonces;
             }
@@ -132,7 +132,8 @@ bool solve(CBlockHeader &header, Consensus::Params const &params)
     for (header.nNonce == 0; header.nNonce <= std::numeric_limits<uint32_t>::max(); header.nNonce += 1) {
         ctx.SetHeader(header);
 
-        while (auto sol = ctx.GetNextSolution()) {
+        // while (auto sol = ctx.GetNextSolution()) {
+        if (auto sol = ctx.GetNextSolution()) {
             assert(sol->size() == PROOFSIZE);
             std::memcpy(header.cuckooProof, sol->data(), sizeof(uint32_t) * PROOFSIZE);
             if (CheckProofOfWork(header, header.GetHash(), header.nBits, params)) {
