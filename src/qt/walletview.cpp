@@ -20,6 +20,7 @@
 #include "transactiontablemodel.h"
 #include "transactionview.h"
 #include "walletmodel.h"
+#include "util.h"
 
 #include "ui_interface.h"
 
@@ -297,12 +298,54 @@ void WalletView::encryptWallet(bool status)
 
 void WalletView::backupWallet()
 {
-    QString filename = GUIUtil::getSaveFileName(this,
-        tr("Backup Wallet"), QString(),
-        tr("Wallet Data (*.dat)"), NULL);
+    bool same_fs = false;
 
-    if (filename.isEmpty())
-        return;
+    QMessageBox same_fs_message(
+        QMessageBox::Warning,
+        tr("Back up to same filesystem?"),
+        tr("You have chosen a location on the same filesystem as your wallet "
+           "data directory. <b>If your storage device fails, you will lose "
+           "both your wallet and your backup, preventing you from accessing "
+           "your Thought.</b>") + "<br><br>" +
+        tr("To avoid this problem, choose a different backup location such "
+           "as an external hard disk or thumb drive."),
+        QMessageBox::StandardButton::NoButton,
+        this
+    );
+    auto choose_new = same_fs_message.addButton(tr("Choose new location..."), QMessageBox::RejectRole);
+    auto back_up_anyway = same_fs_message.addButton(tr("Back up here anyway"), QMessageBox::AcceptRole);
+    same_fs_message.setDefaultButton(choose_new);
+
+    QString filename;
+
+    while (true) {
+        filename = GUIUtil::getSaveFileName(this,
+            tr("Backup Wallet"), QString(),
+            tr("Wallet Data (*.dat)"), NULL);
+
+        if (filename.isEmpty())
+            return;
+
+        try {
+            auto save_fs = GetFilesystemFromPath(GUIUtil::qstringToBoostPath(filename).remove_filename());
+            auto data_fs = GetFilesystemFromPath(GetDataDir());
+            same_fs = save_fs == data_fs;
+        } catch (std::runtime_error const &) {
+            // Error-handling is not required here - in the unlikely case that we
+            // both have write permissions and somehow cannot read attributes, the
+            // backup will almost certainly fail anyway.
+            same_fs = false;
+        }
+
+        if (same_fs) {
+            same_fs_message.exec();
+            if (same_fs_message.clickedButton() == back_up_anyway) {
+                break;
+            }
+        } else {
+            break;
+        }
+    }
 
     if (!walletModel->backupWallet(filename)) {
         Q_EMIT message(tr("Backup Failed"), tr("There was an error trying to save the wallet data to %1.").arg(filename),
