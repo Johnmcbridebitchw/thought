@@ -307,5 +307,16 @@ std::string IntVersionToString(uint32_t nVersion);
  */
 std::string SafeIntVersionToString(uint32_t nVersion);
 
+#ifdef WIN32
+typedef DWORD filesystem_id_t;
+#else
+typedef dev_t filesystem_id_t;
+#endif
+
+/// Get the error message from errno (or platform equivalent)
+inline std::string GetErrnoMessage();
+
+/// Get the platform-specific filesystem id for a given path.
+filesystem_id_t GetFilesystemFromPath(boost::filesystem::path const &path);
 
 #endif // THOUGHT_UTIL_H

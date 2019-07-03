@@ -1034,3 +1034,82 @@ std::string SafeIntVersionToString(uint32_t nVersion)
     }
 }
 
+inline std::string GetErrnoMessage()
+{
+    std::string output(_("Unknown error"));
+
+#ifdef WIN32
+    char *error_message;
+
+    DWORD w = FormatMessageA(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+        NULL,
+        GetLastError(),
+        0,
+        reinterpret_cast<char *>(&error_message),
+        1,
+        NULL
+    );
+
+    if (w != 0) {
+        output = error_message;
+        LocalFree(error_message);
+    }
+#else
+    constexpr size_t max_len = 1024;  // see strerror(3)
+    char error_message[max_len];
+    // strerror_r is used for thread safety
+    if (strerror_r(errno, error_message, max_len) == 0) {
+        output = error_message;
+    }
+#endif
+
+    return output;
+}
+
+filesystem_id_t GetFilesystemFromPath(boost::filesystem::path const &path)
+{
+#ifdef WIN32
+    // See https://docs.microsoft.com/en-us/windows/desktop/FileIO/naming-a-file#maximum-path-length-limitation
+    std::wstring long_path(L"\\\\?\\");
+    long_path.append(path.wstring());
+    HANDLE handle = CreateFileW(
+        path.wstring().data(),
+        GENERIC_READ,
+        FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+        NULL,
+        OPEN_EXISTING,
+        FILE_FLAG_BACKUP_SEMANTICS,
+        NULL
+    );
+
+    if (handle == INVALID_HANDLE_VALUE) {
+        std::string e = GetErrnoMessage();
+        throw std::runtime_error(e);
+    }
+
+    DWORD serial;
+    BOOL success = false;
+
+    std::string error;
+
+    BY_HANDLE_FILE_INFORMATION info;
+    if (success = GetFileInformationByHandle(handle, &info)) {
+        serial = info.dwVolumeSerialNumber;
+    } else {
+        error = GetErrnoMessage();
+    }
+
+    CloseHandle(handle);
+    if (!success) {
+        throw std::runtime_error(error);
+    }
+    return serial;
+#else
+    struct stat st;
+    if (stat(path.string().data(), &st) != 0) {
+        throw std::runtime_error(GetErrnoMessage());
+    }
+    return st.st_dev;
+#endif
+}
