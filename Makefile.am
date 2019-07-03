@@ -233,7 +233,7 @@ dist_noinst_SCRIPTS = autogen.sh
 
 EXTRA_DIST = $(top_srcdir)/share/genbuild.sh qa/pull-tester/rpc-tests.py qa/rpc-tests $(DIST_CONTRIB) $(DIST_DOCS) $(WINDOWS_PACKAGING) $(OSX_PACKAGING) $(BIN_CHECKS)
 
-CLEANFILES = $(OSX_DMG) $(THOUGHT_WIN_INSTALLER) $(THOUGHT_TARBALL) $(TARBALL_DIR)
+CLEANFILES = $(OSX_DMG) $(THOUGHT_WIN_INSTALLER) $(THOUGHT_TARBALL)
 
 # This file is problematic for out-of-tree builds if it exists.
 DISTCLEANFILES = qa/pull-tester/tests_config.pyc
@@ -245,3 +245,4 @@ DISTCHECK_CONFIGURE_FLAGS = --enable-man
 clean-local:
 	rm -rf coverage_percent.txt test_thought.coverage/ total.coverage/ qa/tmp/ cache/ $(OSX_APP)
 	rm -rf qa/pull-tester/__pycache__
+	rm -rf $(TARBALL_DIR)
