@@ -1074,7 +1074,7 @@ filesystem_id_t GetFilesystemFromPath(boost::filesystem::path const &path)
     std::wstring long_path(L"\\\\?\\");
     long_path.append(path.wstring());
     HANDLE handle = CreateFileW(
-        path.wstring().data(),
+        long_path.data(),
         GENERIC_READ,
         FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
         NULL,
@@ -1084,8 +1084,7 @@ filesystem_id_t GetFilesystemFromPath(boost::filesystem::path const &path)
     );
 
     if (handle == INVALID_HANDLE_VALUE) {
-        std::string e = GetErrnoMessage();
-        throw std::runtime_error(e);
+        throw std::runtime_error(GetErrnoMessage());
     }
 
     DWORD serial;
