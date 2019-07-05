@@ -720,8 +720,8 @@ public:
         consensus.midasValidHeight = 2;
 
         // Block to hard fork to Cuckoo Cycle POW
-        consensus.CuckooHardForkBlockHeight = 2;
-        consensus.CuckooRequiredBlockHeight = 2;
+        consensus.CuckooHardForkBlockHeight = 2010;
+        consensus.CuckooRequiredBlockHeight = 2010;
 
         // The best chain should have at least this much work.
         consensus.nMinimumChainWork = uint256S("0x00");
