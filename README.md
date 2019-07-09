@@ -1,4 +1,4 @@
-Thought Core staging tree 0.13.0
+Thought Core staging tree 0.17.1
 ===============================
 
 https://thought.live
@@ -13,8 +13,10 @@ to operate with no central authority: managing transactions and issuing money
 are carried out collectively by the network. Thought Core is the name of the open
 source software which enables the use of this currency.
 
-For more information, as well as an immediately useable, binary version of
-the Thought Core software, see https://www.thought.live/get-thought/.
+For more information, see https://thought.live.
+
+For an immediately useable binary version of the Thought Core software, see
+the https://github.com/thoughtnetwork/thought/releases.
 
 
 License

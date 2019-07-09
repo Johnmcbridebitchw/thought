@@ -1,7 +1,10 @@
-Thought Core 0.13.0
+Thought Core 0.17.1
 =====================
 
-This is the official reference wallet for Thought digital currency and comprises the backbone of the Thought peer-to-peer network. You can [download Thought Core](https://www.thought.org/downloads/) or [build it yourself](#building) using the guides below.
+This is the official reference wallet for Thought digital currency and
+comprises the backbone of the Thought peer-to-peer network. You can [download
+Thought Core](https://github.com/thoughtnetwork/thought/releases) or [build it
+yourself](#building) using the guides below.
 
 Running
 ---------------------
@@ -24,19 +27,20 @@ Drag Thought-Qt to your applications folder, and then run Thought-Qt.
 
 ### Need Help?
 
-* See the [Thought documentation](https://docs.thought.org)
-for help and more information.
-* Ask for help on [Thought Nation Discord](http://thoughtchat.org)
-* Ask for help on the [Thought Forum](https://thought.org/forum)
+* See the [Thought website](https://thought.live) for more information about
+Thought Network.
+* See the other documents in this directory for help and more information.
 
 Building
 ---------------------
-The following are developer notes on how to build Thought Core on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
+The following are developer notes on how to build Thought Core on your native
+platform. They are not complete guides, but include notes on the necessary
+libraries, compile flags, etc.
 
 - [OS X Build Notes](build-osx.md)
 - [Unix Build Notes](build-unix.md)
 - [Windows Build Notes](build-windows.md)
-- [OpenBSD Build Notes](build-openbsd.md)
+- Open/FreeBSD Build Notes - Soon!
 - [Gitian Building Guide](gitian-building.md)
 
 Development
@@ -57,8 +61,8 @@ The Thought Core repo's [root README](/README.md) contains relevant information 
 - [Benchmarking](benchmarking.md)
 
 ### Resources
-* Discuss on the [Thought Forum](https://thought.org/forum), in the Development & Technical Discussion board.
-* Discuss on [Thought Nation Discord](http://thoughtchat.org)
+* Read the original whitepaper on [our website](https://thought.live).
+* Discuss Thought with our community on [our Telegram](https://t.me/ThoughtAI).
 
 ### Miscellaneous
 - [Assets Attribution](assets-attribution.md)
@@ -71,5 +75,9 @@ The Thought Core repo's [root README](/README.md) contains relevant information 
 License
 ---------------------
 Distributed under the [MIT software license](/COPYING).
-This product includes software developed by the OpenSSL Project for use in the [OpenSSL Toolkit](https://www.openssl.org/). This product includes
-cryptographic software written by Eric Young ([eay@cryptsoft.com](mailto:eay@cryptsoft.com)), and UPnP software written by Thomas Bernard.
+
+This product includes software developed by the OpenSSL Project for use in the
+[OpenSSL Toolkit](https://www.openssl.org/). This product includes
+cryptographic software written by Eric Young
+([eay@cryptsoft.com](mailto:eay@cryptsoft.com)), and UPnP software written by
+Thomas Bernard.
