@@ -18,7 +18,7 @@ EXPECTED_HOLDER_NAMES = [
 
 
 License: Expat
-Comment: The Thought Core Developers encompasses the current developers listed on thought.org,
+Comment: The Thought Core Developers encompasses the current developers listed on thought.live,
          as well as the numerous contributors to the project.
 
 Files: debian/*

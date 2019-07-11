@@ -89,7 +89,7 @@ You can confirm that remote server is on the correct block by issuing
 
 ```thought-cli getinfo```
 
-and comparing with the official explorer at https://explorer.thought.org/chain/Thought
+and comparing with the official explorer at https://exp.thought.live/insight/
 
 ### Local
 
