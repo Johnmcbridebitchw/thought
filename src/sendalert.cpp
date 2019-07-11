@@ -57,7 +57,7 @@ void ThreadSendAlert(CConnman& connman)
     //  Higher numbers mean higher priority
     alert.nPriority     = 5000;
     alert.strComment    = "";
-    alert.strStatusBar  = "URGENT: Upgrade required: see https://www.thought.org";
+    alert.strStatusBar  = "URGENT: Upgrade required: see https://thought.live";
 
     // Set specific client version/versions here. If setSubVer is empty, no filtering on subver is done:
     // alert.setSubVer.insert(std::string("/Thought Core:0.12.0.58/"));

@@ -649,7 +649,7 @@ std::string HelpMessage(HelpMessageMode mode)
 std::string LicenseInfo()
 {
     const std::string URL_SOURCE_CODE = "<https://github.com/thoughtnetwork/thought>";
-    const std::string URL_WEBSITE = "<https://thought.org>";
+    const std::string URL_WEBSITE = "<https://thought.live>";
 
     return CopyrightHolders(_("Copyright (C)"), 2014, COPYRIGHT_YEAR) + "\n" +
            "\n" +
