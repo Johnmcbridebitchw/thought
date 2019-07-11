@@ -322,10 +322,11 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
     // schedule we are.  If we're more than an adjustment period ahead or behind, we use the maximum (nSlowInterval) or minimum
     // (nFastInterval) values; otherwise we calculate a weighted average somewhere in between them.  The closer we are
     // to being exactly on schedule the closer our selected interval will be to our nominal interval (TargetSpacing).
-    const CBlockIndex* curindex = pindexLast;
-    while (curindex->pprev)
-               curindex = curindex->pprev;
-    int64_t then = curindex->GetBlockTime();
+    //const CBlockIndex* curindex = pindexLast;
+    //while (curindex->pprev)
+    //           curindex = curindex->pprev;
+    //int64_t then = curindex->GetBlockTime();
+    int64_t then = params.genesisBlockTime;
 
     now = pindexLast->GetBlockTime();
     BlockHeightTime = then + pindexLast->nHeight * params.nPowTargetSpacing;
