@@ -245,8 +245,8 @@ QT_TRANSLATE_NOOP("thought-core", ""
 QT_TRANSLATE_NOOP("thought-core", ""
 "This product includes software developed by the OpenSSL Project for use in "
 "the OpenSSL Toolkit %s, cryptographic software written by Eric Young, UPnP "
-"software written by Thomas Bernard, and MIDAS proof-of-work software "
-"written by Ray Dillinger."),
+"software written by Thomas Bernard, MIDAS proof-of-work software written by "
+"Ray Dillinger, and cuckoo cycle proof-of-work software written by John Tromp."),
 QT_TRANSLATE_NOOP("thought-core", ""
 "Total length of network version string (%i) exceeds maximum length (%i). "
 "Reduce the number or size of uacomments."),
