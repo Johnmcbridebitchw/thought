@@ -244,8 +244,9 @@ QT_TRANSLATE_NOOP("thought-core", ""
 "This is the transaction fee you may pay when fee estimates are not available."),
 QT_TRANSLATE_NOOP("thought-core", ""
 "This product includes software developed by the OpenSSL Project for use in "
-"the OpenSSL Toolkit %s and cryptographic software written by Eric Young and "
-"UPnP software written by Thomas Bernard."),
+"the OpenSSL Toolkit %s, cryptographic software written by Eric Young, UPnP "
+"software written by Thomas Bernard, and MIDAS proof-of-work software "
+"written by Ray Dillinger."),
 QT_TRANSLATE_NOOP("thought-core", ""
 "Total length of network version string (%i) exceeds maximum length (%i). "
 "Reduce the number or size of uacomments."),
