@@ -193,8 +193,8 @@ public:
         consensus.nGovernanceMinQuorum = 40;
         consensus.nGovernanceFilterElements = 20000;
         consensus.nMasternodeMinimumConfirmations = 15;
-        consensus.BIP34Height = 0;
-        consensus.BIP34Hash = uint256S("0x00000000917e049641189c33d6b1275155e89b7b498b3b4f16d488f60afe513b");
+        consensus.BIP34Height = 1;
+        consensus.BIP34Hash = uint256S("000000008adb723e6f7a16be978cac979c2173b67752afc6d2a3f80110fe6c72");
         consensus.BIP65Height = 0; // 00000000000076d8fcea02ec0963de4abfd01e771fec0863f960c2c64fe6f357
         consensus.BIP66Height = 0; // 00000000000b1fa2dfa312863570e13fae9ca7b5566cb27e55422620b469aefa
         consensus.DIP0001Height = 385627;
@@ -363,8 +363,8 @@ public:
         consensus.nGovernanceMinQuorum = 1;
         consensus.nGovernanceFilterElements = 500;
         consensus.nMasternodeMinimumConfirmations = 1;
-        consensus.BIP34Height = 0;
-        consensus.BIP34Hash = uint256S("0x00000000917e049641189c33d6b1275155e89b7b498b3b4f16d488f60afe513b");
+        consensus.BIP34Height = 1;
+        consensus.BIP34Hash = uint256S("00000000917e049641189c33d6b1275155e89b7b498b3b4f16d488f60afe513b");
         consensus.BIP65Height = 0; // 0000039cf01242c7f921dcb4806a5994bc003b48c1973ae0c89b67809c2bb2ab
         consensus.BIP66Height = 0; // 0000002acdd29a14583540cb72e1c5cc83783560e38fa7081495d474fe1671f7
         consensus.DIP0001Height = 0;
