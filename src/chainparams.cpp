@@ -236,10 +236,10 @@ public:
 
         // Deployment of DIP0003
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].bit = 3;
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 1735689600; // Jan 1st, 2025
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 1767225600; // Jan 1st, 2026
-        //consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 1546300800; // Jan 1st, 2019
-        //consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 1577836800; // Jan 1st, 2020
+        //consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 1735689600; // Jan 1st, 2025
+        //consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 1767225600; // Jan 1st, 2026
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 1546300800; // Jan 1st, 2019
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 1577836800; // Jan 1st, 2020
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nWindowSize = 100;
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 2; // 50% of 100
 
@@ -406,10 +406,10 @@ public:
 
         // Deployment of DIP0003
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].bit = 3;
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 1735689600; // Jan 1st, 2025
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 1767225600; // Jan 1st, 2026
-        //consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 1546300800; // Jan 1st, 2019
-        //consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 1577836800; // Jan 1st, 2020
+        //consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 1735689600; // Jan 1st, 2025
+        //consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 1767225600; // Jan 1st, 2026
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 1546300800; // Jan 1st, 2019
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 1577836800; // Jan 1st, 2020
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nWindowSize = 100;
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 2; // 50% of 100
 
