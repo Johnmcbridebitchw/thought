@@ -193,7 +193,11 @@ public:
         consensus.nGovernanceMinQuorum = 40;
         consensus.nGovernanceFilterElements = 20000;
         consensus.nMasternodeMinimumConfirmations = 15;
+<<<<<<< HEAD
         consensus.BIP34Height = 1;
+=======
+	consensus.BIP34Height = 1;
+>>>>>>> fixed segfault bip34 and testnet block 1 hash
         consensus.BIP34Hash = uint256S("000000008adb723e6f7a16be978cac979c2173b67752afc6d2a3f80110fe6c72");
         consensus.BIP65Height = 0; // 00000000000076d8fcea02ec0963de4abfd01e771fec0863f960c2c64fe6f357
         consensus.BIP66Height = 0; // 00000000000b1fa2dfa312863570e13fae9ca7b5566cb27e55422620b469aefa
@@ -363,7 +367,11 @@ public:
         consensus.nGovernanceMinQuorum = 1;
         consensus.nGovernanceFilterElements = 500;
         consensus.nMasternodeMinimumConfirmations = 1;
+<<<<<<< HEAD
         consensus.BIP34Height = 1;
+=======
+	consensus.BIP34Height = 1;
+>>>>>>> fixed segfault bip34 and testnet block 1 hash
         consensus.BIP34Hash = uint256S("000000007459c5f4deaaa14268bb8e6989461227ba743509de6ce194bad621c7");
         consensus.BIP65Height = 0; // 0000039cf01242c7f921dcb4806a5994bc003b48c1973ae0c89b67809c2bb2ab
         consensus.BIP66Height = 0; // 0000002acdd29a14583540cb72e1c5cc83783560e38fa7081495d474fe1671f7
