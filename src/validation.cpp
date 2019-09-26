@@ -3518,15 +3518,15 @@ static bool AcceptBlockHeader(const CBlockHeader& block, CValidationState& state
 
         if (!ContextualCheckBlockHeader(block, state, chainparams.GetConsensus(), pindexPrev, GetAdjustedTime()))
             return error("%s: Consensus::ContextualCheckBlockHeader: %s, %s", __func__, hash.ToString(), FormatStateMessage(state));
-    }
 
     // Make sure we're using the right POW
           int currentBlockHeight = pindexPrev->nHeight+1;
-          if (currentBlockHeight > chainparams.GetConsensus().CuckooRequiredBlockHeight &&
-              !block.isCuckooPow())
+          if (currentBlockHeight > chainparams.GetConsensus().CuckooRequiredBlockHeight && !block.isCuckooPow())
           {
               return state.DoS(100, false, REJECT_INVALID, "bad-pow", false, strprintf("%s : bad pow algorithm", __func__));
           }
+    }
+
 
     if (pindex == NULL)
         pindex = AddToBlockIndex(block);
