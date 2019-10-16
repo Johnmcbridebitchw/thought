@@ -25,8 +25,8 @@ static const int MNPAYMENTS_SIGNATURES_TOTAL            = 10;
 // V2 - Newest protocol version
 /* dash static const int MIN_MASTERNODE_PAYMENT_PROTO_VERSION_1 = 70210;
 static const int MIN_MASTERNODE_PAYMENT_PROTO_VERSION_2 = 70210;*/
-static const int MIN_MASTERNODE_PAYMENT_PROTO_VERSION_1 = 70016;
-static const int MIN_MASTERNODE_PAYMENT_PROTO_VERSION_2 = 70016;
+static const int MIN_MASTERNODE_PAYMENT_PROTO_VERSION_1 = 70017;
+static const int MIN_MASTERNODE_PAYMENT_PROTO_VERSION_2 = 70018;
 
 
 extern CCriticalSection cs_vecPayees;

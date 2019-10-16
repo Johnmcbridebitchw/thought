@@ -1,4 +1,4 @@
-Thought Core version 0.17.1.0
+Thought Core version 0.18.1.0
 ==========================
 
 Release is now available from:
