@@ -444,7 +444,7 @@ public:
 
         vSeeds.clear();
         // nodes with support for servicebits filtering should be at the top
-        vSeeds.push_back(CDNSSeedData("testnet.phee.thought.live"));
+        vSeeds.push_back(CDNSSeedData("testnet.phee.thought.live", "testnet.phee.thought.live"));
   //      vSeeds.push_back(CDNSSeedData("masternode.io", "test.dnsseed.masternode.io"));
 
         // Testnet Thought addresses start with 'y'
