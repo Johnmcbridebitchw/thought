@@ -187,13 +187,13 @@ public:
         consensus.nBudgetPaymentsStartBlock = 385627; // actual historical value
         consensus.nBudgetPaymentsCycleBlocks = 26700; // ~(60*24*30)/1.618, actual number of blocks per month is 324846 / 12 = 27070
         consensus.nBudgetPaymentsWindowBlocks = 100;
-        consensus.nSuperblockStartBlock = 614820; // The block at which 12.1 goes live (end of final 12.0 budget cycle)
-        consensus.nSuperblockStartHash = uint256S("0000000000020cb27c7ef164d21003d5d20cdca2f54dd9a9ca6d45f4d47f8aa3");
+        consensus.nSuperblockStartBlock = 500000; // The block at which 12.1 goes live (end of final 12.0 budget cycle)
+        consensus.nSuperblockStartHash = uint256S("0052548ec1345c8769322d9298297cefd5aa65504a02619a128bfb62d11d89f9");
         consensus.nSuperblockCycle = 26700; // ~(60*24*30)/1.618, actual number of blocks per month is 324846 / 12 = 27070
         consensus.nGovernanceMinQuorum = 40;
         consensus.nGovernanceFilterElements = 20000;
         consensus.nMasternodeMinimumConfirmations = 15;
-	consensus.BIP34Height = 1;
+	      consensus.BIP34Height = 1;
         consensus.BIP34Hash = uint256S("000000008adb723e6f7a16be978cac979c2173b67752afc6d2a3f80110fe6c72");
         consensus.BIP65Height = 0; // 00000000000076d8fcea02ec0963de4abfd01e771fec0863f960c2c64fe6f357
         consensus.BIP66Height = 0; // 00000000000b1fa2dfa312863570e13fae9ca7b5566cb27e55422620b469aefa
@@ -236,8 +236,6 @@ public:
 
         // Deployment of DIP0003
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].bit = 3;
-        //consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 1735689600; // Jan 1st, 2025
-        //consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 1767225600; // Jan 1st, 2026
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 1546300800; // Jan 1st, 2019
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 1577836800; // Jan 1st, 2020
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nWindowSize = 100;
@@ -252,10 +250,10 @@ public:
         consensus.CuckooRequiredBlockHeight = 248800;
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000009f10b2b026a9b"); // 388285
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000009f10b4d003712"); // 509597
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x00e0d38562e2f576c3c501f4768b282824a7f9489778537c49e3b5492923f5c5"); // 388285
+        consensus.defaultAssumeValid = uint256S("0x0052548ec1345c8769322d9298297cefd5aa65504a02619a128bfb62d11d89f9"); // 500000
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -266,7 +264,7 @@ public:
         pchMessageStart[1] = 0x47;
         pchMessageStart[2] = 0x2e;
         pchMessageStart[3] = 0xe4;
-        vAlertPubKey = ParseHex("048240a8748a80a286b270ba126705ced4f2ce5a7847b3610ea3c06513150dade2a8512ed5ea86320824683fc0818f0ac019214973e677acd1244f6d0571fc5103");
+        vAlertPubKey = ParseHex("0436bb00757a032e37da93536115b10f0f69ee322b38b1b27cb4d46236f1e126598cc6a89030ec1bd1b417743462f59802bbb83beb7ce2b46743b1a4287acb2daa");
         nDefaultPort = 10618;
         nPruneAfterHeight = 100000;
 
@@ -329,6 +327,7 @@ public:
             ( 229731, uint256S("000000006645878b6aa7c4f10044b9914e994f11e1c3905c72b7f7612c417a94"))
             ( 248000, uint256S("006b52a5d017eb2590d25750c46542b2de43f7a3fdc6394d95db458cbcb35f85"))
             ( 388285, uint256S("00e0d38562e2f576c3c501f4768b282824a7f9489778537c49e3b5492923f5c5"))
+            ( 500000, uint256S("0052548ec1345c8769322d9298297cefd5aa65504a02619a128bfb62d11d89f9"))
         };
 
         chainTxData = ChainTxData{
@@ -363,7 +362,7 @@ public:
         consensus.nGovernanceMinQuorum = 1;
         consensus.nGovernanceFilterElements = 500;
         consensus.nMasternodeMinimumConfirmations = 1;
-	consensus.BIP34Height = 1;
+	      consensus.BIP34Height = 1;
         consensus.BIP34Hash = uint256S("000000007459c5f4deaaa14268bb8e6989461227ba743509de6ce194bad621c7");
         consensus.BIP65Height = 0; // 0000039cf01242c7f921dcb4806a5994bc003b48c1973ae0c89b67809c2bb2ab
         consensus.BIP66Height = 0; // 0000002acdd29a14583540cb72e1c5cc83783560e38fa7081495d474fe1671f7
@@ -406,8 +405,6 @@ public:
 
         // Deployment of DIP0003
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].bit = 3;
-        //consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 1735689600; // Jan 1st, 2025
-        //consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 1767225600; // Jan 1st, 2026
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 1546300800; // Jan 1st, 2019
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 1577836800; // Jan 1st, 2020
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nWindowSize = 100;
@@ -423,16 +420,16 @@ public:
 
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000002c0287622c"); // 154509
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000002c0348222c"); // 203853
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x001ecb9553a2d270c7055fee8b91401ac63f6c5f8e8926d958d88b679d8ccb70"); // 154509
+        consensus.defaultAssumeValid = uint256S("0x0080d0bf98c3780b426892ba549c89abcd7c3c12812287888b087c5d759ddd42"); // 203853
 
         pchMessageStart[0] = 0x2b;
         pchMessageStart[1] = 0x99;
         pchMessageStart[2] = 0x39;
         pchMessageStart[3] = 0xbf;
-        vAlertPubKey = ParseHex("04517d8a699cb43d3938d7b24faaff7cda448ca4ea267723ba614784de661949bf632d6304316b244646dea079735b9a6fc4af804efb4752075b9fe2245e14e412");
+        vAlertPubKey = ParseHex("046db944e7b455866d343fa5c64f2efc0bbcdf1ea16ac092df003e5dafb58009440204cd7f234a20c70ccb0fedf384342d6a0e94adf875f27e934344c4b2906b3d");
         nDefaultPort = 11618;
         nPruneAfterHeight = 1000;
 
@@ -447,7 +444,7 @@ public:
 
         vSeeds.clear();
         // nodes with support for servicebits filtering should be at the top
-  //      vSeeds.push_back(CDNSSeedData("thoughtdot.io",  "testnet-seed.thoughtdot.io"));
+        vSeeds.push_back(CDNSSeedData("testnet.phee.thought.live"));
   //      vSeeds.push_back(CDNSSeedData("masternode.io", "test.dnsseed.masternode.io"));
 
         // Testnet Thought addresses start with 'y'
@@ -490,6 +487,7 @@ public:
             ( 0, uint256S("0x00000000917e049641189c33d6b1275155e89b7b498b3b4f16d488f60afe513b"))
             ( 128, uint256S("0x000b288b55c8f6c919369ee26f517861f6552c294b7d262339c80de906fe01c8"))
             ( 154509, uint256S("0x001ecb9553a2d270c7055fee8b91401ac63f6c5f8e8926d958d88b679d8ccb70"))
+            ( 203853, uint256S("0x0080d0bf98c3780b426892ba549c89abcd7c3c12812287888b087c5d759ddd42"))
                   };
 
         chainTxData = ChainTxData{
