@@ -1,4 +1,4 @@
-Thought Core 0.18.1
+Thought Core 0.18.0
 =====================
 
 This is the official reference wallet for Thought digital currency and

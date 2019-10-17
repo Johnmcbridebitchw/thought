@@ -1,4 +1,4 @@
-Thought Core staging tree 0.18.1
+Thought Core staging tree 0.18.0
 ===============================
 
 https://thought.live
