@@ -236,10 +236,10 @@ public:
 
         // Deployment of DIP0003
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].bit = 3;
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 1546300800; // Jan 1st, 2019
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 1577836800; // Jan 1st, 2020
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nWindowSize = 100;
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 2; // 50% of 100
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 1563235200; // Jul 16th, 2019
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 1594857600; // Jul 16th, 2020
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nWindowSize = 1000;
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 20; // 2% of 1000
 
 	// Implementation of MIDAS
         consensus.midasStartHeight = 337;
@@ -331,8 +331,8 @@ public:
         };
 
         chainTxData = ChainTxData{
-            1525212937, // * UNIX timestamp of last known number of transactions
-            15000,    // * total number of transactions between genesis and that timestamp
+            1571405183, // * UNIX timestamp of last known number of transactions
+            515342,    // * total number of transactions between genesis and that timestamp
                         //   (the tx=... number in the SetBestChain debug.log lines)
             1         // * estimated number of transactions per second after that timestamp
         };
@@ -491,8 +491,8 @@ public:
                   };
 
         chainTxData = ChainTxData{
-            1544707462, // * UNIX timestamp of last known number of transactions
-            4100,       // * total number of transactions between genesis and that timestamp
+            1571094065, // * UNIX timestamp of last known number of transactions
+            215256,       // * total number of transactions between genesis and that timestamp
                         //   (the tx=... number in the SetBestChain debug.log lines)
             0.01        // * estimated number of transactions per second after that timestamp
         };
