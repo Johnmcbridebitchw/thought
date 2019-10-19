@@ -362,7 +362,11 @@ public:
         consensus.nGovernanceMinQuorum = 1;
         consensus.nGovernanceFilterElements = 500;
         consensus.nMasternodeMinimumConfirmations = 1;
+<<<<<<< HEAD
 	consensus.BIP34Height = 1;
+=======
+	      consensus.BIP34Height = 1;
+>>>>>>> 5cd88f3cda188efe63a0b267109a0e804c8140fd
         consensus.BIP34Hash = uint256S("000000007459c5f4deaaa14268bb8e6989461227ba743509de6ce194bad621c7");
         consensus.BIP65Height = 0; // 0000039cf01242c7f921dcb4806a5994bc003b48c1973ae0c89b67809c2bb2ab
         consensus.BIP66Height = 0; // 0000002acdd29a14583540cb72e1c5cc83783560e38fa7081495d474fe1671f7
