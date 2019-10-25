@@ -411,13 +411,13 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
     if (bnNew > bnPowLimit)
       bnNew = bnPowLimit;
 
-    //LogPrint("midas", "Actual time %d, Scheduled time for this block height = %d\n", now, BlockHeightTime );
-    //LogPrint("midas", "Nominal block interval = %d, regulating on interval %d to get back to schedule.\n",
+    LogPrint("midas", "Actual time %d, Scheduled time for this block height = %d\n", now, BlockHeightTime );
+    LogPrint("midas", "Nominal block interval = %d, regulating on interval %d to get back to schedule.\n",
     //      params.nPowTargetSpacing, nIntervalDesired );
-    //LogPrint("midas", "Intervals of last 5/7/9/17 blocks = %d / %d / %d / %d.\n",
+    LogPrint("midas", "Intervals of last 5/7/9/17 blocks = %d / %d / %d / %d.\n",
     //      avgOf5, avgOf7, avgOf9, avgOf17);
-    //LogPrint("midas", "Difficulty Before Adjustment: %08x  %s\n", pindexLast->nBits, bnOld.ToString());
-    //LogPrint("midas", "Difficulty After Adjustment:  %08x  %s\n", bnNew.GetCompact(), bnNew.ToString());
+    LogPrint("midas", "Difficulty Before Adjustment: %08x  %s\n", pindexLast->nBits, bnOld.ToString());
+    LogPrint("midas", "Difficulty After Adjustment:  %08x  %s\n", bnNew.GetCompact(), bnNew.ToString());
 
     return bnNew.GetCompact();
 }
@@ -482,7 +482,7 @@ bool CheckProofOfWork(const CBlockHeader& blockHeader, uint256 hash, unsigned in
     bool retval = true;
 
     bnTarget.SetCompact(nBits, &fNegative, &fOverflow);
-    //LogPrint("midas", "Checking against target: %s\n", bnTarget.GetHex());
+    LogPrint("midas", "Checking against target: %s\n", bnTarget.GetHex());
 
     // Check range
     if (fNegative || bnTarget == 0 || fOverflow)
