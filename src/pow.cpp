@@ -349,6 +349,10 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
     // find out what average intervals over last 5, 7, 9, and 17 blocks have been.
     avgRecentTimestamps(pindexLast, &avgOf5, &avgOf7, &avgOf9, &avgOf17, params);
 
+    LogPrint("midas", "Actual time %d, Scheduled time for this block height = %d\n", now, BlockHeightTime );
+    LogPrint("midas", "Nominal block interval = %d, regulating on interval %d to get back to schedule.\n", params.nPowTargetSpacing, nIntervalDesired );
+    LogPrint("midas", "Intervals of last 5/7/9/17 blocks = %d / %d / %d / %d.\n", avgOf5, avgOf7, avgOf9, avgOf17);
+
     // check for emergency adjustments. These are to bring the diff up or down FAST when a burst miner or multipool
     // jumps on or off.  Once they kick in they can adjust difficulty very rapidly, and they can kick in very rapidly
     // after massive hash power jumps on or off.
@@ -362,13 +366,13 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
     // both of these check the shortest interval to quickly stop when overshot.  Otherwise first is longer and second shorter.
     if (avgOf5 < toofast && avgOf9 < toofast && avgOf17 < toofast)
     {  //emergency adjustment, slow down (longer intervals because shorter blocks)
-    LogPrint("midas", "GetNextWorkRequired EMERGENCY RETARGET\n");
+    LogPrint("midas", "GetNextWorkRequired EMERGENCY RETARGET UP - 8/5\n");
       difficultyfactor *= 8;
       difficultyfactor /= 5;
     }
     else if (avgOf5 > tooslow && avgOf7 > tooslow && avgOf9 > tooslow)
     {  //emergency adjustment, speed up (shorter intervals because longer blocks)
-    LogPrint("midas", "GetNextWorkRequired EMERGENCY RETARGET\n");
+    LogPrint("midas", "GetNextWorkRequired EMERGENCY RETARGET DOWN - 5/8\n");
       difficultyfactor *= 5;
       difficultyfactor /= 8;
     }
@@ -395,6 +399,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
     bnOld.SetCompact(pindexLast->nBits);
 
     if (difficultyfactor == 10000) // no adjustment.
+      LogPrint("midas", "GetNetWorkRequired No Adjustment\n");
       return(bnOld.GetCompact());
 
     bnNew = bnOld / difficultyfactor;
@@ -411,9 +416,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
     if (bnNew > bnPowLimit)
       bnNew = bnPowLimit;
 
-    LogPrint("midas", "Actual time %d, Scheduled time for this block height = %d\n", now, BlockHeightTime );
-    LogPrint("midas", "Nominal block interval = %d, regulating on interval %d to get back to schedule.\n", params.nPowTargetSpacing, nIntervalDesired );
-    LogPrint("midas", "Intervals of last 5/7/9/17 blocks = %d / %d / %d / %d.\n", avgOf5, avgOf7, avgOf9, avgOf17);
+
     LogPrint("midas", "Difficulty Before Adjustment: %08x  %s\n", pindexLast->nBits, bnOld.ToString());
     LogPrint("midas", "Difficulty After Adjustment:  %08x  %s\n", bnNew.GetCompact(), bnNew.ToString());
 
