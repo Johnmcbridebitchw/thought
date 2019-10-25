@@ -399,8 +399,10 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
     bnOld.SetCompact(pindexLast->nBits);
 
     if (difficultyfactor == 10000) // no adjustment.
+    {   
       LogPrint("midas", "GetNetWorkRequired No Adjustment\n");
       return(bnOld.GetCompact());
+    }
 
     bnNew = bnOld / difficultyfactor;
     bnNew *= 10000;
@@ -514,7 +516,7 @@ bool CheckProofOfWork(const CBlockHeader& blockHeader, uint256 hash, unsigned in
 
                 vec.resize(32);
                 arith_uint256 cpow = UintToArith256((const uint256)vec);
-                LogPrint("MIDAS", "Difficulty In: %s\n", cpow.GetHex());
+                LogPrint("midas", "Difficulty In: %s\n", cpow.GetHex());
 
                 if (cpow > bnTarget)
                 {
@@ -550,12 +552,12 @@ bool CheckCuckooProofOfWork(const CBlockHeader& blockHeader, const Consensus::Pa
     cuckoo_cycle::cuckoo_verify_code vc= CCuckooCycleVerifier::verify((unsigned int *)blockHeader.cuckooProof, hash, params.cuckooGraphSize);
     if (cuckoo_cycle::POW_OK == vc)
     {
-      LogPrint("MIDAS", "Cuckoo cycle verified!\n");
+      LogPrint("midas", "Cuckoo cycle verified!\n");
       retval = true;
     }
     else
     {
-      LogPrint("cuckoo", "Cuckoo cycle not verified, code %d\n", vc);
+      LogPrint("midas", "Cuckoo cycle not verified, code %d\n", vc);
     }
 
     return retval;
