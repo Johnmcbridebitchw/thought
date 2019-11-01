@@ -240,28 +240,6 @@ unsigned int GetNextWorkRequiredBTC(const CBlockIndex* pindexLast, const CBlockH
    return CalculateNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), params);
  }
 
-// GetNextWorkRequired - includes DGW and Midas
-unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
-{
-    // this is only active on devnets
-    if (pindexLast->nHeight < params.nMinimumDifficultyBlocks) {
-        unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
-        return nProofOfWorkLimit;
-    }
-
-    // Most recent algo first
-    if (pindexLast->nHeight + 1 >= params.nPowDGWHeight) {
-        return DarkGravityWave(pindexLast, pblock, params);
-    }
-    else if (pindexLast->nHeight + 1 >= params.midasValidHeight) {
-        return Midas(pindexLast, pblock, params);
-    }
-    else {
-        return GetNextWorkRequiredBTC(pindexLast, pblock, params);
-    }
-}
-
-
 //Midas GetNextWorkRequired disabling cuckoo related
 unsigned int Midas(const CBlockIndex *pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
 {
@@ -422,6 +400,26 @@ unsigned int Midas(const CBlockIndex *pindexLast, const CBlockHeader *pblock, co
     return bnNew.GetCompact();
 }
 
+// GetNextWorkRequired - includes DGW and Midas
+unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
+{
+    // this is only active on devnets
+    if (pindexLast->nHeight < params.nMinimumDifficultyBlocks) {
+        unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
+        return nProofOfWorkLimit;
+    }
+
+    // Most recent algo first
+    if (pindexLast->nHeight + 1 >= params.nPowDGWHeight) {
+        return DarkGravityWave(pindexLast, pblock, params);
+    }
+    else if (pindexLast->nHeight + 1 >= params.midasValidHeight) {
+        return Midas(pindexLast, pblock, params);
+    }
+    else {
+        return GetNextWorkRequiredBTC(pindexLast, pblock, params);
+    }
+}
 
 // for DIFF_BTC only!
 unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nFirstBlockTime, const Consensus::Params& params)
