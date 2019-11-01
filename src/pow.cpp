@@ -1,4 +1,4 @@
-
+ 
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2015 The Bitcoin Core developers
 // Copyright (c) 2017-2019 Thought Networks, LLC
@@ -366,15 +366,17 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
     // both of these check the shortest interval to quickly stop when overshot.  Otherwise first is longer and second shorter.
     if (avgOf5 < toofast && avgOf9 < toofast && avgOf17 < toofast)
     {  //emergency adjustment, slow down (longer intervals because shorter blocks)
-    LogPrint("midas", "GetNextWorkRequired EMERGENCY RETARGET UP - 8/5\n");
       difficultyfactor *= 8;
       difficultyfactor /= 5;
+    LogPrint("midas", "GetNextWorkRequired EMERGENCY RETARGET UP - 8/5: %d\n", difficultyfactor);
+
     }
     else if (avgOf5 > tooslow && avgOf7 > tooslow && avgOf9 > tooslow)
     {  //emergency adjustment, speed up (shorter intervals because longer blocks)
-    LogPrint("midas", "GetNextWorkRequired EMERGENCY RETARGET DOWN - 5/8\n");
       difficultyfactor *= 5;
       difficultyfactor /= 8;
+    LogPrint("midas", "GetNextWorkRequired EMERGENCY RETARGET UP - 8/5: %d\n", difficultyfactor);
+
     }
 
     // If no emergency adjustment, check for normal adjustment.
@@ -383,14 +385,16 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
     { // At least 3 averages too high or at least 3 too low, including the two longest. This will be executed 3/16 of
       // the time on the basis of random variation, even if the settings are perfect. It regulates one-sixth of the way
       // to the calculated point.
-    LogPrint("midas", "GetNextWorkRequired RETARGET\n");
       difficultyfactor *= (6 * nIntervalDesired);
       difficultyfactor /= avgOf17 +(5 * nIntervalDesired);
+    LogPrint("midas", "GetNextWorkRequired RETARGET: %d\n", difficultyfactor);
     }
 
     // limit to doubling or halving.  There are no conditions where this will make a difference unless there is an
     // unsuspected bug in the above code.
+
     if (difficultyfactor > 20000) difficultyfactor = 20000;
+	LogPrintf("Right in the middle\n");
     if (difficultyfactor < 5000) difficultyfactor = 5000;
 
     arith_uint256 bnNew;
@@ -400,7 +404,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
 
     if (difficultyfactor == 10000) // no adjustment.
     {   
-      LogPrint("midas", "GetNetWorkRequired No Adjustment\n");
+      LogPrint("midas", "GetNetWorkRequired No Adjustment: %d\n", difficultyfactor);
       return(bnOld.GetCompact());
     }
 
@@ -421,7 +425,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
 
     LogPrint("midas", "Difficulty Before Adjustment: %08x  %s\n", pindexLast->nBits, bnOld.ToString());
     LogPrint("midas", "Difficulty After Adjustment:  %08x  %s\n", bnNew.GetCompact(), bnNew.ToString());
-
+    LogPrint("midas", "Difficultyfactor: %d\n", difficultyfactor);
     return bnNew.GetCompact();
 }
 

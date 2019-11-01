@@ -119,7 +119,7 @@ UniValue debug(const JSONRPCRequest& request)
 {
     if (request.fHelp || request.params.size() != 1)
         throw std::runtime_error(
-            "debug ( 0|1|addrman|alert|bench|coindb|db|lock|rand|rpc|selectcoins|mempool"
+            "debug ( 0|1|addrman|alert|bench|chainout|coindb|db|lock|rand|rpc|selectcoins|mempool"
             "|mempoolrej|midas|net|proxy|prune|http|libevent|tor|zmq|"
             "thought|privatesend|instantsend|masternode|spork|keepass|mnpayments|gobject )\n"
             "Change debug category on the fly. Specify single category or use '+' to specify many.\n"

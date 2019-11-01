@@ -1115,6 +1115,7 @@ bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus
     if (block.GetHash() != pindex->GetBlockHash())
         return error("ReadBlockFromDisk(CBlock&, CBlockIndex*): GetHash() doesn't match index for %s at %s",
                 pindex->ToString(), pindex->GetBlockPos().ToString());
+    LogPrint("chainout", "nHeight: %d nTime: %s nBits: %08x\n", pindex->nHeight, pindex->nTime, pindex->nBits);
     return true;
 }
 
