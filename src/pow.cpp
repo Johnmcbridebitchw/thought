@@ -240,7 +240,7 @@ unsigned int GetNextWorkRequiredBTC(const CBlockIndex* pindexLast, const CBlockH
    return CalculateNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), params);
  }
 
-/* Dash GetNextWorkRequired - includes DGW and KGW, can add MIDAS in here eventually
+// GetNextWorkRequired - includes DGW and Midas
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
 {
     // this is only active on devnets
@@ -253,17 +253,17 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     if (pindexLast->nHeight + 1 >= params.nPowDGWHeight) {
         return DarkGravityWave(pindexLast, pblock, params);
     }
-    else if (pindexLast->nHeight + 1 >= params.nPowKGWHeight) {
-        return KimotoGravityWell(pindexLast, params);
+    else if (pindexLast->nHeight + 1 >= params.midasValidHeight) {
+        return Midas(pindexLast, pblock, params);
     }
     else {
         return GetNextWorkRequiredBTC(pindexLast, pblock, params);
     }
 }
-*/
+
 
 //Midas GetNextWorkRequired disabling cuckoo related
-unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
+unsigned int Midas(const CBlockIndex *pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
 {
     int64_t avgOf5;
     int64_t avgOf9;
@@ -472,7 +472,7 @@ bool CheckProofOfWork(const CBlockHeader& blockHeader, uint256 hash, unsigned in
 */
 
 
-//MIDAS CheckProofOfWork
+// CheckProofOfWork
 bool CheckProofOfWork(const CBlockHeader& blockHeader, uint256 hash, unsigned int nBits, const Consensus::Params& params)
 {
     bool fNegative;
@@ -513,7 +513,7 @@ bool CheckProofOfWork(const CBlockHeader& blockHeader, uint256 hash, unsigned in
 
                 vec.resize(32);
                 arith_uint256 cpow = UintToArith256((const uint256)vec);
-                LogPrint("MIDAS", "Difficulty In: %s\n", cpow.GetHex());
+                LogPrint("pow", "Difficulty In: %s\n", cpow.GetHex());
 
                 if (cpow > bnTarget)
                 {
