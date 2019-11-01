@@ -530,6 +530,8 @@ public:
         consensus.BIP66Height = 1; // BIP66 activated immediately on devnet
         consensus.DIP0001Height = 2; // DIP0001 activated immediately on devnet
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 1
+        consensus.cuckooPowLimit = uint256S("efffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.cuckooGraphSize = 24;
         consensus.nPowTargetTimespan = 24 * 60 * 60; // Thought: 1 day
         consensus.nPowTargetSpacing = 2.5 * 60; // Thought: 2.5 minutes
         consensus.fPowAllowMinDifficultyBlocks = true;
