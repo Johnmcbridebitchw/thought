@@ -530,6 +530,8 @@ public:
         consensus.BIP66Height = 1; // BIP66 activated immediately on devnet
         consensus.DIP0001Height = 2; // DIP0001 activated immediately on devnet
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 1
+        consensus.cuckooPowLimit = uint256S("efffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.cuckooGraphSize = 24;
         consensus.nPowTargetTimespan = 24 * 60 * 60; // Thought: 1 day
         consensus.nPowTargetSpacing = 1.618 * 60; // Thought: 2.5 minutes
         consensus.fPowAllowMinDifficultyBlocks = false;
@@ -568,9 +570,19 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nWindowSize = 100;
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 50; // 50% of 100
 
+<<<<<<< HEAD
         consensus.CuckooHardForkBlockHeight = 1;
         consensus.CuckooRequiredBlockHeight = 1;
 
+=======
+        // Implementation of MIDAS
+        consensus.midasStartHeight = 2;
+        consensus.midasValidHeight = 2;
+
+        // Block to hard fork to Cuckoo Cycle POW
+        consensus.CuckooHardForkBlockHeight = 2;
+        consensus.CuckooRequiredBlockHeight = 2;
+>>>>>>> origin/cuckoo-miner
 
         // The best chain should have at least this much work.
         consensus.nMinimumChainWork = uint256S("0x000000000000000000000000000000000000000000000000000000000000000");
@@ -685,6 +697,8 @@ public:
         consensus.BIP66Height = 1251; // BIP66 activated on regtest (Used in rpc activation tests)
         consensus.DIP0001Height = 2000;
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 1
+        consensus.cuckooPowLimit = uint256S("efffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.cuckooGraphSize = 24;
         consensus.nPowTargetTimespan = 24 * 60 * 60; // Thought: 1 day
         consensus.nPowTargetSpacing = 2.5 * 60; // Thought: 2.5 minutes
         consensus.fPowAllowMinDifficultyBlocks = true;
@@ -708,6 +722,14 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].bit = 3;
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 0;
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 999999999999ULL;
+
+        // Implementation of MIDAS
+        consensus.midasStartHeight = 2;
+        consensus.midasValidHeight = 2;
+
+        // Block to hard fork to Cuckoo Cycle POW
+        consensus.CuckooHardForkBlockHeight = 2010;
+        consensus.CuckooRequiredBlockHeight = 2010;
 
         // The best chain should have at least this much work.
         consensus.nMinimumChainWork = uint256S("0x00");
