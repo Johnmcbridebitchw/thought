@@ -636,7 +636,7 @@ public:
 
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
-            (      0, uint256S("0x000008ca1832a4baf228eb1553c03d3a2c8e02399550dd6ea8d65cec3ef23d2e"))
+            (      0, uint256S("0x00000000917e049641189c33d6b1275155e89b7b498b3b4f16d488f60afe513b"))
             (      1, devnetGenesis.GetHash())
         };
 
