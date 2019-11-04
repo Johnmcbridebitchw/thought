@@ -240,7 +240,7 @@ unsigned int GetNextWorkRequiredBTC(const CBlockIndex* pindexLast, const CBlockH
    return CalculateNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), params);
  }
 
-//Midas GetNextWorkRequired disabling cuckoo related
+//Midas GetNextWorkRequired
 unsigned int Midas(const CBlockIndex *pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
 {
     int64_t avgOf5;
@@ -257,7 +257,7 @@ unsigned int Midas(const CBlockIndex *pindexLast, const CBlockHeader *pblock, co
     int64_t nSlowInterval = (params.nPowTargetSpacing * 11) / 10; // seconds per block desired when far ahead of schedule
     int64_t nIntervalDesired  = params.nPowTargetSpacing;
 
-    // cuckoo disabled for dash
+
     int currentBlockHeight = pindexLast->nHeight+1;
     const uint256 usedPowLimit = (currentBlockHeight >= params.CuckooHardForkBlockHeight)? params.cuckooPowLimit : params.powLimit;
 
@@ -280,7 +280,7 @@ unsigned int Midas(const CBlockIndex *pindexLast, const CBlockHeader *pblock, co
 
     if (params.fPowAllowMinDifficultyBlocks)
     {
-    //    LogPrint(BCLog::MIDAS, "POW allowing min difficulty.\n");
+        LogPrint("midas", "POW allowing min difficulty.\n");
         // Special difficulty rule for testnet: If the new block's timestamp is more than 2* TargetSpacing then allow
         // mining of a min-difficulty block.
         if (pblock->nTime > pindexLast->nTime + params.nPowTargetSpacing * 2)
@@ -340,13 +340,13 @@ unsigned int Midas(const CBlockIndex *pindexLast, const CBlockHeader *pblock, co
     // both of these check the shortest interval to quickly stop when overshot.  Otherwise first is longer and second shorter.
     if (avgOf5 < toofast && avgOf9 < toofast && avgOf17 < toofast)
     {  //emergency adjustment, slow down (longer intervals because shorter blocks)
-    //  LogPrint(BCLog::MIDAS, "GetNextWorkRequired EMERGENCY RETARGET\n");
+    //  LogPrint("midas", "GetNextWorkRequired EMERGENCY RETARGET\n");
       difficultyfactor *= 8;
       difficultyfactor /= 5;
     }
     else if (avgOf5 > tooslow && avgOf7 > tooslow && avgOf9 > tooslow)
     {  //emergency adjustment, speed up (shorter intervals because longer blocks)
-    //  LogPrint(BCLog::MIDAS, "GetNextWorkRequired EMERGENCY RETARGET\n");
+    //  LogPrint("midas", "GetNextWorkRequired EMERGENCY RETARGET\n");
       difficultyfactor *= 5;
       difficultyfactor /= 8;
     }
@@ -357,7 +357,7 @@ unsigned int Midas(const CBlockIndex *pindexLast, const CBlockHeader *pblock, co
     { // At least 3 averages too high or at least 3 too low, including the two longest. This will be executed 3/16 of
       // the time on the basis of random variation, even if the settings are perfect. It regulates one-sixth of the way
       // to the calculated point.
-    //  LogPrint(BCLog::MIDAS, "GetNextWorkRequired RETARGET\n");
+      LogPrint("midas", "GetNextWorkRequired RETARGET\n");
       difficultyfactor *= (6 * nIntervalDesired);
       difficultyfactor /= avgOf17 +(5 * nIntervalDesired);
     }
@@ -389,13 +389,11 @@ unsigned int Midas(const CBlockIndex *pindexLast, const CBlockHeader *pblock, co
     if (bnNew > bnPowLimit)
       bnNew = bnPowLimit;
 
-    //LogPrint(BCLog::MIDAS, "Actual time %d, Scheduled time for this block height = %d\n", now, BlockHeightTime );
-    //LogPrint(BCLog::MIDAS, "Nominal block interval = %d, regulating on interval %d to get back to schedule.\n",
-    //      params.nPowTargetSpacing, nIntervalDesired );
-    //LogPrint(BCLog::MIDAS, "Intervals of last 5/7/9/17 blocks = %d / %d / %d / %d.\n",
-    //      avgOf5, avgOf7, avgOf9, avgOf17);
-    //LogPrint(BCLog::MIDAS, "Difficulty Before Adjustment: %08x  %s\n", pindexLast->nBits, bnOld.ToString());
-    //LogPrint(BCLog::MIDAS, "Difficulty After Adjustment:  %08x  %s\n", bnNew.GetCompact(), bnNew.ToString());
+    LogPrint("midas", "Actual time %d, Scheduled time for this block height = %d\n", now, BlockHeightTime );
+    LogPrint("midas", "Nominal block interval = %d, regulating on interval %d to get back to schedule.\n", params.nPowTargetSpacing, nIntervalDesired );
+    LogPrint("midas", "Intervals of last 5/7/9/17 blocks = %d / %d / %d / %d.\n", avgOf5, avgOf7, avgOf9, avgOf17);
+    LogPrint("midas", "Difficulty Before Adjustment: %08x  %s\n", pindexLast->nBits, bnOld.ToString());
+    LogPrint("midas", "Difficulty After Adjustment:  %08x  %s\n", bnNew.GetCompact(), bnNew.ToString());
 
     return bnNew.GetCompact();
 }
@@ -413,7 +411,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     if (pindexLast->nHeight + 1 >= params.nPowDGWHeight) {
         return DarkGravityWave(pindexLast, pblock, params);
     }
-    else if (pindexLast->nHeight + 1 >= params.midasValidHeight) {
+    else if (pindexLast->nHeight + 1 >= params.midasStartHeight) {
         return Midas(pindexLast, pblock, params);
     }
     else {
@@ -470,7 +468,7 @@ bool CheckProofOfWork(const CBlockHeader& blockHeader, uint256 hash, unsigned in
 */
 
 
-// CheckProofOfWork
+// CheckProofOfWork SHA and Cuckoo
 bool CheckProofOfWork(const CBlockHeader& blockHeader, uint256 hash, unsigned int nBits, const Consensus::Params& params)
 {
     bool fNegative;
@@ -480,7 +478,7 @@ bool CheckProofOfWork(const CBlockHeader& blockHeader, uint256 hash, unsigned in
     bool retval = true;
 
     bnTarget.SetCompact(nBits, &fNegative, &fOverflow);
-    //LogPrint(BCLog::MIDAS, "Checking against target: %s\n", bnTarget.GetHex());
+    LogPrint("midas", "Checking against target: %s\n", bnTarget.GetHex());
 
     // Check range
     if (fNegative || bnTarget == 0 || fOverflow)
@@ -547,7 +545,7 @@ bool CheckCuckooProofOfWork(const CBlockHeader& blockHeader, const Consensus::Pa
     cuckoo_cycle::cuckoo_verify_code vc= CCuckooCycleVerifier::verify((unsigned int *)blockHeader.cuckooProof, hash, params.cuckooGraphSize);
     if (cuckoo_cycle::POW_OK == vc)
     {
-      LogPrint("MIDAS", "Cuckoo cycle verified!\n");
+      LogPrint("cuckoo", "Cuckoo cycle verified!\n");
       retval = true;
     }
     else

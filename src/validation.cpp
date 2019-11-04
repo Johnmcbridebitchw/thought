@@ -3396,7 +3396,8 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
        ;;
       }
       else if (nHeight < consensusParams.midasStartHeight || nHeight >= consensusParams.midasValidHeight)
-	return state.DoS(100, false, REJECT_INVALID, "bad-diffbits", false, strprintf("incorrect proof of work at %d", nHeight));
+
+      return state.DoS(100, false, REJECT_INVALID, "bad-diffbits", false, strprintf("incorrect proof of work at %d", nHeight));
 
         // return state.DoS(100, false, REJECT_INVALID, "bad-diffbits", false, "incorrect proof of work");
     }
