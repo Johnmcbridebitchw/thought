@@ -570,19 +570,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nWindowSize = 100;
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 50; // 50% of 100
 
-<<<<<<< HEAD
         consensus.CuckooHardForkBlockHeight = 1;
         consensus.CuckooRequiredBlockHeight = 1;
-
-=======
-        // Implementation of MIDAS
-        consensus.midasStartHeight = 2;
-        consensus.midasValidHeight = 2;
-
-        // Block to hard fork to Cuckoo Cycle POW
-        consensus.CuckooHardForkBlockHeight = 2;
-        consensus.CuckooRequiredBlockHeight = 2;
->>>>>>> origin/cuckoo-miner
 
         // The best chain should have at least this much work.
         consensus.nMinimumChainWork = uint256S("0x000000000000000000000000000000000000000000000000000000000000000");
