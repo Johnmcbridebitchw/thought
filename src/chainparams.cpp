@@ -629,7 +629,7 @@ public:
         nPoolMaxTransactions = 3;
         nFulfilledRequestExpireTime = 5*60; // fulfilled requests expire in 5 minutes
 
-        vSporkAddresses = {"kxkf3ojUeHpzBuU5qdXEWKND5E4LmkQ6qU"};
+        vSporkAddresses = {"yXxY2HrDz8gELC4rRq1GRiXwB5KWdzJnAp"};
         nMinSporkKeys = 1;
         // devnets are started with no blocks and no MN, so we can't check for upgraded MN (as there are none)
         fBIP9CheckMasternodesUpgraded = false;
