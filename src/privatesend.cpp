@@ -308,8 +308,8 @@ void CPrivateSend::InitStandardDenominations()
         is convertible to another.
 
         For example:
-        1DRK+1000 == (.1DRK+100)*10
-        10DRK+10000 == (1DRK+1000)*10
+        1THT+1000 == (.1THT+100)*10
+        10THT+10000 == (1THT+1000)*10
     */
     /* Disabled
     vecStandardDenominations.push_back( (100      * COIN)+100000 );

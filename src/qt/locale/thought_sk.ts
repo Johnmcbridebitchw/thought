@@ -1883,7 +1883,7 @@ https://www.transifex.com/projects/p/thought/</translation>
     </message>
     <message>
         <source>If you don't want to see internal PrivateSend fees/transactions select "Most Common" as Type on the "Transactions" tab.</source>
-        <translation>Ak nechcete vidieť interné Darksend poplatky/transakcie, vyberte "Najčastejšie" ako typ na záložke "Transakcie".</translation>
+        <translation>Ak nechcete vidieť interné Thoughtsend poplatky/transakcie, vyberte "Najčastejšie" ako typ na záložke "Transakcie".</translation>
     </message>
     <message>
         <source>PrivateSend requires at least %1 to use.</source>

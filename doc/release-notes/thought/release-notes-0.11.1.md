@@ -1,15 +1,15 @@
 0.11.1 Release notes
 ====================
 
-Darkcoin Core 0.11.1 supports a full implementation of InstantX, Darksend improvements
+Thought Core 0.11.1 supports a full implementation of InstantX, Thoughtsend improvements
 and a new version of enforcement compatible with the newer Thought architechure.
-Latest release in 0.11.1.x tree is v0.11.1.26, which is rebranding Darkcoin to Thought.
+Latest release in 0.11.1.x tree is v0.11.1.26.
 
 - Fully implemented IX
 - Added support for DSTX messages, as a result DS should be much faster
 - Clear vValue in SelectCoinsMinConf - should fix an issue with conflicted txes
 - "Debug window" -> "Tools window" renaming
-- "Last Darksend message" text added in overview page
+- "Last Thoughtsend message" text added in overview page
 - Many new languages are supported, such as German, Vietnamese, Spanish
 - Fixed required maturity of coins before sending
 - New masternode payments enforcement implementation

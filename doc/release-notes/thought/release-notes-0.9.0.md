@@ -1,7 +1,7 @@
 0.9.x Release notes
 ===================
 
-The 0.9.x branch was discontienued with the open source release of Darksend in
+The 0.9.x branch was discontienued with the open source release of Thoughtsend in
 v0.10.14 on Sept/25/2014.
 
 
@@ -43,7 +43,7 @@ v0.10.14 on Sept/25/2014.
 ----------------------
 
 - Testnet merges use two, while mainnet merges will use 3 participants
-- Fixed the endless splitting issue causes by splitting 1000DRK and not making a DS compatible input
+- Fixed the endless splitting issue causes by splitting 1000THT and not making a DS compatible input
 
 
 0.9.13.8 Release notes
@@ -51,7 +51,7 @@ v0.10.14 on Sept/25/2014.
 
 - Debugged progress bar
 - New terms of use window
-- Darksend UI is disabled for masternodes now and titlebar says "[masternode]"
+- Thoughtsend UI is disabled for masternodes now and titlebar says "[masternode]"
 - Improvement for dealing with splitting large inputs
 - Protocol version bump to kick old masternodes off
 
@@ -67,9 +67,9 @@ v0.10.14 on Sept/25/2014.
 ----------------------
 
 - Added toggle off/on button to overview screen
-- Updated wording for darksend messages
-- Removed disable darksend checkbox from config screen
-- Added "-enabledarksend" cli option
+- Updated wording for thoughtsend messages
+- Removed disable thoughtsend checkbox from config screen
+- Added "-enablethoughtsend" cli option
 - Toggle button shows the basic configuration when started for
   the first time now
 - Added tooltips for config screen
@@ -89,10 +89,10 @@ v0.10.14 on Sept/25/2014.
 0.9.13.4 Release notes
 ----------------------
 
-- Fixed issue with denominating small amounts of DRK in large wallet
-  (http://jira.darkcoin.qa/browse/DRK-46)
+- Fixed issue with denominating small amounts of THT in large wallet
+  (http://jira.thought.qa/browse/THT-46)
 - Made splitting up initial inputs much more efficient. Now when splitting up,
-  it will use powers of two from 4096 DRK in reverse to get the best possible
+  it will use powers of two from 4096 THT in reverse to get the best possible
   mix of inputs for the next phase without any bloat to the blockchain or to
   the users wallet.
 - Fixed "transaction too large" due to the initial splitting function
@@ -101,12 +101,12 @@ v0.10.14 on Sept/25/2014.
 - Sometimes the client would denominate less than the intended amount, then do
   small denominations to make up the difference. This slowed down the
   transactions and created extra transactions that weren't needed.
-- Darksend should anonymize very close to the intended amount now
+- Thoughtsend should anonymize very close to the intended amount now
 - Added Amount/Rounds to overview screen so you can see current settings
-- Overview darksend cache is cleared on settings change (will instantly update)
+- Overview thoughtsend cache is cleared on settings change (will instantly update)
 - Fixed issue with completed amount jumping around
-  (http://jira.darkcoin.qa/browse/DRK-46)
-- Made messages less threatening (http://jira.darkcoin.qa/browse/DRK-60)
+  (http://jira.thought.qa/browse/THT-46)
+- Made messages less threatening (http://jira.thought.qa/browse/THT-60)
 
 PS : Please move testing funds to a new wallet. This version has massive
 optimizations for the way inputs are stored and split up. This will make
@@ -119,7 +119,7 @@ everything much more efficient.
 - This update deals with freezing, slow wallets, slow load times and the
   "not compatible" error. I debugged one of the slow wallets and found it had
   38,000 keys in the keypool, then after more investigation I found the passive
-  Darksend process has been reserve keys for every attempt! To rectify this
+  Thoughtsend process has been reserve keys for every attempt! To rectify this
   I've modified the queuing system, so users wait in a masternode queue without
   actually sending the transactions until the queue is full.
 
@@ -129,7 +129,7 @@ Please move any testing funds to a new wallet to test the new version.
 0.9.13.2 Release notes
 ----------------------
 
-- Easy to read darksend progress bar (Mouse over for very detailed info)
+- Easy to read thoughtsend progress bar (Mouse over for very detailed info)
 - Fixed a collateral bug
 - Moved around the overview screen, changed some of the text
 - Removed lots of debug messages (they show up only with debug=1 now)
@@ -182,9 +182,9 @@ RC4 released!
 All fees will use 0.001 sized inputs (they have no change so you can't follow
 them), all transactions now should look like this one:
 
-http://test.explorer.darkcoin.fr/tx/ce0ea2bdf630233955d459489b6f764e0d0bbe9e8a62531dd2a14b455626b59c
+http://test.explorer.thought.fr/tx/ce0ea2bdf630233955d459489b6f764e0d0bbe9e8a62531dd2a14b455626b59c
 
-- Client now creates fee sizes inputs for use in darksend denomination phases
+- Client now creates fee sizes inputs for use in thoughtsend denomination phases
   to improve anonymity
 - new rpc command erasetransaction. Some users have reported non-confirming
   transactions due to opening their wallet at multiple locations. This can and
@@ -192,21 +192,21 @@ http://test.explorer.darkcoin.fr/tx/ce0ea2bdf630233955d459489b6f764e0d0bbe9e8a62
   is for removing them.
 - SplitUpMoney can only execute every 10 blocks now.
 - removed matching masternode debugging messages, that's not really an error
-- Client now prioritises sending denominated funds back into Darksend. This will
-  improve anonymity and help to respect the "anonymize darkcoin" amount in the
+- Client now prioritises sending denominated funds back into Thoughtsend. This will
+  improve anonymity and help to respect the "anonymize thought" amount in the
   configuration.
 - fixed a bug where masternodes send failed transactions
 - changed max to 100k in configuration
-- added a warning message to startup (delete ~/.darkcoin/.agree_to_tou to see it)
+- added a warning message to startup (delete ~/.thought/.agree_to_tou to see it)
 - found a bug causing inputs to get locked forever.
-- Darksend now checks diskspace before sending anything to a masternode.
+- Thoughtsend now checks diskspace before sending anything to a masternode.
 - incrementing protocol version to knock all old clients off
 
 
 0.9.12.21 Release notes
 -----------------------
 
-- Majorly improved the way darksend participants are paired together. It should
+- Majorly improved the way thoughtsend participants are paired together. It should
   be super fast now.
 
 
@@ -224,7 +224,7 @@ http://test.explorer.darkcoin.fr/tx/ce0ea2bdf630233955d459489b6f764e0d0bbe9e8a62
 - Removed some debug messages
 - Merged mac/windows build icons
 - Fixed windows "Apply" configuration bug
-- Darksend now shows address instead of "n/a"
+- Thoughtsend now shows address instead of "n/a"
 - Incremented protocol version to kick off old versions that charge fees. Fees
   should be completely gone now.
 - Found a bug that was causing "not compatible" errors too often. This should
@@ -235,9 +235,9 @@ http://test.explorer.darkcoin.fr/tx/ce0ea2bdf630233955d459489b6f764e0d0bbe9e8a62
 0.9.12.19 Release notes
 -----------------------
 
-- Added GUI configuration for Darksend Rounds, Enable Darksend and Anonymize
-  amount of DRK
-- Removed 5000DRK hard limit
+- Added GUI configuration for Thoughtsend Rounds, Enable Thoughtsend and Anonymize
+  amount of THT
+- Removed 5000THT hard limit
 - Fixed another cause of getting hit by collateral
 - Send dialog now shows selected balance (Anon, non-anon and Total)
 
@@ -251,7 +251,7 @@ now, so it might be a bit slower.
 
 All transactions after this should look like this one:
 
-http://test.explorer.darkcoin.fr/tx/6de2c5204abdea451da930f61bae0f954eef13188a3a37a572a24c9d92057d5d
+http://test.explorer.thought.fr/tx/6de2c5204abdea451da930f61bae0f954eef13188a3a37a572a24c9d92057d5d
 
 
 0.9.12.17 Release notes
@@ -265,11 +265,11 @@ http://test.explorer.darkcoin.fr/tx/6de2c5204abdea451da930f61bae0f954eef13188a3a
     3.) Another user will check that queue, if it's got a recent node, it will
         try that node first, otherwise it will go to 1.)
 
-- Darksend limited to 5000DRK per wallet.dat. Client will warn about this the
-  first time it's opened, then disable darksend from then on.
+- Thoughtsend limited to 5000THT per wallet.dat. Client will warn about this the
+  first time it's opened, then disable thoughtsend from then on.
 - Fixed some bugs with connecting to the correct masternodes
-- Send was sending way too many coins for all modes, (I sent 100DRK anon and it
-  sent 2000DRK, then sent me change for the rest causing a whole reprocess of
+- Send was sending way too many coins for all modes, (I sent 100THT anon and it
+  sent 2000THT, then sent me change for the rest causing a whole reprocess of
   everything in the wallet)
 - Client now updates Anonymized balance when you send money out
 - Fixed coin locking issues
@@ -288,7 +288,7 @@ http://test.explorer.darkcoin.fr/tx/6de2c5204abdea451da930f61bae0f954eef13188a3a
   confused when they got messages about other sessions (sometimes happened when
   they all jumped on the same masternode at once)
 - Added a pre-session state where the client will query a random masternode
-  and ask if they can perform a merge on N darkcoin without giving any other
+  and ask if they can perform a merge on N thought without giving any other
   information. If that amount is compatible without losing anonymity, the client
   will then add it's entry for merging
 - Added code to randomly use the top 20 masternodes, this can dynamically be
@@ -326,7 +326,7 @@ http://test.explorer.darkcoin.fr/tx/6de2c5204abdea451da930f61bae0f954eef13188a3a
 - Fixed change calc for Denominations in GUI
 - Flare found a logging error for dseep, fixed
 - Collateral now includes a fee (sometimes they took forever to get into a block)
-- Found race condition with new blocks and clearing darksend entries that was
+- Found race condition with new blocks and clearing thoughtsend entries that was
   causing some collateral fees
 - Found a communication mix up where clients would see messages from the wrong
   masternode and think it was theirs, also causing collateral fees
@@ -340,27 +340,27 @@ http://test.explorer.darkcoin.fr/tx/6de2c5204abdea451da930f61bae0f954eef13188a3a
 0.9.12.11 Release notes
 -----------------------
 
-- Darksend Denominate Outputs are now in a random order:
+- Thoughtsend Denominate Outputs are now in a random order:
 
-http://test.explorer.darkcoin.fr/tx/072ca56cbf705b87749513a2d2ee02080d506adcf8fe178f6dc2967f0711788e
-http://test.explorer.darkcoin.fr/tx/32daa8ca46462e7e99f3532251d68a8c3835a080c937bd83b11db74e47b770ff
+http://test.explorer.thought.fr/tx/072ca56cbf705b87749513a2d2ee02080d506adcf8fe178f6dc2967f0711788e
+http://test.explorer.thought.fr/tx/32daa8ca46462e7e99f3532251d68a8c3835a080c937bd83b11db74e47b770ff
 
-- Darksend now uses 3 participants instead of two.
+- Thoughtsend now uses 3 participants instead of two.
 - SplitUpMoney can now make collateral inputs when needed
-- Transactions now shows darksend transaction types for easier understanding
+- Transactions now shows thoughtsend transaction types for easier understanding
   of what's going on:
 - Fixed a couple more cases where collateral was charged when it shouldn't
   have happened (let me know if it happens after this version)
-- Fixed the money destruction bug, it was caused by "darksend denominate 8000".
+- Fixed the money destruction bug, it was caused by "thoughtsend denominate 8000".
   I missed a reference and the client passed an empty address to
-  SendMoneyToDestination. rcp darksend source: http://pastebin.com/r14piKuq
+  SendMoneyToDestination. rcp thoughtsend source: http://pastebin.com/r14piKuq
 - Unlocking/Locking wallet fixes (was spamming the logs)
 - Unencrypted wallet fixes (was trying to lock every 10 seconds)
 - Flare found and fixed an issue with DGW3 for win32
-- Added Darksend detection to the UI
-- fixed senttoaddress, it will use all inputs when darksend is disabled now.
+- Added Thoughtsend detection to the UI
+- fixed senttoaddress, it will use all inputs when thoughtsend is disabled now.
   Otherwise it will ONLY use non-denom.
-- "darksend addr amount" now returns the hash of the transaction it creates
+- "thoughtsend addr amount" now returns the hash of the transaction it creates
 
 
 0.9.12.10 Release notes
@@ -369,12 +369,12 @@ http://test.explorer.darkcoin.fr/tx/32daa8ca46462e7e99f3532251d68a8c3835a080c937
 Another huge update to the RC client, most of these are stability fixes and
 anonymity improvements:
 
-- Removed "darksend denominate", darksend now will figure out the most it can
-  denominate. Use "darksend auto" instead.
+- Removed "thoughtsend denominate", thoughtsend now will figure out the most it can
+  denominate. Use "thoughtsend auto" instead.
 - Fixed "Unknown State" display error
 - Fixed 0.0025 collateral issues caused by issues in the state machine, you
   should only be charged this amount now if you shutdown your client during
-  the Darksend process.
+  the Thoughtsend process.
 - Client will only submit 1 transaction into the pool fixing possible
   anonymity issues
 - Masternodes will only merge compatible transactions using the same
@@ -383,13 +383,13 @@ anonymity improvements:
   This improves the anonmity by not allowing someone to follow transactions by
   the missing denominations.
 - Transactions use unique change addresses for every output of each round.
-- QT GUI will now ask to unlock the wallet when it detects Darksend wants to do
+- QT GUI will now ask to unlock the wallet when it detects Thoughtsend wants to do
   something and lock it when it's done again.
-- Darksend is turned off by default in the daemon now. In most cases daemons
+- Thoughtsend is turned off by default in the daemon now. In most cases daemons
   won't want to run with anonymity (pools, exchanges, etc), if a user does they
-  can override the default setting with -enabledaemondarksend=true
-- Fees per round of Darksend are 0.001DRK or $0.00538 at current prices. This
-  means to anonymize 1000DRK with 3 rounds (an average use case) it would cost
+  can override the default setting with -enabledaemonthoughtsend=true
+- Fees per round of Thoughtsend are 0.001THT or $0.00538 at current prices. This
+  means to anonymize 1000THT with 3 rounds (an average use case) it would cost
   a user 1.5 cents.
 - Protocol version is updated to kick old clients off testnet
 
@@ -409,10 +409,10 @@ DS+ seems to be pretty stable now :-)
 
 - RPC calls are changed a bit:
 
-    darksend denominate 100 - Will denominate 100DRK
-    darksend auto - Will run AutoDenominate
-    darksend Xaddr 100 - Will send 100 denominated DRK to Xaddr
-    sendtoaddress Xaddr 100 - Will send 100 non-denominated DRK to Xaddr
+    thoughtsend denominate 100 - Will denominate 100THT
+    thoughtsend auto - Will run AutoDenominate
+    thoughtsend Xaddr 100 - Will send 100 denominated THT to Xaddr
+    sendtoaddress Xaddr 100 - Will send 100 non-denominated THT to Xaddr
 
 
 0.9.12.8 Release notes
@@ -430,8 +430,8 @@ DS+ seems to be pretty stable now :-)
   all inputs. This caused ds+ inputs to get interrupted by the splitting
   mechanism sometimes.
 - Added new GUI element for selecting which inputs you want to send
-- Fixed darksend+ rounds function, it was returning bad data in some cases
-  causing darksend inputs to never stop being sent through darksend.
+- Fixed thoughtsend+ rounds function, it was returning bad data in some cases
+  causing thoughtsend inputs to never stop being sent through thoughtsend.
 - Fixed "Send" dialog to be able to use the different kinds of inputs available.
   Sending anonymous transactions should now work properly.
 - Fixed some coin select issues
@@ -448,18 +448,18 @@ However, there are some known issues:
 
 Testing commands, you can start multiple wallets up and all denominate
 on the same masternode for testing purposes:
-/darkcoin-qt -datadir=/home/user/.darkcoin -listen=0 -darksendrounds=8 -usemasternode="192.168.56.102:11618"
-/darkcoin-qt -datadir=/home/user/.darkcoin2 -listen=0 -darksendrounds=8 -usemasternode="192.168.56.102:11618"
+/thought-qt -datadir=/home/user/.thought -listen=0 -thoughtsendrounds=8 -usemasternode="192.168.56.102:11618"
+/thought-qt -datadir=/home/user/.thought2 -listen=0 -thoughtsendrounds=8 -usemasternode="192.168.56.102:11618"
 
-and even disable darksend auto-denom if wanted:
-/darkcoin-qt -datadir=/home/user/.darkcoin -listen=0 -darksendrounds=8 -usemasternode="192.168.56.102:11618" -disabledarksend=1
+and even disable thoughtsend auto-denom if wanted:
+/thought-qt -datadir=/home/user/.thought -listen=0 -thoughtsendrounds=8 -usemasternode="192.168.56.102:11618" -disablethoughtsend=1
 
 
 0.9.12.7 Release notes
 ----------------------
 
-- Added a smart input splitting method. Place 1000+DRK into a brand new wallet
-  and it will be split into many inputs compatible with Darksend
+- Added a smart input splitting method. Place 1000+THT into a brand new wallet
+  and it will be split into many inputs compatible with Thoughtsend
 - DoAutodenomination now tries the correct balance (it was getting stuck on
   the wrong inputs)
 - "entries is full" fix for at least one of the causes
@@ -475,7 +475,7 @@ and even disable darksend auto-denom if wanted:
 - Inputs that are large will be broken up automatically for denomination
 - Masternodes should change every block now (missed a mod=10 last time)
 - Mixing requires 5 clients to merge now, should improve anonymity.
-- Mixing rounds are limited to 1000DRK, per block
+- Mixing rounds are limited to 1000THT, per block
 
 
 0.9.12.5 Release notes
@@ -483,7 +483,7 @@ and even disable darksend auto-denom if wanted:
 
 - Masternodes should change every block now
 - DoAutomaticDenomination should happen every block now
-- DarkSendRounds had a bug that I fixed, should calculate correctly now
+- ThoughtSendRounds had a bug that I fixed, should calculate correctly now
 
 
 0.9.12.4 Release notes
@@ -491,12 +491,12 @@ and even disable darksend auto-denom if wanted:
 
 This is a pretty large update to the RC client.
 
-- New column "Darksend Rounds" in coincontrol to show how secure a given input is
-- Fixed a few issues causing darksend to fail. We should see many more darksends
+- New column "Thoughtsend Rounds" in coincontrol to show how secure a given input is
+- Fixed a few issues causing thoughtsend to fail. We should see many more thoughtsends
   occuring now if it's fixed.
 - Redid denominations to 1, 10, 100, and 500. Maybe this is too simple, but it
   seems effective, all change from transactions will de denominated automatically
-  again through darksend for the next transactions. We'll see how it works.
+  again through thoughtsend for the next transactions. We'll see how it works.
 - usemasternode option, will override active masternode (only in RC, just for testing)
 
 0.9.12.3 Release notes
@@ -508,10 +508,10 @@ This is a pretty large update to the RC client.
 ----------------------
 
 - Fixed payout issues (masternode consessus was paying out to vout(0) by default)
-- Improved DarksendInput add entry verification. Masternodes will now reject
+- Improved ThoughtsendInput add entry verification. Masternodes will now reject
   transactions that look like fees are too low, too high, have spent inputs, etc.
 - Incremented protocol version to kick off clients with vout(0) payment bug
-- DoAutomaticDenominations 100DRK limit changed to 500DRK (we should see a bunch
+- DoAutomaticDenominations 100THT limit changed to 500THT (we should see a bunch
   of denominations happen now)
 
 
@@ -528,11 +528,11 @@ This is a pretty large update to the RC client.
 ----------------------
 
 - resolves issue with wallet not syncing by adding the capability to retrieve nodes through dnsseed
-   (see https://github.com/darkcoinproject/darkcoin/pull/21)
+   (see https://github.com/thoughtproject/thought/pull/21)
 - Linux 32 and Mac OS X are now officially supported platforms
-   (see https://github.com/darkcoinproject/darkcoin/pull/17)
+   (see https://github.com/thoughtproject/thought/pull/17)
 - improved overall unit test code coverage
-   (see https://github.com/darkcoinproject/darkcoin/pull/13 and https://github.com/darkcoinproject/darkcoin/pull/15)
+   (see https://github.com/thoughtproject/thought/pull/13 and https://github.com/thoughtproject/thought/pull/15)
 - minor documentation updates
-   (https://github.com/darkcoinproject/darkcoin/pull/18)
+   (https://github.com/thoughtproject/thought/pull/18)
 - improved distribution packaging (win: zip, linux: tar.gz, osx: dmg)

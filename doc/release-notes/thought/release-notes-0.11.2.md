@@ -7,7 +7,7 @@ Thought Core version 0.11.2 is now available from:
 
 Please report bugs using the issue tracker at github:
 
-  https://github.com/darkcoin/darkcoin/issues
+  https://github.com/thought/thought/issues
 
 
 Masternode enhancements
@@ -77,8 +77,8 @@ thoughtd/thought-qt (on Linux).
 - Masternode payment scheduler
 - Better protection from cheating masternodes
 - Extended functionality for `masternode list` RPC command
-- Live Darksend and InstantX fee calculations in CoinControl
-- Darksend input caching
+- Live Thoughtsend and InstantX fee calculations in CoinControl
+- Thoughtsend input caching
 - Open config file from within the wallet
 - New CSS-based wallet GUI with selectable interface themes
 - Configurable automatic wallet backups
@@ -107,4 +107,4 @@ Thanks to who contributed to this release, at least:
 - 21E14
 
 As well as the Thought Core developers and everyone that helped translating on
-[Transifex](https://www.transifex.com/projects/p/darkcoin/).
+[Transifex](https://www.transifex.com/projects/p/thought/).

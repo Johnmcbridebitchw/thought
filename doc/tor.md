@@ -102,7 +102,7 @@ for normal IPv4/IPv6 communication, use:
 3. List of known Thought Core Tor relays
 ------------------------------------
 
-* [darkcoinie7ghp67.onion](http://darkcoinie7ghp67.onion/)
+* [thoughtie7ghp67.onion](http://thoughtie7ghp67.onion/)
 * [drktalkwaybgxnoq.onion](http://drktalkwaybgxnoq.onion/)
 * [drkcoinooditvool.onion](http://drkcoinooditvool.onion/)
 * [darkcoxbtzggpmcc.onion](http://darkcoxbtzggpmcc.onion/)

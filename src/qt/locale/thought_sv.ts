@@ -736,10 +736,10 @@ Adress: %4
     </message>
 </context>
 <context>
-    <name>DarksendConfig</name>
+    <name>ThoughtsendConfig</name>
     <message>
-        <source>Configure Darksend</source>
-        <translation>Konfigurera Darksend</translation>
+        <source>Configure Thoughtsend</source>
+        <translation>Konfigurera Thoughtsend</translation>
     </message>
     <message>
         <source>Basic Privacy</source>
@@ -786,20 +786,20 @@ Adress: %4
         <translation>Detta är det långsammaste och det säkraste alternativet. Användning av maximal anonymitet kommer att kosta</translation>
     </message>
     <message>
-        <source>Darksend Configuration</source>
-        <translation>Darksend-konfiguration</translation>
+        <source>Thoughtsend Configuration</source>
+        <translation>Thoughtsend-konfiguration</translation>
     </message>
     <message>
-        <source>Darksend was successfully set to basic (%1 and 2 rounds). You can change this at any time by opening Thought's configuration screen.</source>
-        <translation>Darksend ställdes framgångsrikt om till grundläggande (%1 och 2 omgångar). Du kan ändra detta när som helst genom att öppna Thought:s konfigurationsskärm.</translation>
+        <source>Thoughtsend was successfully set to basic (%1 and 2 rounds). You can change this at any time by opening Thought's configuration screen.</source>
+        <translation>Thoughtsend ställdes framgångsrikt om till grundläggande (%1 och 2 omgångar). Du kan ändra detta när som helst genom att öppna Thought:s konfigurationsskärm.</translation>
     </message>
     <message>
-        <source>Darksend was successfully set to high (%1 and 8 rounds). You can change this at any time by opening Thought's configuration screen.</source>
-        <translation>Darksend ställdes framgångsrikt in på hög (%1 och 8 omgångar). Du kan ändra detta när som helst genom att öppna Thought:s konfigurationsskärm.</translation>
+        <source>Thoughtsend was successfully set to high (%1 and 8 rounds). You can change this at any time by opening Thought's configuration screen.</source>
+        <translation>Thoughtsend ställdes framgångsrikt in på hög (%1 och 8 omgångar). Du kan ändra detta när som helst genom att öppna Thought:s konfigurationsskärm.</translation>
     </message>
     <message>
-        <source>Darksend was successfully set to maximum (%1 and 16 rounds). You can change this at any time by opening Thought's configuration screen.</source>
-        <translation>Darksend ställdes framgångsrikt in på maximal (%1 och 16 omgångar). Du kan ändra detta när som helst genom att öppna Thought:s konfigurationsskärm</translation>
+        <source>Thoughtsend was successfully set to maximum (%1 and 16 rounds). You can change this at any time by opening Thought's configuration screen.</source>
+        <translation>Thoughtsend ställdes framgångsrikt in på maximal (%1 och 16 omgångar). Du kan ändra detta när som helst genom att öppna Thought:s konfigurationsskärm</translation>
     </message>
 </context>
 <context>
@@ -1013,12 +1013,12 @@ Adress: %4
         <translation>(0 = auto, &lt;0 = lämna så många kärnor lediga)</translation>
     </message>
     <message>
-        <source>Darksend rounds to use</source>
-        <translation>Darksend-omgångar att använda</translation>
+        <source>Thoughtsend rounds to use</source>
+        <translation>Thoughtsend-omgångar att använda</translation>
     </message>
     <message>
-        <source>This amount acts as a threshold to turn off Darksend once it's reached.</source>
-        <translation>Denna mängd fungerar som en tröskel att stänga av Darksend då det har uppnåtts.</translation>
+        <source>This amount acts as a threshold to turn off Thoughtsend once it's reached.</source>
+        <translation>Denna mängd fungerar som en tröskel att stänga av Thoughtsend då det har uppnåtts.</translation>
     </message>
     <message>
         <source>Amount of Thought to keep anonymized</source>
@@ -1230,8 +1230,8 @@ https://www.transifex.com/projects/p/thought/</translation>
         <translation>Förlopp:</translation>
     </message>
     <message>
-        <source>Darksend Balance:</source>
-        <translation>Darksend-medel:</translation>
+        <source>Thoughtsend Balance:</source>
+        <translation>Thoughtsend-medel:</translation>
     </message>
     <message>
         <source>Amount and Rounds:</source>
@@ -1250,8 +1250,8 @@ https://www.transifex.com/projects/p/thought/</translation>
         <translation>E/t</translation>
     </message>
     <message>
-        <source>Darksend</source>
-        <translation>Darksend</translation>
+        <source>Thoughtsend</source>
+        <translation>Thoughtsend</translation>
     </message>
     <message>
         <source>Start/Stop Mixing</source>
@@ -1262,16 +1262,16 @@ https://www.transifex.com/projects/p/thought/</translation>
         <translation>(Senaste meddelande)</translation>
     </message>
     <message>
-        <source>Try to manually submit a Darksend request.</source>
-        <translation>Försök att lämna in en Darksend-begäran manuellt.</translation>
+        <source>Try to manually submit a Thoughtsend request.</source>
+        <translation>Försök att lämna in en Thoughtsend-begäran manuellt.</translation>
     </message>
     <message>
         <source>Try Mix</source>
         <translation>Försök att mixa</translation>
     </message>
     <message>
-        <source>Reset the current status of Darksend (can interrupt Darksend if it's in the process of Mixing, which can cost you money!)</source>
-        <translation>Återställ den nuvarande Darksend-statusen (kan störa Darksend om den håller på att mixa vilket kan kosta dig pengar!)</translation>
+        <source>Reset the current status of Thoughtsend (can interrupt Thoughtsend if it's in the process of Mixing, which can cost you money!)</source>
+        <translation>Återställ den nuvarande Thoughtsend-statusen (kan störa Thoughtsend om den håller på att mixa vilket kan kosta dig pengar!)</translation>
     </message>
     <message>
         <source>Reset</source>
@@ -1286,12 +1286,12 @@ https://www.transifex.com/projects/p/thought/</translation>
         <translation>Inaktiverad</translation>
     </message>
     <message>
-        <source>Start Darksend Mixing</source>
-        <translation>Påbörja Darksend-mixning</translation>
+        <source>Start Thoughtsend Mixing</source>
+        <translation>Påbörja Thoughtsend-mixning</translation>
     </message>
     <message>
-        <source>Stop Darksend Mixing</source>
-        <translation>Stoppa Darksend-mixning</translation>
+        <source>Stop Thoughtsend Mixing</source>
+        <translation>Stoppa Thoughtsend-mixning</translation>
     </message>
     <message>
         <source>No inputs detected</source>
@@ -1302,9 +1302,9 @@ https://www.transifex.com/projects/p/thought/</translation>
         <translation>Aktiverad</translation>
     </message>
     <message>
-        <source>Last Darksend message:
+        <source>Last Thoughtsend message:
 </source>
-        <translation>Senaste Darksend-meddelande:
+        <translation>Senaste Thoughtsend-meddelande:
 
 
 
@@ -1316,16 +1316,16 @@ https://www.transifex.com/projects/p/thought/</translation>
         <translation>E/t</translation>
     </message>
     <message>
-        <source>Darksend was successfully reset.</source>
-        <translation>Darksend återställdes framgångsrikt.</translation>
+        <source>Thoughtsend was successfully reset.</source>
+        <translation>Thoughtsend återställdes framgångsrikt.</translation>
     </message>
     <message>
-        <source>Darksend requires at least %1 to use.</source>
-        <translation>Darksend kräver åtminstone %1 att använda.</translation>
+        <source>Thoughtsend requires at least %1 to use.</source>
+        <translation>Thoughtsend kräver åtminstone %1 att använda.</translation>
     </message>
     <message>
-        <source>Wallet is locked and user declined to unlock. Disabling Darksend.</source>
-        <translation>Plånboken är låst och användaren avböjde upplåsning. Inaktiverar Darksend.</translation>
+        <source>Wallet is locked and user declined to unlock. Disabling Thoughtsend.</source>
+        <translation>Plånboken är låst och användaren avböjde upplåsning. Inaktiverar Thoughtsend.</translation>
     </message>
 </context>
 <context>
@@ -1791,8 +1791,8 @@ https://www.transifex.com/projects/p/thought/</translation>
         <translation>Lägg till &amp;mottagare</translation>
     </message>
     <message>
-        <source>Darksend</source>
-        <translation>Darksend</translation>
+        <source>Thoughtsend</source>
+        <translation>Thoughtsend</translation>
     </message>
     <message>
         <source>InstantX</source>
@@ -1839,8 +1839,8 @@ https://www.transifex.com/projects/p/thought/</translation>
         <translation>anonyma medel</translation>
     </message>
     <message>
-        <source>(darksend requires this amount to be rounded up to the nearest %1).</source>
-        <translation>(darksend kräver att denna mängd avrundas uppåt till närmaste %1)</translation>
+        <source>(thoughtsend requires this amount to be rounded up to the nearest %1).</source>
+        <translation>(thoughtsend kräver att denna mängd avrundas uppåt till närmaste %1)</translation>
     </message>
     <message>
         <source>any available funds (not recommended)</source>
@@ -2384,8 +2384,8 @@ https://www.transifex.com/projects/p/thought/</translation>
         <translation>Mottagen från</translation>
     </message>
     <message>
-        <source>Received via Darksend</source>
-        <translation>Mottagen genom Darksend</translation>
+        <source>Received via Thoughtsend</source>
+        <translation>Mottagen genom Thoughtsend</translation>
     </message>
     <message>
         <source>Sent to</source>
@@ -2400,20 +2400,20 @@ https://www.transifex.com/projects/p/thought/</translation>
         <translation>Utvunnen</translation>
     </message>
     <message>
-        <source>Darksend Denominate</source>
-        <translation>Darksend-denomination</translation>
+        <source>Thoughtsend Denominate</source>
+        <translation>Thoughtsend-denomination</translation>
     </message>
     <message>
-        <source>Darksend Collateral Payment</source>
+        <source>Thoughtsend Collateral Payment</source>
         <translation>Darskends-säkerhetsbetalning</translation>
     </message>
     <message>
-        <source>Darksend Make Collateral Inputs</source>
-        <translation>Darksend-skapa säkerhetsinmatningar</translation>
+        <source>Thoughtsend Make Collateral Inputs</source>
+        <translation>Thoughtsend-skapa säkerhetsinmatningar</translation>
     </message>
     <message>
-        <source>Darksend Create Denominations</source>
-        <translation>Darksend-skapa denominationer</translation>
+        <source>Thoughtsend Create Denominations</source>
+        <translation>Thoughtsend-skapa denominationer</translation>
     </message>
     <message>
         <source>Darksent</source>
@@ -2487,19 +2487,19 @@ https://www.transifex.com/projects/p/thought/</translation>
         <translation>Darksent-(skickat)</translation>
     </message>
     <message>
-        <source>Darksend Make Collateral Inputs</source>
-        <translation>Darksend-skapa säkerhetsinmatningar</translation>
+        <source>Thoughtsend Make Collateral Inputs</source>
+        <translation>Thoughtsend-skapa säkerhetsinmatningar</translation>
     </message>
     <message>
-        <source>Darksend Create Denominations</source>
-        <translation>Darksend-skapa denominationer</translation>
+        <source>Thoughtsend Create Denominations</source>
+        <translation>Thoughtsend-skapa denominationer</translation>
     </message>
     <message>
-        <source>Darksend Denominate</source>
-        <translation>Darksend-denomination</translation>
+        <source>Thoughtsend Denominate</source>
+        <translation>Thoughtsend-denomination</translation>
     </message>
     <message>
-        <source>Darksend Collateral Payment</source>
+        <source>Thoughtsend Collateral Payment</source>
         <translation>Darskends-säkerhetsbetalning</translation>
     </message>
     <message>
@@ -2666,8 +2666,8 @@ https://www.transifex.com/projects/p/thought/</translation>
         <translation>Kan inte erhålla ett lås på datakatalog %s. Thought Core körs förmodligen redan.</translation>
     </message>
     <message>
-        <source>Darksend uses exact denominated amounts to send funds, you might simply need to anonymize some more coins.</source>
-        <translation>Darksend använder exakta denominationsmängder för att skicka medel, du kanske måste anonymisera fler mynt.</translation>
+        <source>Thoughtsend uses exact denominated amounts to send funds, you might simply need to anonymize some more coins.</source>
+        <translation>Thoughtsend använder exakta denominationsmängder för att skicka medel, du kanske måste anonymisera fler mynt.</translation>
     </message>
     <message>
         <source>Enter regression test mode, which uses a special chain in which blocks can be solved instantly.</source>
@@ -2722,12 +2722,12 @@ https://www.transifex.com/projects/p/thought/</translation>
         <translation>Det går inte att binda till %s till denna dator. Thought Core körs förmodligen redan.</translation>
     </message>
     <message>
-        <source>Unable to locate enough Darksend denominated funds for this transaction.</source>
-        <translation>Kunde inte hitta tillräckliga Darksend-denominationsmedel för denna transaktion.</translation>
+        <source>Unable to locate enough Thoughtsend denominated funds for this transaction.</source>
+        <translation>Kunde inte hitta tillräckliga Thoughtsend-denominationsmedel för denna transaktion.</translation>
     </message>
     <message>
-        <source>Unable to locate enough Darksend non-denominated funds for this transaction that are not equal 1000 THT.</source>
-        <translation>Kunde inte hitta tillräckliga Darksend-icke-denominationsmedel för denna transaktion som inte är likvärdiga 1000 THT.</translation>
+        <source>Unable to locate enough Thoughtsend non-denominated funds for this transaction that are not equal 1000 THT.</source>
+        <translation>Kunde inte hitta tillräckliga Thoughtsend-icke-denominationsmedel för denna transaktion som inte är likvärdiga 1000 THT.</translation>
     </message>
     <message>
         <source>Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.</source>
@@ -2826,8 +2826,8 @@ https://www.transifex.com/projects/p/thought/</translation>
         <translation>Korrumperad blockdatabas upptäcktes</translation>
     </message>
     <message>
-        <source>Darksend options:</source>
-        <translation>Darksend-alternativ:</translation>
+        <source>Thoughtsend options:</source>
+        <translation>Thoughtsend-alternativ:</translation>
     </message>
     <message>
         <source>Debugging/Testing options:</source>
@@ -2898,8 +2898,8 @@ https://www.transifex.com/projects/p/thought/</translation>
         <translation>Fel: Plånbok låst, kan inte skapa en transaktion!</translation>
     </message>
     <message>
-        <source>Error: You already have pending entries in the Darksend pool</source>
-        <translation>Fel: Du har redan väntande inmatningar i Darksend-poolen</translation>
+        <source>Error: You already have pending entries in the Thoughtsend pool</source>
+        <translation>Fel: Du har redan väntande inmatningar i Thoughtsend-poolen</translation>
     </message>
     <message>
         <source>Failed to listen on any port. Use -listen=0 if you want this.</source>
@@ -3002,8 +3002,8 @@ https://www.transifex.com/projects/p/thought/</translation>
         <translation>Bibehåll som mest &lt;n&gt; icke-anslutningsbara transaktioner i minnet (standardvärde: %u)</translation>
     </message>
     <message>
-        <source>Last Darksend was too recent.</source>
-        <translation>Senaste Darksend gjordes för inte alltför länge sedan.</translation>
+        <source>Last Thoughtsend was too recent.</source>
+        <translation>Senaste Thoughtsend gjordes för inte alltför länge sedan.</translation>
     </message>
     <message>
         <source>Loading addresses...</source>
@@ -3206,8 +3206,8 @@ https://www.transifex.com/projects/p/thought/</translation>
         <translation>Användarnamn för JSON-RPC-anslutningar</translation>
     </message>
     <message>
-        <source>Value more than Darksend pool maximum allows.</source>
-        <translation>Värdera mer än vad Darksends poolmaximum tillåter.</translation>
+        <source>Value more than Thoughtsend pool maximum allows.</source>
+        <translation>Värdera mer än vad Thoughtsends poolmaximum tillåter.</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>

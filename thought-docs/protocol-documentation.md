@@ -117,7 +117,7 @@ When a new block is found on the network, a masternode quorum will be determined
 
 ### DSTX - "dstx"
 
-CDarksendBroadcastTx
+CThoughtsendBroadcastTx
 
 Masternodes can broadcast subsidised transactions without fees for the sake of security in mixing. This is done via the DSTX message.
 
@@ -142,7 +142,7 @@ Mixing pool status update
 
 ### DSQUEUE - "dsq"
 
-CDarksendQueue
+CThoughtsendQueue
 
 Asks users to sign final mixing tx message.
 
@@ -165,7 +165,7 @@ Response to DSQ message which allows the user to join a mixing pool
 
 ### DSVIN - "dsi"
 
-CDarkSendEntry
+CThoughtSendEntry
 
 When queue is ready user is expected to send his entry to start actual mixing
 
@@ -249,8 +249,8 @@ Spork
 | 66* | vchSig | char[] | Unclear if 66 is the correct size, but this is what it appears to be in most cases |
 
 #### Defined Sporks (per src/sporks.h)
- 
-| Spork ID | Number | Name | Description | 
+
+| Spork ID | Number | Name | Description |
 | ---------- | ---------- | ----------- | ----------- |
 | 10001 | 2 | INSTANTSEND_ENABLED | Turns on and off InstantSend network wide
 | 10002 | 3 | INSTANTSEND_BLOCK_FILTERING | Turns on and off InstantSend block filtering
@@ -261,7 +261,7 @@ Spork
 | 10009 | 10 | MASTERNODE_PAY_UPDATED_NODES | Only current protocol version masternode's will be paid (not older nodes)
 | 10011 | 12 | RECONSIDER_BLOCKS | |
 | 10012 | 13 | OLD_SUPERBLOCK_FLAG | |
-| 10013 | 14 | REQUIRE_SENTINEL_FLAG | Only masternode's running sentinel will be paid 
+| 10013 | 14 | REQUIRE_SENTINEL_FLAG | Only masternode's running sentinel will be paid
 
 ## Undocumented messages
 
@@ -287,7 +287,7 @@ Masternode Verify
 
 ### DSFINALTX - "dsf"
 
-Darksend Final Transaction
+Thoughtsend Final Transaction
 
 | Field Size | Field Name | Data type | Description |
 | ---------- | ----------- | --------- | ---------- |
@@ -296,7 +296,7 @@ Darksend Final Transaction
 
 ### DSCOMPLETE - "dsc"
 
-Darksend Complete
+Thoughtsend Complete
 
 | Field Size | Field Name | Data type | Description |
 | ---------- | ----------- | --------- | ---------- |
