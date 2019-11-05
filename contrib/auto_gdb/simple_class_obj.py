@@ -13,7 +13,7 @@ import common_helpers
 
 simple_types = ["CMasternode", "CMasternodeVerification",
                 "CMasternodeBroadcast", "CMasternodePing",
-                "CMasternodeMan", "CThoughtsendQueue", "CThoughtSendEntry",
+                "CMasternodeMan", "CDarksendQueue", "CDarkSendEntry",
                 "CTransaction", "CMutableTransaction", "CPrivateSendBaseSession",
                 "CPrivateSendBaseManager", "CPrivateSendClientSession",
                 "CPrivateSendClientManager", "CPrivateSendServer", "CMasternodePayments",
