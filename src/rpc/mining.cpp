@@ -11,6 +11,7 @@
 #include "consensus/consensus.h"
 #include "consensus/params.h"
 #include "consensus/validation.h"
+#include "crypto/cuckoo/solve.h"
 #include "core_io.h"
 #include "init.h"
 #include "validation.h"
@@ -130,7 +131,9 @@ UniValue generateBlocks(boost::shared_ptr<CReserveScript> coinbaseScript, int nG
             IncrementExtraNonce(pblock, chainActive.Tip(), nExtraNonce);
         }
         if (pblock->isCuckooPow()) {
-           throw JSONRPCError(RPC_INTERNAL_ERROR, "Can't generate cuckoo cycle pow blocks");
+            if (!cuckoo::solve(*pblock, Params().GetConsensus())) {
+                throw JSONRPCError(RPC_INTERNAL_ERROR, "Couldn't find solution for cuckoo block");
+            }
         }
 
         while (nMaxTries > 0 && pblock->nNonce < nInnerLoopCount && !CheckProofOfWork(pblock->GetBlockHeader(), pblock->GetHash(), pblock->nBits, Params().GetConsensus())) {
