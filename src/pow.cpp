@@ -136,6 +136,7 @@ unsigned int static KimotoGravityWell(const CBlockIndex* pindexLast, const Conse
 
 unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params) {
     /* current difficulty formula, thought - DarkGravity v3, written by Evan Duffield - evan@thought.org */
+    LogPrint("pow", "POW DGW.\n");
     const arith_uint256 bnPowLimit = UintToArith256(params.powLimit);
     int64_t nPastBlocks = 24;
 
@@ -201,6 +202,7 @@ unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockH
 
 unsigned int GetNextWorkRequiredBTC(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
 {
+    LogPrint("pow", "POW GetNextWorkRequiredBTC.\n");
     unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
 
     int currentBlockHeight = pindexLast->nHeight+1;
@@ -208,7 +210,7 @@ unsigned int GetNextWorkRequiredBTC(const CBlockIndex* pindexLast, const CBlockH
     // Genesis block
     if (pindexLast == NULL)
         return nProofOfWorkLimit;
-
+     Logprintf
     // Only change once per interval
     if ((pindexLast->nHeight+1) % params.DifficultyAdjustmentInterval() != 0)
     {
@@ -280,7 +282,7 @@ unsigned int Midas(const CBlockIndex *pindexLast, const CBlockHeader *pblock, co
 
     if (params.fPowAllowMinDifficultyBlocks)
     {
-        LogPrint("midas", "POW allowing min difficulty.\n");
+        LogPrint("pow", "Midas POW allowing min difficulty.\n");
         // Special difficulty rule for testnet: If the new block's timestamp is more than 2* TargetSpacing then allow
         // mining of a min-difficulty block.
         if (pblock->nTime > pindexLast->nTime + params.nPowTargetSpacing * 2)
@@ -340,13 +342,13 @@ unsigned int Midas(const CBlockIndex *pindexLast, const CBlockHeader *pblock, co
     // both of these check the shortest interval to quickly stop when overshot.  Otherwise first is longer and second shorter.
     if (avgOf5 < toofast && avgOf9 < toofast && avgOf17 < toofast)
     {  //emergency adjustment, slow down (longer intervals because shorter blocks)
-    //  LogPrint("midas", "GetNextWorkRequired EMERGENCY RETARGET\n");
+    LogPrint("pow", "Midas GetNextWorkRequired EMERGENCY RETARGET higher diff lower target\n");
       difficultyfactor *= 8;
       difficultyfactor /= 5;
     }
     else if (avgOf5 > tooslow && avgOf7 > tooslow && avgOf9 > tooslow)
     {  //emergency adjustment, speed up (shorter intervals because longer blocks)
-    //  LogPrint("midas", "GetNextWorkRequired EMERGENCY RETARGET\n");
+    LogPrint("pow", "Midas GetNextWorkRequired EMERGENCY RETARGET lower diff higher target\n");
       difficultyfactor *= 5;
       difficultyfactor /= 8;
     }
@@ -357,7 +359,7 @@ unsigned int Midas(const CBlockIndex *pindexLast, const CBlockHeader *pblock, co
     { // At least 3 averages too high or at least 3 too low, including the two longest. This will be executed 3/16 of
       // the time on the basis of random variation, even if the settings are perfect. It regulates one-sixth of the way
       // to the calculated point.
-      LogPrint("midas", "GetNextWorkRequired RETARGET\n");
+      LogPrint("pow", "Midas GetNextWorkRequired RETARGET\n");
       difficultyfactor *= (6 * nIntervalDesired);
       difficultyfactor /= avgOf17 +(5 * nIntervalDesired);
     }
@@ -389,11 +391,11 @@ unsigned int Midas(const CBlockIndex *pindexLast, const CBlockHeader *pblock, co
     if (bnNew > bnPowLimit)
       bnNew = bnPowLimit;
 
-    LogPrint("midas", "Actual time %d, Scheduled time for this block height = %d\n", now, BlockHeightTime );
-    LogPrint("midas", "Nominal block interval = %d, regulating on interval %d to get back to schedule.\n", params.nPowTargetSpacing, nIntervalDesired );
-    LogPrint("midas", "Intervals of last 5/7/9/17 blocks = %d / %d / %d / %d.\n", avgOf5, avgOf7, avgOf9, avgOf17);
-    LogPrint("midas", "Difficulty Before Adjustment: %08x  %s\n", pindexLast->nBits, bnOld.ToString());
-    LogPrint("midas", "Difficulty After Adjustment:  %08x  %s\n", bnNew.GetCompact(), bnNew.ToString());
+    LogPrint("pow", "Midas Actual time %d, Scheduled time for this block height = %d\n", now, BlockHeightTime );
+    LogPrint("pow", "Midas Nominal block interval = %d, regulating on interval %d to get back to schedule.\n", params.nPowTargetSpacing, nIntervalDesired );
+    LogPrint("pow", "Midas Intervals of last 5/7/9/17 blocks = %d / %d / %d / %d.\n", avgOf5, avgOf7, avgOf9, avgOf17);
+    LogPrint("pow", "Midas Difficulty Before Adjustment: %08x  %s\n", pindexLast->nBits, bnOld.ToString());
+    LogPrint("pow", "Midas Difficulty After Adjustment:  %08x  %s\n", bnNew.GetCompact(), bnNew.ToString());
 
     return bnNew.GetCompact();
 }
@@ -478,7 +480,7 @@ bool CheckProofOfWork(const CBlockHeader& blockHeader, uint256 hash, unsigned in
     bool retval = true;
 
     bnTarget.SetCompact(nBits, &fNegative, &fOverflow);
-    LogPrint("midas", "Checking against target: %s\n", bnTarget.GetHex());
+    LogPrint("pow", "CheckPOW Checking against target: %s\n", bnTarget.GetHex());
 
     // Check range
     if (fNegative || bnTarget == 0 || fOverflow)
@@ -509,7 +511,7 @@ bool CheckProofOfWork(const CBlockHeader& blockHeader, uint256 hash, unsigned in
 
                 vec.resize(32);
                 arith_uint256 cpow = UintToArith256((const uint256)vec);
-                LogPrint("pow", "Difficulty In: %s\n", cpow.GetHex());
+                LogPrint("pow", "Cuckoo Difficulty In: %s\n", cpow.GetHex());
 
                 if (cpow > bnTarget)
                 {
@@ -542,12 +544,12 @@ bool CheckCuckooProofOfWork(const CBlockHeader& blockHeader, const Consensus::Pa
     auto vc = cuckoo::verify((unsigned int *)blockHeader.cuckooProof, hash, params.cuckooGraphSize);
     if (cuckoo::POW_OK == vc)
     {
-      LogPrint("cuckoo", "Cuckoo cycle verified!\n");
+      LogPrint("pow", "Cuckoo cycle verified!\n");
       retval = true;
     }
     else
     {
-      LogPrint("cuckoo", "Cuckoo cycle not verified, code %d\n", vc);
+      LogPrint("pow", "Cuckoo cycle not verified, code %d\n", vc);
     }
 
     return retval;
