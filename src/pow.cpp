@@ -195,8 +195,8 @@ unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockH
     LogPrint("pow", "DGW  3x over adjust nActualTimespan %d, nTagetTimespan %d.\n", nActualTimespan, nTargetTimespan);
     // Retarget
     LogPrint("pow", "DGW  bnNew preadjust: %08x.\n", bnNew.GetCompact());
-    bnNew *= nTargetTimespan;
-    bnNew /= nActualTimespan;
+    bnNew /= nTargetTimespan;
+    bnNew *= nActualTimespan;
     LogPrint("pow", "DGW  bnNew postadjust: %08x.\n", bnNew.GetCompact());
     if (bnNew > bnPowLimit) {
         bnNew = bnPowLimit;
