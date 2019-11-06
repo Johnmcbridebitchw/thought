@@ -138,6 +138,7 @@ unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockH
     /* current difficulty formula, thought - DarkGravity v3, written by Evan Duffield - evan@thought.org */
     LogPrint("pow", "POW DGW.\n");
     const arith_uint256 bnPowLimit = UintToArith256(params.powLimit);
+    //change above to include cuckoopowlimit
     int64_t nPastBlocks = 24;
 
     // make sure we have at least (nPastBlocks + 1) blocks, otherwise just return powLimit
@@ -148,11 +149,13 @@ unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockH
     if (params.fPowAllowMinDifficultyBlocks) {
         // recent block is more than 2 hours old
         if (pblock->GetBlockTime() > pindexLast->GetBlockTime() + 2 * 60 * 60) {
+            LogPrint("pow", "DGW mindiffblocks return powlimit >2hrs old.\n");
             return bnPowLimit.GetCompact();
         }
         // recent block is more than 10 minutes old
         if (pblock->GetBlockTime() > pindexLast->GetBlockTime() + params.nPowTargetSpacing * 4) {
             arith_uint256 bnNew = arith_uint256().SetCompact(pindexLast->nBits) * 10;
+            LogPrint("pow", "DGW mindiffblocks return powlimit*10 >10min old.\n");
             if (bnNew > bnPowLimit) {
                 bnNew = bnPowLimit;
             }
@@ -165,6 +168,7 @@ unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockH
 
     for (unsigned int nCountBlocks = 1; nCountBlocks <= nPastBlocks; nCountBlocks++) {
         arith_uint256 bnTarget = arith_uint256().SetCompact(pindex->nBits);
+        LogPrint("pow", "DGW PastTargetAvg: %08x pindex: %d\n", bnPastTargetAvg, pindex);
         if (nCountBlocks == 1) {
             bnPastTargetAvg = bnTarget;
         } else {
@@ -183,16 +187,17 @@ unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockH
     int64_t nActualTimespan = pindexLast->GetBlockTime() - pindex->GetBlockTime();
     // NOTE: is this accurate? nActualTimespan counts it for (nPastBlocks - 1) blocks only...
     int64_t nTargetTimespan = nPastBlocks * params.nPowTargetSpacing;
-
+    LogPrint("pow", "DGW  pre nActualTimespan %d, nTagetTimespan %d.\n", nActualTimespan, nTargetTimespan);
     if (nActualTimespan < nTargetTimespan/3)
         nActualTimespan = nTargetTimespan/3;
     if (nActualTimespan > nTargetTimespan*3)
         nActualTimespan = nTargetTimespan*3;
-
+    LogPrint("pow", "DGW  1/3 adjust nActualTimespan %d, nTagetTimespan %d.\n", nActualTimespan, nTargetTimespan);
     // Retarget
+    LogPrint("pow", "DGW  bnNew preadjust: %08x.\n", bnNew);
     bnNew *= nActualTimespan;
     bnNew /= nTargetTimespan;
-
+    LogPrint("pow", "DGW  bnNew postadjust: %08x.\n", bnNew);
     if (bnNew > bnPowLimit) {
         bnNew = bnPowLimit;
     }
@@ -210,7 +215,6 @@ unsigned int GetNextWorkRequiredBTC(const CBlockIndex* pindexLast, const CBlockH
     // Genesis block
     if (pindexLast == NULL)
         return nProofOfWorkLimit;
-     Logprintf
     // Only change once per interval
     if ((pindexLast->nHeight+1) % params.DifficultyAdjustmentInterval() != 0)
     {
