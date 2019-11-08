@@ -168,7 +168,8 @@ unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockH
     arith_uint256 bnPastTargetDiffTotal;
 
     for (unsigned int nCountBlocks = 1; nCountBlocks <= nPastBlocks; nCountBlocks++) {
-        arith_uint256 bnTargetDiff = bnPowLimit - arith_uint256().SetCompact(pindex->nBits);
+        arith_uint256 bnTarget = arith_uint256().SetCompact(pindex->nBits);
+        arith_uint256 bnTargetDiff = bnPowLimit - bnTarget;
 
         if (nCountBlocks == 1) {
             bnPastTargetDiffTotal = bnTargetDiff;
@@ -181,10 +182,10 @@ unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockH
             assert(pindex->pprev); // should never fail
             pindex = pindex->pprev;
         }
-    //LogPrint("pow", "DGW bnTargetDiff: %08x bnPartTargetDiffTotal: %08x\n", bnTargetDiff.GetCompact(), bnPastTargetDiffTotal.GetCompact());
+    LogPrint("pow", "DGW bnTarget: %08x bnTargetDiff: %08x bnPartTargetDiffTotal: %08x\n", bnTarget.GetCompact(), bnTargetDiff.GetCompact(), bnPastTargetDiffTotal.GetCompact());
     }
 
-    arith_uint256 bnNew(bnPastTargetDiffTotal / nPastBlocks);
+    arith_uint256 bnNew(bnPowLimit - (bnPastTargetDiffTotal / nPastBlocks));
 
     LogPrint("pow", "DGW PastTargetDiffTotal: %08x nbNew: %08x\n", bnPastTargetDiffTotal.GetCompact(), bnNew.GetCompact());
 
