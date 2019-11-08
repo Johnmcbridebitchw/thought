@@ -137,10 +137,11 @@ unsigned int static KimotoGravityWell(const CBlockIndex* pindexLast, const Conse
 unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params) {
     /* current difficulty formula, thought - DarkGravity v3, written by Evan Duffield - evan@thought.org */
     LogPrint("pow", "POW DGW.\n");
-    const arith_uint256 bnPowLimit = UintToArith256(params.powLimit);
-    //change above to include cuckoopowlimit
+    int currentBlockHeight = pindexLast->nHeight+1;
+    const arith_uint256 bnPowLimit = (currentBlockHeight >= params.CuckooHardForkBlockHeight)? UintToArith256(params.cuckooPowLimit) : UintToArith256(params.powLimit);
+    
     int64_t nPastBlocks = 24;
-
+    int64_t nLastTimespan = pblock->GetBlockTime() - pindexLast->GetBlockTime();
     // make sure we have at least (nPastBlocks + 1) blocks, otherwise just return powLimit
     if (!pindexLast || pindexLast->nHeight < nPastBlocks) {
         return bnPowLimit.GetCompact();
@@ -164,30 +165,33 @@ unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockH
     }
 
     const CBlockIndex *pindex = pindexLast;
-    arith_uint256 bnPastTargetAvg;
+    arith_uint256 bnPastTargetDiffTotal;
 
     for (unsigned int nCountBlocks = 1; nCountBlocks <= nPastBlocks; nCountBlocks++) {
-        arith_uint256 bnTarget = arith_uint256().SetCompact(pindex->nBits);
+        arith_uint256 bnTargetDiff = bnPowLimit - arith_uint256().SetCompact(pindex->nBits);
+
         if (nCountBlocks == 1) {
-            bnPastTargetAvg = bnTarget;
+            bnPastTargetDiffTotal = bnTargetDiff;
         } else {
             // NOTE: that's not an average really...
-            bnPastTargetAvg = (bnPastTargetAvg * nCountBlocks + bnTarget) / (nCountBlocks + 1);
+            bnPastTargetDiffTotal += bnTargetDiff;
         }
 
         if(nCountBlocks != nPastBlocks) {
             assert(pindex->pprev); // should never fail
             pindex = pindex->pprev;
         }
+    //LogPrint("pow", "DGW bnTargetDiff: %08x bnPartTargetDiffTotal: %08x\n", bnTargetDiff.GetCompact(), bnPastTargetDiffTotal.GetCompact());
     }
 
-    arith_uint256 bnNew(bnPastTargetAvg);
-    LogPrint("pow", "DGW PastTargetAvg: %08x nbNew: %08x\n", bnPastTargetAvg.GetCompact(), bnNew.GetCompact());
+    arith_uint256 bnNew(bnPastTargetDiffTotal / nPastBlocks);
+
+    LogPrint("pow", "DGW PastTargetDiffTotal: %08x nbNew: %08x\n", bnPastTargetDiffTotal.GetCompact(), bnNew.GetCompact());
 
     int64_t nActualTimespan = pindexLast->GetBlockTime() - pindex->GetBlockTime();
     // NOTE: is this accurate? nActualTimespan counts it for (nPastBlocks - 1) blocks only...
     int64_t nTargetTimespan = nPastBlocks * params.nPowTargetSpacing;
-    LogPrint("pow", "DGW  pre nActualTimespan %d, nTagetTimespan %d.\n", nActualTimespan, nTargetTimespan);
+    LogPrint("pow", "DGW  pre nActualTimespan %d, nTagetTimespan %d, nLastTimespan %d.\n", nActualTimespan, nTargetTimespan, nLastTimespan);
     if (nActualTimespan < nTargetTimespan/3)
         nActualTimespan = nTargetTimespan/3;
     if (nActualTimespan > nTargetTimespan*3)
