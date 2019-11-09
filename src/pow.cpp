@@ -165,29 +165,28 @@ unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockH
     }
 
     const CBlockIndex *pindex = pindexLast;
-    arith_uint256 bnPastTargetDiffTotal;
+    arith_uint256 bnPastTargetAvg;
 
     for (unsigned int nCountBlocks = 1; nCountBlocks <= nPastBlocks; nCountBlocks++) {
         arith_uint256 bnTarget = arith_uint256().SetCompact(pindex->nBits);
-        arith_uint256 bnTargetDiff = bnPowLimit - bnTarget;
 
         if (nCountBlocks == 1) {
-            bnPastTargetDiffTotal = bnTargetDiff;
+            bnPastTargetAvg = (bnTarget / nPastBlocks);
         } else {
             // NOTE: that's not an average really...
-            bnPastTargetDiffTotal += bnTargetDiff;
+            bnPastTargetAvg += (bnTarget / nPastBlocks);
         }
 
         if(nCountBlocks != nPastBlocks) {
             assert(pindex->pprev); // should never fail
             pindex = pindex->pprev;
         }
-    LogPrint("pow", "DGW bnTarget: %08x bnTargetDiff: %08x bnPartTargetDiffTotal: %08x\n", bnTarget.GetCompact(), bnTargetDiff.GetCompact(), bnPastTargetDiffTotal.GetCompact());
+//    LogPrint("pow", "DGW bnTarget: %s bnPartTargetAvg: %s\n", bnTarget.ToString(), bnPastTargetAvg.ToString());
     }
 
-    arith_uint256 bnNew(bnPowLimit - (bnPastTargetDiffTotal / nPastBlocks));
+    arith_uint256 bnNew(bnPastTargetAvg);
 
-    LogPrint("pow", "DGW PastTargetDiffTotal: %08x nbNew: %08x\n", bnPastTargetDiffTotal.GetCompact(), bnNew.GetCompact());
+    LogPrint("pow", "DGW PastTargetDiffTotal: %08x nbNew: %08x\n", bnPastTargetAvg.GetCompact(), bnNew.GetCompact());
 
     int64_t nActualTimespan = pindexLast->GetBlockTime() - pindex->GetBlockTime();
     // NOTE: is this accurate? nActualTimespan counts it for (nPastBlocks - 1) blocks only...
