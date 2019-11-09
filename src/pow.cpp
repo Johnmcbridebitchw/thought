@@ -139,7 +139,7 @@ unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockH
     LogPrint("pow", "POW DGW.\n");
     int currentBlockHeight = pindexLast->nHeight+1;
     const arith_uint256 bnPowLimit = (currentBlockHeight >= params.CuckooHardForkBlockHeight)? UintToArith256(params.cuckooPowLimit) : UintToArith256(params.powLimit);
-    
+
     int64_t nPastBlocks = 24;
     int64_t nLastTimespan = pblock->GetBlockTime() - pindexLast->GetBlockTime();
     // make sure we have at least (nPastBlocks + 1) blocks, otherwise just return powLimit
@@ -185,12 +185,39 @@ unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockH
     }
 
     arith_uint256 bnNew(bnPastTargetAvg);
-
     LogPrint("pow", "DGW PastTargetDiffTotal: %08x nbNew: %08x\n", bnPastTargetAvg.GetCompact(), bnNew.GetCompact());
+
+    // Regulate block times so as to remain synchronized in the long run with the actual time.  The first step is to
+    // calculate what interval we want to use as our regulatory goal.  It depends on how far ahead of (or behind)
+    // schedule we are.  If we're more than an adjustment period ahead or behind, we use the maximum (nSlowInterval) or minimum
+    // (nFastInterval) values; otherwise we calculate a weighted average somewhere in between them.  The closer we are
+    // to being exactly on schedule the closer our selected interval will be to our nominal interval (TargetSpacing).
+
+    int64_t nFastInterval = (params.nPowTargetSpacing * 9 ) / 10; // seconds per block desired when far behind schedule
+    int64_t nSlowInterval = (params.nPowTargetSpacing * 11) / 10; // seconds per block desired when far ahead of schedule
+    int64_t nIntervalDesired  = params.nPowTargetSpacing;
+    int64_t then = params.genesisBlockTime;
+    int64_t now = pindexLast->GetBlockTime();
+    int64_t BlockHeightTime = then + pindexLast->nHeight * params.nPowTargetSpacing;
+
+    if (now < BlockHeightTime + params.DifficultyAdjustmentInterval() && now > BlockHeightTime )
+    // ahead of schedule by less than one interval.
+    nIntervalDesired = ((params.DifficultyAdjustmentInterval() - (now - BlockHeightTime)) * params.nPowTargetSpacing +
+                (now - BlockHeightTime) * nFastInterval) / params.DifficultyAdjustmentInterval();
+    else if (now + params.DifficultyAdjustmentInterval() > BlockHeightTime && now < BlockHeightTime)
+    // behind schedule by less than one interval.
+    nIntervalDesired = ((params.DifficultyAdjustmentInterval() - (BlockHeightTime - now)) * params.nPowTargetSpacing +
+                (BlockHeightTime - now) * nSlowInterval) / params.DifficultyAdjustmentInterval();
+
+    // ahead by more than one interval;
+    else if (now < BlockHeightTime) nIntervalDesired = nSlowInterval;
+
+    // behind by more than an interval.
+    else  nIntervalDesired = nFastInterval;
 
     int64_t nActualTimespan = pindexLast->GetBlockTime() - pindex->GetBlockTime();
     // NOTE: is this accurate? nActualTimespan counts it for (nPastBlocks - 1) blocks only...
-    int64_t nTargetTimespan = nPastBlocks * params.nPowTargetSpacing;
+    int64_t nTargetTimespan = nPastBlocks * nIntervalDesired;
     LogPrint("pow", "DGW  pre nActualTimespan %d, nTagetTimespan %d, nLastTimespan %d.\n", nActualTimespan, nTargetTimespan, nLastTimespan);
     if (nActualTimespan < nTargetTimespan/3)
         nActualTimespan = nTargetTimespan/3;
