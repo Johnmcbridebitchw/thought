@@ -193,7 +193,7 @@ public:
         consensus.nGovernanceMinQuorum = 40;
         consensus.nGovernanceFilterElements = 20000;
         consensus.nMasternodeMinimumConfirmations = 15;
-	consensus.BIP34Height = 1;
+	      consensus.BIP34Height = 1;
         consensus.BIP34Hash = uint256S("000000008adb723e6f7a16be978cac979c2173b67752afc6d2a3f80110fe6c72");
         consensus.BIP65Height = 0; // 00000000000076d8fcea02ec0963de4abfd01e771fec0863f960c2c64fe6f357
         consensus.BIP66Height = 0; // 00000000000b1fa2dfa312863570e13fae9ca7b5566cb27e55422620b469aefa
@@ -362,7 +362,7 @@ public:
         consensus.nGovernanceMinQuorum = 1;
         consensus.nGovernanceFilterElements = 500;
         consensus.nMasternodeMinimumConfirmations = 1;
-	consensus.BIP34Height = 1;
+	      consensus.BIP34Height = 1;
         consensus.BIP34Hash = uint256S("000000007459c5f4deaaa14268bb8e6989461227ba743509de6ce194bad621c7");
         consensus.BIP65Height = 0; // 0000039cf01242c7f921dcb4806a5994bc003b48c1973ae0c89b67809c2bb2ab
         consensus.BIP66Height = 0; // 0000002acdd29a14583540cb72e1c5cc83783560e38fa7081495d474fe1671f7
@@ -375,7 +375,7 @@ public:
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
         consensus.nPowKGWHeight = 4002; // disabled in POW
-        consensus.nPowDGWHeight = 2000000; // far in the future until we deploy DGW
+        consensus.nPowDGWHeight = 209950; // Nov 14th 2019
         consensus.nRuleChangeActivationThreshold = 1512; // 75% for testchains
         consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
@@ -420,10 +420,10 @@ public:
 
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000002c0348222c"); // 203853
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000002c03520c2c"); // 203853
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x0080d0bf98c3780b426892ba549c89abcd7c3c12812287888b087c5d759ddd42"); // 203853
+        consensus.defaultAssumeValid = uint256S("0x00b4035a037a5522141b8be953ddf0382cdbd2e065e7fcaf7ff64eaf2963e9bb"); // 203853
 
         pchMessageStart[0] = 0x2b;
         pchMessageStart[1] = 0x99;
@@ -488,6 +488,7 @@ public:
             ( 128, uint256S("0x000b288b55c8f6c919369ee26f517861f6552c294b7d262339c80de906fe01c8"))
             ( 154509, uint256S("0x001ecb9553a2d270c7055fee8b91401ac63f6c5f8e8926d958d88b679d8ccb70"))
             ( 203853, uint256S("0x0080d0bf98c3780b426892ba549c89abcd7c3c12812287888b087c5d759ddd42"))
+            ( 206391, uint256S("0x00b4035a037a5522141b8be953ddf0382cdbd2e065e7fcaf7ff64eaf2963e9bb"))
                   };
 
         chainTxData = ChainTxData{
