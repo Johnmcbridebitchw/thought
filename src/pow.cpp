@@ -136,9 +136,12 @@ unsigned int static KimotoGravityWell(const CBlockIndex* pindexLast, const Conse
 
 unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params) {
     /* current difficulty formula, thought - DarkGravity v3, written by Evan Duffield - evan@thought.org */
-    const arith_uint256 bnPowLimit = UintToArith256(params.powLimit);
-    int64_t nPastBlocks = 24;
+    LogPrint("pow", "POW DGW.\n");
+    int currentBlockHeight = pindexLast->nHeight+1;
+    const arith_uint256 bnPowLimit = (currentBlockHeight >= params.CuckooHardForkBlockHeight)? UintToArith256(params.cuckooPowLimit) : UintToArith256(params.powLimit);
 
+    int64_t nPastBlocks = 24;
+    int64_t nLastTimespan = pblock->GetBlockTime() - pindexLast->GetBlockTime();
     // make sure we have at least (nPastBlocks + 1) blocks, otherwise just return powLimit
     if (!pindexLast || pindexLast->nHeight < nPastBlocks) {
         return bnPowLimit.GetCompact();
@@ -147,11 +150,13 @@ unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockH
     if (params.fPowAllowMinDifficultyBlocks) {
         // recent block is more than 2 hours old
         if (pblock->GetBlockTime() > pindexLast->GetBlockTime() + 2 * 60 * 60) {
+            LogPrint("pow", "DGW mindiffblocks return powlimit >2hrs old.\n");
             return bnPowLimit.GetCompact();
         }
         // recent block is more than 10 minutes old
         if (pblock->GetBlockTime() > pindexLast->GetBlockTime() + params.nPowTargetSpacing * 4) {
             arith_uint256 bnNew = arith_uint256().SetCompact(pindexLast->nBits) * 10;
+            LogPrint("pow", "DGW mindiffblocks return powlimit*10 >10min old.\n");
             if (bnNew > bnPowLimit) {
                 bnNew = bnPowLimit;
             }
@@ -164,34 +169,66 @@ unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockH
 
     for (unsigned int nCountBlocks = 1; nCountBlocks <= nPastBlocks; nCountBlocks++) {
         arith_uint256 bnTarget = arith_uint256().SetCompact(pindex->nBits);
+
         if (nCountBlocks == 1) {
-            bnPastTargetAvg = bnTarget;
+            bnPastTargetAvg = (bnTarget / nPastBlocks);
         } else {
             // NOTE: that's not an average really...
-            bnPastTargetAvg = (bnPastTargetAvg * nCountBlocks + bnTarget) / (nCountBlocks + 1);
+            bnPastTargetAvg += (bnTarget / nPastBlocks);
         }
 
         if(nCountBlocks != nPastBlocks) {
             assert(pindex->pprev); // should never fail
             pindex = pindex->pprev;
         }
+//    LogPrint("pow", "DGW bnTarget: %s bnPartTargetAvg: %s\n", bnTarget.ToString(), bnPastTargetAvg.ToString());
     }
 
     arith_uint256 bnNew(bnPastTargetAvg);
+    LogPrint("pow", "DGW PastTargetDiffTotal: %08x nbNew: %08x\n", bnPastTargetAvg.GetCompact(), bnNew.GetCompact());
+
+    // Regulate block times so as to remain synchronized in the long run with the actual time.  The first step is to
+    // calculate what interval we want to use as our regulatory goal.  It depends on how far ahead of (or behind)
+    // schedule we are.  If we're more than an adjustment period ahead or behind, we use the maximum (nSlowInterval) or minimum
+    // (nFastInterval) values; otherwise we calculate a weighted average somewhere in between them.  The closer we are
+    // to being exactly on schedule the closer our selected interval will be to our nominal interval (TargetSpacing).
+
+    int64_t nFastInterval = (params.nPowTargetSpacing * 9 ) / 10; // seconds per block desired when far behind schedule
+    int64_t nSlowInterval = (params.nPowTargetSpacing * 11) / 10; // seconds per block desired when far ahead of schedule
+    int64_t nIntervalDesired  = params.nPowTargetSpacing;
+    int64_t then = params.genesisBlockTime;
+    int64_t now = pindexLast->GetBlockTime();
+    int64_t BlockHeightTime = then + pindexLast->nHeight * params.nPowTargetSpacing;
+
+    if (now < BlockHeightTime + params.DifficultyAdjustmentInterval() && now > BlockHeightTime )
+    // ahead of schedule by less than one interval.
+    nIntervalDesired = ((params.DifficultyAdjustmentInterval() - (now - BlockHeightTime)) * params.nPowTargetSpacing +
+                (now - BlockHeightTime) * nFastInterval) / params.DifficultyAdjustmentInterval();
+    else if (now + params.DifficultyAdjustmentInterval() > BlockHeightTime && now < BlockHeightTime)
+    // behind schedule by less than one interval.
+    nIntervalDesired = ((params.DifficultyAdjustmentInterval() - (BlockHeightTime - now)) * params.nPowTargetSpacing +
+                (BlockHeightTime - now) * nSlowInterval) / params.DifficultyAdjustmentInterval();
+
+    // ahead by more than one interval;
+    else if (now < BlockHeightTime) nIntervalDesired = nSlowInterval;
+
+    // behind by more than an interval.
+    else  nIntervalDesired = nFastInterval;
 
     int64_t nActualTimespan = pindexLast->GetBlockTime() - pindex->GetBlockTime();
     // NOTE: is this accurate? nActualTimespan counts it for (nPastBlocks - 1) blocks only...
-    int64_t nTargetTimespan = nPastBlocks * params.nPowTargetSpacing;
-
+    int64_t nTargetTimespan = nPastBlocks * nIntervalDesired;
+    LogPrint("pow", "DGW  pre nActualTimespan %d, nTagetTimespan %d, nLastTimespan %d.\n", nActualTimespan, nTargetTimespan, nLastTimespan);
     if (nActualTimespan < nTargetTimespan/3)
         nActualTimespan = nTargetTimespan/3;
     if (nActualTimespan > nTargetTimespan*3)
         nActualTimespan = nTargetTimespan*3;
-
+    LogPrint("pow", "DGW  3x over adjust nActualTimespan %d, nTagetTimespan %d.\n", nActualTimespan, nTargetTimespan);
     // Retarget
-    bnNew *= nActualTimespan;
+    LogPrint("pow", "DGW  bnNew preadjust: %08x.\n", bnNew.GetCompact());
     bnNew /= nTargetTimespan;
-
+    bnNew *= nActualTimespan;
+    LogPrint("pow", "DGW  bnNew postadjust: %08x.\n", bnNew.GetCompact());
     if (bnNew > bnPowLimit) {
         bnNew = bnPowLimit;
     }
@@ -201,6 +238,7 @@ unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockH
 
 unsigned int GetNextWorkRequiredBTC(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
 {
+    LogPrint("pow", "POW GetNextWorkRequiredBTC.\n");
     unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
 
     int currentBlockHeight = pindexLast->nHeight+1;
@@ -208,7 +246,6 @@ unsigned int GetNextWorkRequiredBTC(const CBlockIndex* pindexLast, const CBlockH
     // Genesis block
     if (pindexLast == NULL)
         return nProofOfWorkLimit;
-
     // Only change once per interval
     if ((pindexLast->nHeight+1) % params.DifficultyAdjustmentInterval() != 0)
     {
@@ -240,30 +277,8 @@ unsigned int GetNextWorkRequiredBTC(const CBlockIndex* pindexLast, const CBlockH
    return CalculateNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), params);
  }
 
-/* Dash GetNextWorkRequired - includes DGW and KGW, can add MIDAS in here eventually
-unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
-{
-    // this is only active on devnets
-    if (pindexLast->nHeight < params.nMinimumDifficultyBlocks) {
-        unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
-        return nProofOfWorkLimit;
-    }
-
-    // Most recent algo first
-    if (pindexLast->nHeight + 1 >= params.nPowDGWHeight) {
-        return DarkGravityWave(pindexLast, pblock, params);
-    }
-    else if (pindexLast->nHeight + 1 >= params.nPowKGWHeight) {
-        return KimotoGravityWell(pindexLast, params);
-    }
-    else {
-        return GetNextWorkRequiredBTC(pindexLast, pblock, params);
-    }
-}
-*/
-
-//Midas GetNextWorkRequired disabling cuckoo related
-unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
+//Midas GetNextWorkRequired
+unsigned int Midas(const CBlockIndex *pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
 {
     int64_t avgOf5;
     int64_t avgOf9;
@@ -279,7 +294,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
     int64_t nSlowInterval = (params.nPowTargetSpacing * 11) / 10; // seconds per block desired when far ahead of schedule
     int64_t nIntervalDesired  = params.nPowTargetSpacing;
 
-    // cuckoo disabled for dash
+
     int currentBlockHeight = pindexLast->nHeight+1;
     const uint256 usedPowLimit = (currentBlockHeight >= params.CuckooHardForkBlockHeight)? params.cuckooPowLimit : params.powLimit;
 
@@ -302,7 +317,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
 
     if (params.fPowAllowMinDifficultyBlocks)
     {
-    //    LogPrint(BCLog::MIDAS, "POW allowing min difficulty.\n");
+        LogPrint("pow", "Midas POW allowing min difficulty.\n");
         // Special difficulty rule for testnet: If the new block's timestamp is more than 2* TargetSpacing then allow
         // mining of a min-difficulty block.
         if (pblock->nTime > pindexLast->nTime + params.nPowTargetSpacing * 2)
@@ -362,13 +377,13 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
     // both of these check the shortest interval to quickly stop when overshot.  Otherwise first is longer and second shorter.
     if (avgOf5 < toofast && avgOf9 < toofast && avgOf17 < toofast)
     {  //emergency adjustment, slow down (longer intervals because shorter blocks)
-    //  LogPrint(BCLog::MIDAS, "GetNextWorkRequired EMERGENCY RETARGET\n");
+    LogPrint("pow", "Midas GetNextWorkRequired EMERGENCY RETARGET higher diff lower target\n");
       difficultyfactor *= 8;
       difficultyfactor /= 5;
     }
     else if (avgOf5 > tooslow && avgOf7 > tooslow && avgOf9 > tooslow)
     {  //emergency adjustment, speed up (shorter intervals because longer blocks)
-    //  LogPrint(BCLog::MIDAS, "GetNextWorkRequired EMERGENCY RETARGET\n");
+    LogPrint("pow", "Midas GetNextWorkRequired EMERGENCY RETARGET lower diff higher target\n");
       difficultyfactor *= 5;
       difficultyfactor /= 8;
     }
@@ -379,7 +394,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
     { // At least 3 averages too high or at least 3 too low, including the two longest. This will be executed 3/16 of
       // the time on the basis of random variation, even if the settings are perfect. It regulates one-sixth of the way
       // to the calculated point.
-    //  LogPrint(BCLog::MIDAS, "GetNextWorkRequired RETARGET\n");
+      LogPrint("pow", "Midas GetNextWorkRequired RETARGET\n");
       difficultyfactor *= (6 * nIntervalDesired);
       difficultyfactor /= avgOf17 +(5 * nIntervalDesired);
     }
@@ -411,17 +426,35 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
     if (bnNew > bnPowLimit)
       bnNew = bnPowLimit;
 
-    //LogPrint(BCLog::MIDAS, "Actual time %d, Scheduled time for this block height = %d\n", now, BlockHeightTime );
-    //LogPrint(BCLog::MIDAS, "Nominal block interval = %d, regulating on interval %d to get back to schedule.\n",
-    //      params.nPowTargetSpacing, nIntervalDesired );
-    //LogPrint(BCLog::MIDAS, "Intervals of last 5/7/9/17 blocks = %d / %d / %d / %d.\n",
-    //      avgOf5, avgOf7, avgOf9, avgOf17);
-    //LogPrint(BCLog::MIDAS, "Difficulty Before Adjustment: %08x  %s\n", pindexLast->nBits, bnOld.ToString());
-    //LogPrint(BCLog::MIDAS, "Difficulty After Adjustment:  %08x  %s\n", bnNew.GetCompact(), bnNew.ToString());
+    LogPrint("pow", "Midas Actual time %d, Scheduled time for this block height = %d\n", now, BlockHeightTime );
+    LogPrint("pow", "Midas Nominal block interval = %d, regulating on interval %d to get back to schedule.\n", params.nPowTargetSpacing, nIntervalDesired );
+    LogPrint("pow", "Midas Intervals of last 5/7/9/17 blocks = %d / %d / %d / %d.\n", avgOf5, avgOf7, avgOf9, avgOf17);
+    LogPrint("pow", "Midas Difficulty Before Adjustment: %08x  %s\n", pindexLast->nBits, bnOld.ToString());
+    LogPrint("pow", "Midas Difficulty After Adjustment:  %08x  %s\n", bnNew.GetCompact(), bnNew.ToString());
 
     return bnNew.GetCompact();
 }
 
+// GetNextWorkRequired - includes DGW and Midas
+unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
+{
+    // this is only active on devnets
+    if (pindexLast->nHeight < params.nMinimumDifficultyBlocks) {
+        unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
+        return nProofOfWorkLimit;
+    }
+
+    // Most recent algo first
+    if (pindexLast->nHeight + 1 >= params.nPowDGWHeight) {
+        return DarkGravityWave(pindexLast, pblock, params);
+    }
+    else if (pindexLast->nHeight + 1 >= params.midasStartHeight) {
+        return Midas(pindexLast, pblock, params);
+    }
+    else {
+        return GetNextWorkRequiredBTC(pindexLast, pblock, params);
+    }
+}
 
 // for DIFF_BTC only!
 unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nFirstBlockTime, const Consensus::Params& params)
@@ -472,7 +505,7 @@ bool CheckProofOfWork(const CBlockHeader& blockHeader, uint256 hash, unsigned in
 */
 
 
-//MIDAS CheckProofOfWork
+// CheckProofOfWork SHA and Cuckoo
 bool CheckProofOfWork(const CBlockHeader& blockHeader, uint256 hash, unsigned int nBits, const Consensus::Params& params)
 {
     bool fNegative;
@@ -482,7 +515,7 @@ bool CheckProofOfWork(const CBlockHeader& blockHeader, uint256 hash, unsigned in
     bool retval = true;
 
     bnTarget.SetCompact(nBits, &fNegative, &fOverflow);
-    //LogPrint(BCLog::MIDAS, "Checking against target: %s\n", bnTarget.GetHex());
+    LogPrint("pow", "CheckPOW Checking against target: %s\n", bnTarget.GetHex());
 
     // Check range
     if (fNegative || bnTarget == 0 || fOverflow)
@@ -513,7 +546,7 @@ bool CheckProofOfWork(const CBlockHeader& blockHeader, uint256 hash, unsigned in
 
                 vec.resize(32);
                 arith_uint256 cpow = UintToArith256((const uint256)vec);
-                LogPrint("MIDAS", "Difficulty In: %s\n", cpow.GetHex());
+                LogPrint("pow", "Cuckoo Difficulty In: %s\n", cpow.GetHex());
 
                 if (cpow > bnTarget)
                 {
@@ -546,12 +579,12 @@ bool CheckCuckooProofOfWork(const CBlockHeader& blockHeader, const Consensus::Pa
     auto vc = cuckoo::verify((unsigned int *)blockHeader.cuckooProof, hash, params.cuckooGraphSize);
     if (cuckoo::POW_OK == vc)
     {
-      LogPrint("MIDAS", "Cuckoo cycle verified!\n");
+      LogPrint("pow", "Cuckoo cycle verified!\n");
       retval = true;
     }
     else
     {
-      LogPrint("cuckoo", "Cuckoo cycle not verified, code %d\n", vc);
+      LogPrint("pow", "Cuckoo cycle not verified, code %d\n", vc);
     }
 
     return retval;

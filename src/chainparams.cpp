@@ -205,8 +205,8 @@ public:
         consensus.nPowTargetSpacing = 1.618 * 60; // Thought: 2.5 minutes
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
-        consensus.nPowKGWHeight = 15200; //these are not active in midas, but make sure when activate that we set DGWheight correctly
-        consensus.nPowDGWHeight = 34140;
+        consensus.nPowKGWHeight = 15200; //disabled in POW
+        consensus.nPowDGWHeight = 2000000; //far in the future until we deploy DGW
         consensus.nRuleChangeActivationThreshold = 1916; // 95% of 2016
         consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
@@ -375,8 +375,8 @@ public:
         consensus.nPowTargetSpacing = 1.618 * 60; // Thought: 2.5 minutes
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
-        consensus.nPowKGWHeight = 4002; // nPowKGWHeight >= nPowDGWHeight means "no KGW"
-        consensus.nPowDGWHeight = 4002; //these are not active in midas, but make sure when activate that we set DGWheight correctly
+        consensus.nPowKGWHeight = 4002; // disabled in POW
+        consensus.nPowDGWHeight = 2000000; // far in the future until we deploy DGW
         consensus.nRuleChangeActivationThreshold = 1512; // 75% for testchains
         consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
@@ -533,11 +533,11 @@ public:
         consensus.cuckooPowLimit = uint256S("efffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.cuckooGraphSize = 24;
         consensus.nPowTargetTimespan = 24 * 60 * 60; // Thought: 1 day
-        consensus.nPowTargetSpacing = 2.5 * 60; // Thought: 2.5 minutes
-        consensus.fPowAllowMinDifficultyBlocks = true;
+        consensus.nPowTargetSpacing = 1.618 * 60; // Thought: 2.5 minutes
+        consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
-        consensus.nPowKGWHeight = 4001; // nPowKGWHeight >= nPowDGWHeight means "no KGW"
-        consensus.nPowDGWHeight = 4001;
+        consensus.nPowKGWHeight = 1; // nPowKGWHeight >= nPowDGWHeight means "no KGW"
+        consensus.nPowDGWHeight = 1;
         consensus.nRuleChangeActivationThreshold = 1512; // 75% for testchains
         consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
@@ -570,13 +570,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nWindowSize = 100;
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 50; // 50% of 100
 
-        // Implementation of MIDAS
-        consensus.midasStartHeight = 2;
-        consensus.midasValidHeight = 2;
-
-        // Block to hard fork to Cuckoo Cycle POW
-        consensus.CuckooHardForkBlockHeight = 2;
-        consensus.CuckooRequiredBlockHeight = 2;
+        consensus.CuckooHardForkBlockHeight = 3;
+        consensus.CuckooRequiredBlockHeight = 3;
 
         // The best chain should have at least this much work.
         consensus.nMinimumChainWork = uint256S("0x000000000000000000000000000000000000000000000000000000000000000");
@@ -592,13 +587,13 @@ public:
         nDefaultPort = 12618;
         nPruneAfterHeight = 1000;
 
-        genesis = CreateGenesisBlock(1417713337, 1096447, 0x207fffff, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1521040440, 1, 0x207fffff, 1, 1618 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
         consensus.genesisBlockTime = genesis.GetBlockTime();
-        assert(consensus.hashGenesisBlock == uint256S("0x000008ca1832a4baf228eb1553c03d3a2c8e02399550dd6ea8d65cec3ef23d2e"));
-        assert(genesis.hashMerkleRoot == uint256S("0xe0028eb9648db56b1ac77cf090b99048a8007e2bb64b68f092c03c7f56a662c7"));
+        assert(consensus.hashGenesisBlock == uint256S("730ca19408f5a6f6123ecbcb95fe2c016f642f6855c7a10abb1869fed657de3a"));
+        assert(genesis.hashMerkleRoot == uint256S("483a98bfa350f319e52eceaa79585fab8e5ac49c6235f720915e9c671a03c2d6"));
 
-        devnetGenesis = FindDevNetGenesisBlock(consensus, genesis, 50 * COIN);
+        devnetGenesis = FindDevNetGenesisBlock(consensus, genesis, 809016994 * COIN);
         consensus.hashDevnetGenesisBlock = devnetGenesis.GetHash();
 
         vFixedSeeds.clear();
@@ -634,7 +629,7 @@ public:
         nPoolMaxTransactions = 3;
         nFulfilledRequestExpireTime = 5*60; // fulfilled requests expire in 5 minutes
 
-        vSporkAddresses = {"kxkf3ojUeHpzBuU5qdXEWKND5E4LmkQ6qU"};
+        vSporkAddresses = {"yXxY2HrDz8gELC4rRq1GRiXwB5KWdzJnAp"};
         nMinSporkKeys = 1;
         // devnets are started with no blocks and no MN, so we can't check for upgraded MN (as there are none)
         fBIP9CheckMasternodesUpgraded = false;
@@ -642,7 +637,7 @@ public:
 
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
-            (      0, uint256S("0x000008ca1832a4baf228eb1553c03d3a2c8e02399550dd6ea8d65cec3ef23d2e"))
+            (      0, uint256S("0x730ca19408f5a6f6123ecbcb95fe2c016f642f6855c7a10abb1869fed657de3a"))
             (      1, devnetGenesis.GetHash())
         };
 
