@@ -46,6 +46,8 @@ file(GLOB SOURCE_FILES
         src/crypto/*.c
         src/crypto/*.h
         src/crypto/*.cpp
+        src/crypto/cuckoo/*.h
+        src/crypto/cuckoo/*.cpp
         src/leveldb/db/*.cc
         src/leveldb/db/*.h
         src/leveldb/include/*.h

@@ -28,6 +28,7 @@
 #include "evo/deterministicmns.h"
 #include "evo/cbtx.h"
 #include "llmq/quorums_init.h"
+#include "crypto/cuckoo/solve.h"
 
 #include <memory>
 
@@ -127,6 +128,7 @@ TestChainSetup::TestChainSetup(int blockCount) : TestingSetup(CBaseChainParams::
 CBlock
 TestChainSetup::CreateAndProcessBlock(const std::vector<CMutableTransaction>& txns, const CScript& scriptPubKey)
 {
+    std::printf("CreateAndProcessBlock\n");
     const CChainParams& chainparams = Params();
     auto block = CreateBlock(txns, scriptPubKey);
 
@@ -182,6 +184,12 @@ CBlock TestChainSetup::CreateBlock(const std::vector<CMutableTransaction>& txns,
     // IncrementExtraNonce creates a valid coinbase and merkleRoot
     unsigned int extraNonce = 0;
     IncrementExtraNonce(&block, chainActive.Tip(), extraNonce);
+
+    if (block.isCuckooPow()) {
+        if (!cuckoo::solve(block, chainparams.GetConsensus())) {
+            throw std::runtime_error("failed to solve cuckoo block");
+        }
+    }
 
     while (!CheckProofOfWork(block.GetBlockHeader(), block.GetHash(), block.nBits, chainparams.GetConsensus())) ++block.nNonce;
 

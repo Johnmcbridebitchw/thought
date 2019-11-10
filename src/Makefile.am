@@ -341,8 +341,12 @@ crypto_libthought_crypto_a_SOURCES = \
   crypto/sha256.h \
   crypto/sha512.cpp \
   crypto/sha512.h \
-	crypto/cuckoo.h \
-	crypto/cuckoo.cpp
+  crypto/cuckoo/cuckoo.h \
+  crypto/cuckoo/cuckoo.cpp \
+  crypto/cuckoo/solve.h \
+  crypto/cuckoo/solve.cpp \
+  crypto/cuckoo/verify.h \
+  crypto/cuckoo/verify.cpp
 
 # x11
 crypto_libthought_crypto_a_SOURCES += \
