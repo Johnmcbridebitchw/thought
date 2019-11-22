@@ -206,7 +206,7 @@ public:
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nPowKGWHeight = 15200; //disabled in POW
-        consensus.nPowDGWHeight = 2000000; //far in the future until we deploy DGW
+        consensus.nPowDGWHeight = 558285; // approximately Dec 11,2019
         consensus.nRuleChangeActivationThreshold = 1916; // 95% of 2016
         consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
