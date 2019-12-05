@@ -40,7 +40,13 @@ bool CMessageSigner::VerifyMessage(const CKeyID& keyID, const std::vector<unsign
     CHashWriter ss(SER_GETHASH, 0);
     ss << strMessageMagic;
     ss << strMessage;
-
+    
+    if (!CHashSigner::VerifyHash(ss.GetHash(), keyID, vchSig, strErrorRet)) {
+        CHashWriter ssprev(SER_GETHASH, 0);
+        ssprev << strMessageMagicprev;
+        ssprev << strMessage;
+        return CHashSigner::VerifyHash(ssprev.GetHash(), keyID, vchSig, strErrorRet);
+    }
     return CHashSigner::VerifyHash(ss.GetHash(), keyID, vchSig, strErrorRet);
 }
 
