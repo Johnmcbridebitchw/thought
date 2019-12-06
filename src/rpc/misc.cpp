@@ -531,9 +531,14 @@ UniValue verifymessage(const JSONRPCRequest& request)
     ss << strMessage;
 
     CPubKey pubkey;
-    if (!pubkey.RecoverCompact(ss.GetHash(), vchSig))
+    if (!pubkey.RecoverCompact(ss.GetHash(), vchSig)){
+      CHashWriter ssprev(SER_GETHASH, 0);
+      ssprev << strMessageMagicprev;
+      ssprev << strMessage;
+      if (!pubkey.RecoverCompact(ssprev.GetHash(), vchSig)){
         return false;
-
+      }
+   }
     return (pubkey.GetID() == keyID);
 }
 
@@ -573,9 +578,14 @@ UniValue signmessagewithprivkey(const JSONRPCRequest& request)
     ss << strMessage;
 
     std::vector<unsigned char> vchSig;
-    if (!key.SignCompact(ss.GetHash(), vchSig))
+    if (!key.SignCompact(ss.GetHash(), vchSig)) {
+        CHashWriter ssprev(SER_GETHASH, 0);
+        ssprev << strMessageMagicprev;
+        ssprev << strMessage;
+        if (!key.SignCompact(ssprev.GetHash(), vchSig)) {
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Sign failed");
-
+        }
+      }
     return EncodeBase64(&vchSig[0], vchSig.size());
 }
 

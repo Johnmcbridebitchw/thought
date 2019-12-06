@@ -632,9 +632,14 @@ UniValue signmessage(const JSONRPCRequest& request)
     ss << strMessage;
 
     std::vector<unsigned char> vchSig;
-    if (!key.SignCompact(ss.GetHash(), vchSig))
+    if (!key.SignCompact(ss.GetHash(), vchSig)) {
+        CHashWriter ssprev(SER_GETHASH, 0);
+        ssprev << strMessageMagicprev;
+        ssprev << strMessage;
+        if (!key.SignCompact(ssprev.GetHash(), vchSig)) {
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Sign failed");
-
+        }
+      }
     return EncodeBase64(&vchSig[0], vchSig.size());
 }
 
@@ -1818,7 +1823,7 @@ UniValue gettransaction(const JSONRPCRequest& request)
             "      \"fee\": x.xxx,                     (numeric) The amount of the fee in " + CURRENCY_UNIT + ". This is negative and only available for the \n"
             "                                           'send' category of transactions.\n"
             "      \"abandoned\": xxx                  (bool) 'true' if the transaction has been abandoned (inputs are respendable). Only available for the \n"
-            "                                           'send' category of transactions.\n"			
+            "                                           'send' category of transactions.\n"
             "    }\n"
             "    ,...\n"
             "  ],\n"
@@ -2356,7 +2361,7 @@ UniValue setprivatesendrounds(const JSONRPCRequest& request)
             "setprivatesendrounds rounds\n"
             "\nSet the number of rounds for PrivateSend mixing.\n"
             "\nArguments:\n"
-            "1. rounds         (numeric, required) The default number of rounds is " + std::to_string(DEFAULT_PRIVATESEND_ROUNDS) + 
+            "1. rounds         (numeric, required) The default number of rounds is " + std::to_string(DEFAULT_PRIVATESEND_ROUNDS) +
             " Cannot be more than " + std::to_string(MAX_PRIVATESEND_ROUNDS) + " nor less than " + std::to_string(MIN_PRIVATESEND_ROUNDS) +
             "\nExamples:\n"
             + HelpExampleCli("setprivatesendrounds", "4")

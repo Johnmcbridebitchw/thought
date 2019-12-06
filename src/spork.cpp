@@ -487,7 +487,12 @@ bool CSporkMessage::GetSignerKeyID(CKeyID &retKeyidSporkSigner, bool fSporkSixAc
         ss << strMessageMagic;
         ss << strMessage;
         if (!pubkeyFromSig.RecoverCompact(ss.GetHash(), vchSig)) {
+            CHashWriter ssprev(SER_GETHASH, 0);
+            ssprev << strMessageMagicprev;
+            ssprev << strMessage;
+            if (!pubkeyFromSig.RecoverCompact(ssprev.GetHash(), vchSig)) {
             return false;
+          }
         }
     }
 
