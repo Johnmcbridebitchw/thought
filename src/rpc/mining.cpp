@@ -11,7 +11,7 @@
 #include "consensus/consensus.h"
 #include "consensus/params.h"
 #include "consensus/validation.h"
-#include "crypto/cuckoo/solve.h"
+#include "cuckoosolver.h"
 #include "core_io.h"
 #include "init.h"
 #include "validation.h"

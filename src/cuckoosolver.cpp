@@ -6,7 +6,7 @@
 #include <cstdlib>
 #include <cstring>
 
-#include "crypto/cuckoo/solve.h"
+#include "cuckoosolver.h"
 #include "pow.h"
 
 namespace cuckoo {

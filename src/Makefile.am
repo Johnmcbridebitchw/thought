@@ -109,6 +109,7 @@ THOUGHT_CORE_H = \
   core_io.h \
   core_memusage.h \
   cuckoocache.h \
+  cuckoosolver.h \
   ctpl.h \
   evo/evodb.h \
   evo/specialtx.h \
@@ -231,6 +232,7 @@ libthought_server_a_SOURCES = \
   blockencodings.cpp \
   chain.cpp \
   checkpoints.cpp \
+  cuckoosolver.cpp \
   dsnotificationinterface.cpp \
   evo/evodb.cpp \
   evo/specialtx.cpp \
@@ -343,8 +345,6 @@ crypto_libthought_crypto_a_SOURCES = \
   crypto/sha512.h \
   crypto/cuckoo/cuckoo.h \
   crypto/cuckoo/cuckoo.cpp \
-  crypto/cuckoo/solve.h \
-  crypto/cuckoo/solve.cpp \
   crypto/cuckoo/verify.h \
   crypto/cuckoo/verify.cpp
 

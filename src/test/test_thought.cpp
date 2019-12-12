@@ -28,7 +28,7 @@
 #include "evo/deterministicmns.h"
 #include "evo/cbtx.h"
 #include "llmq/quorums_init.h"
-#include "crypto/cuckoo/solve.h"
+#include "cuckoosolver.h"
 
 #include <memory>
 

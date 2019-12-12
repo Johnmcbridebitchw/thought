@@ -1,8 +1,8 @@
 // Copyright (c) 2013-2018 John Tromp
 // Copyright (c) 2019 The Thought Core developers
 
-#ifndef CUCKOO_SOLVE_H_
-#define CUCKOO_SOLVE_H_
+#ifndef CUCKOOSOLVER_H_
+#define CUCKOOSOLVER_H_
 
 #include <vector>
 #include <memory>
@@ -57,4 +57,4 @@ bool solve(CBlockHeader &header, Consensus::Params const &params);
 
 };
 
-#endif  // CUCKOO_SOLVE_H_
+#endif  // CUCKOOSOLVER_H_
