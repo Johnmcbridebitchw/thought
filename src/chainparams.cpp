@@ -187,7 +187,7 @@ public:
         consensus.nBudgetPaymentsStartBlock = 385627; // actual historical value
         consensus.nBudgetPaymentsCycleBlocks = 26700; // ~(60*24*30)/1.618, actual number of blocks per month is 324846 / 12 = 27070
         consensus.nBudgetPaymentsWindowBlocks = 100;
-        consensus.nSuperblockStartBlock = 500000; // The block at which 12.1 goes live (end of final 12.0 budget cycle)
+        consensus.nSuperblockStartBlock = 939665; // The block at which 12.1 goes live (end of final 12.0 budget cycle) approx feb 2021
         consensus.nSuperblockStartHash = uint256S("0052548ec1345c8769322d9298297cefd5aa65504a02619a128bfb62d11d89f9");
         consensus.nSuperblockCycle = 26700; // ~(60*24*30)/1.618, actual number of blocks per month is 324846 / 12 = 27070
         consensus.nGovernanceMinQuorum = 40;
@@ -206,7 +206,7 @@ public:
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nPowKGWHeight = 15200; //disabled in POW
-        consensus.nPowDGWHeight = 588390; // approximately Jan 14,2020
+        consensus.nPowDGWHeight = 642605; // approximately Mar 14,2020
         consensus.nRuleChangeActivationThreshold = 1916; // 95% of 2016
         consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
@@ -236,8 +236,8 @@ public:
 
         // Deployment of DIP0003
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].bit = 3;
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 1572566400; // Nov 1st, 2019
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 1604188800; // Nov 1st, 2020
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 1592092800; // Jun 14th, 2020
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 1623628800; // Jun 14th, 2021
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nWindowSize = 1000;
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 20; // 2% of 1000
 
