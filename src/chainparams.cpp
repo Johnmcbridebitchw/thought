@@ -188,7 +188,7 @@ public:
         consensus.nBudgetPaymentsCycleBlocks = 26700; // ~(60*24*30)/1.618, actual number of blocks per month is 324846 / 12 = 27070
         consensus.nBudgetPaymentsWindowBlocks = 100;
         consensus.nSuperblockStartBlock = 939665; // The block at which 12.1 goes live (end of final 12.0 budget cycle) approx feb 2021
-        consensus.nSuperblockStartHash = uint256S("0052548ec1345c8769322d9298297cefd5aa65504a02619a128bfb62d11d89f9");
+        consensus.nSuperblockStartHash = uint256S("0052548ec1345c8769322d9298297cefd5aa65504a02619a128bfb62d11d89f9"); // update this
         consensus.nSuperblockCycle = 26700; // ~(60*24*30)/1.618, actual number of blocks per month is 324846 / 12 = 27070
         consensus.nGovernanceMinQuorum = 40;
         consensus.nGovernanceFilterElements = 20000;
@@ -242,7 +242,7 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 20; // 2% of 1000
 
 	// Implementation of MIDAS
-        consensus.midasStartHeight = 337;
+        consensus.midasStartHeight = 1;
         consensus.midasValidHeight = 512;
 
 
@@ -250,10 +250,10 @@ public:
         consensus.CuckooRequiredBlockHeight = 248800;
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000009f10b4d003712"); // 509597
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000009f10b61052acc"); // 615460
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x0052548ec1345c8769322d9298297cefd5aa65504a02619a128bfb62d11d89f9"); // 500000
+        consensus.defaultAssumeValid = uint256S("0x0074d0258d568298cbd1e6a2a12e0076059bcd4e55eeab9c5ad41989a4d3e5de"); // 615460
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -328,11 +328,12 @@ public:
             ( 248000, uint256S("006b52a5d017eb2590d25750c46542b2de43f7a3fdc6394d95db458cbcb35f85"))
             ( 388285, uint256S("00e0d38562e2f576c3c501f4768b282824a7f9489778537c49e3b5492923f5c5"))
             ( 500000, uint256S("0052548ec1345c8769322d9298297cefd5aa65504a02619a128bfb62d11d89f9"))
+            ( 615460, uint256S("0074d0258d568298cbd1e6a2a12e0076059bcd4e55eeab9c5ad41989a4d3e5de"))
         };
 
         chainTxData = ChainTxData{
-            1571405183, // * UNIX timestamp of last known number of transactions
-            515342,    // * total number of transactions between genesis and that timestamp
+            1581645506, // * UNIX timestamp of last known number of transactions
+            619962,    // * total number of transactions between genesis and that timestamp
                         //   (the tx=... number in the SetBestChain debug.log lines)
             1         // * estimated number of transactions per second after that timestamp
         };
