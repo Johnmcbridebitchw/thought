@@ -752,8 +752,8 @@ public:
 
         nFulfilledRequestExpireTime = 5*60; // fulfilled requests expire in 5 minutes
 
-        // privKey: cP4EKFyJsHT39LDqgdcB43Y3YXjNyjb5Fuas1GQSeAtjnZWmZEQK
-        vSporkAddresses = {"kxkf3ojUeHpzBuU5qdXEWKND5E4LmkQ6qU"};
+        // privKey: cVcFUUr8Mrv8wM5V6CF38gXr6vMbVFPEWa3vA2fJLdbY53xM76tb
+        vSporkAddresses = {"ydYbzXGsYFQvnxY5cEzVVaUhwZfEVVTVis"};
         nMinSporkKeys = 1;
         // regtest usually has no masternodes in most tests, so don't check for upgraged MNs
         fBIP9CheckMasternodesUpgraded = false;
