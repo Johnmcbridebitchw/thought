@@ -1,5 +1,5 @@
 // Copyright (c) 2013-2016 John Tromp
-// Copyright (c) 2018-2019 The Thought Core developers
+// Copyright (c) 2018-2021 The Thought Core developers
 
 #ifndef CUCKOO_VERIFY_H_
 #define CUCKOO_VERIFY_H_

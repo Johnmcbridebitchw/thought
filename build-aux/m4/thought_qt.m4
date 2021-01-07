@@ -1,5 +1,5 @@
 dnl Copyright (c) 2013-2016 The Bitcoin Core developers
-dnl Copyright (c) 2017-2019 Thought Networks, LLC
+dnl Copyright (c) 2017-2021 Thought Networks, LLC
 dnl Distributed under the MIT software license, see the accompanying
 dnl file COPYING or http://www.opensource.org/licenses/mit-license.php.
 

@@ -1,5 +1,5 @@
 // Copyright (c) 2013-2016 John Tromp
-// Copyright (c) 2018-2019 The Thought Core developers
+// Copyright (c) 2018-2021 The Thought Core developers
 
 #include "crypto/cuckoo/cuckoo.h"
 #include "crypto/sha256.h"
@@ -9,7 +9,7 @@
 
 #ifndef ROTL
 #define ROTL(x,b) (uint64_t)( ((x) << (b)) | ( (x) >> (64 - (b))) )
-#endif 
+#endif
 #ifndef SIPROUND
 #define SIPROUND \
   do { \
