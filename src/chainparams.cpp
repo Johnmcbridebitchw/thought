@@ -570,8 +570,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nWindowSize = 100;
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 2; // 50% of 100
 
-        consensus.CuckooHardForkBlockHeight = 3;
-        consensus.CuckooRequiredBlockHeight = 3;
+        consensus.CuckooHardForkBlockHeight = 25;
+        consensus.CuckooRequiredBlockHeight = 25;
 
         // The best chain should have at least this much work.
         consensus.nMinimumChainWork = uint256S("0x000000000000000000000000000000000000000000000000000000000000000");
