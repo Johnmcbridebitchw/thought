@@ -1,7 +1,7 @@
 
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2015 The Bitcoin Core developers
-// Copyright (c) 2017-2019 Thought Networks, LLC
+// Copyright (c) 2017-2021 Thought Networks, LLC
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -439,8 +439,9 @@ unsigned int Midas(const CBlockIndex *pindexLast, const CBlockHeader *pblock, co
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
 {
     // this is only active on devnets
+    int currentBlockHeight = pindexLast->nHeight+1;
     if (pindexLast->nHeight < params.nMinimumDifficultyBlocks) {
-        unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
+        unsigned int nProofOfWorkLimit = (currentBlockHeight >= params.CuckooHardForkBlockHeight)? UintToArith256(params.cuckooPowLimit).GetCompact() : UintToArith256(params.powLimit).GetCompact();
         return nProofOfWorkLimit;
     }
 

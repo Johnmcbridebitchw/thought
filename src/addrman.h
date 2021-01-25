@@ -1,6 +1,6 @@
 // Copyright (c) 2012 Pieter Wuille
 // Copyright (c) 2012-2015 The Bitcoin Core developers
-// Copyright (c) 2017-2019 Thought Networks, LLC
+// Copyright (c) 2017-2021 Thought Networks, LLC
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 

@@ -1,7 +1,7 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2014 The Bitcoin Core developers
 // Copyright (c) 2014-2017 The Dash Core developers
-// Copyright (c) 2017-2019 Thought Networks, LLC
+// Copyright (c) 2017-2021 Thought Networks, LLC
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -187,7 +187,7 @@ public:
         consensus.nBudgetPaymentsStartBlock = 385627; // actual historical value
         consensus.nBudgetPaymentsCycleBlocks = 26700; // ~(60*24*30)/1.618, actual number of blocks per month is 324846 / 12 = 27070
         consensus.nBudgetPaymentsWindowBlocks = 100;
-        consensus.nSuperblockStartBlock = 939665; // The block at which 12.1 goes live (end of final 12.0 budget cycle) approx feb 2021
+        consensus.nSuperblockStartBlock = 1323250; // The block at which 12.1 goes live (end of final 12.0 budget cycle) approx mar 2022
         consensus.nSuperblockStartHash = uint256S("0052548ec1345c8769322d9298297cefd5aa65504a02619a128bfb62d11d89f9"); // update this
         consensus.nSuperblockCycle = 26700; // ~(60*24*30)/1.618, actual number of blocks per month is 324846 / 12 = 27070
         consensus.nGovernanceMinQuorum = 40;
@@ -238,8 +238,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].bit = 3;
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 1592092800; // Jun 14th, 2020
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 1623628800; // Jun 14th, 2021
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nWindowSize = 1000;
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 20; // 2% of 1000
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nWindowSize = 200;
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 20; // 10% of 200
 
 	// Implementation of MIDAS
         consensus.midasStartHeight = 1;
@@ -250,10 +250,10 @@ public:
         consensus.CuckooRequiredBlockHeight = 248800;
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000009f10b61052acc"); // 615460
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000009f10b8450da69"); // 933662
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x0074d0258d568298cbd1e6a2a12e0076059bcd4e55eeab9c5ad41989a4d3e5de"); // 615460
+        consensus.defaultAssumeValid = uint256S("0x0033fcb9b3caa3271705c610afdf544684d28e6b975a3b97be3b05ad3a5eaaf4"); // 933662
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -329,11 +329,12 @@ public:
             ( 388285, uint256S("00e0d38562e2f576c3c501f4768b282824a7f9489778537c49e3b5492923f5c5"))
             ( 500000, uint256S("0052548ec1345c8769322d9298297cefd5aa65504a02619a128bfb62d11d89f9"))
             ( 615460, uint256S("0074d0258d568298cbd1e6a2a12e0076059bcd4e55eeab9c5ad41989a4d3e5de"))
+            ( 933662, uint256S("0033fcb9b3caa3271705c610afdf544684d28e6b975a3b97be3b05ad3a5eaaf4"))
         };
 
         chainTxData = ChainTxData{
-            1581645506, // * UNIX timestamp of last known number of transactions
-            619962,    // * total number of transactions between genesis and that timestamp
+            1611605424, // * UNIX timestamp of last known number of transactions
+            938246,    // * total number of transactions between genesis and that timestamp
                         //   (the tx=... number in the SetBestChain debug.log lines)
             1         // * estimated number of transactions per second after that timestamp
         };
@@ -421,10 +422,10 @@ public:
 
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000002c03520c2c"); // 203853
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000002c058eef78"); // 351394
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x00b4035a037a5522141b8be953ddf0382cdbd2e065e7fcaf7ff64eaf2963e9bb"); // 203853
+        consensus.defaultAssumeValid = uint256S("0x0020e6e0d2d0292a4456ae92f0b846113d68194e0ba77dfec3c51f67a976d6e2"); // 351394
 
         pchMessageStart[0] = 0x2b;
         pchMessageStart[1] = 0x99;
@@ -490,11 +491,12 @@ public:
             ( 154509, uint256S("0x001ecb9553a2d270c7055fee8b91401ac63f6c5f8e8926d958d88b679d8ccb70"))
             ( 203853, uint256S("0x0080d0bf98c3780b426892ba549c89abcd7c3c12812287888b087c5d759ddd42"))
             ( 206391, uint256S("0x00b4035a037a5522141b8be953ddf0382cdbd2e065e7fcaf7ff64eaf2963e9bb"))
+            ( 351394, uint256S("0x0020e6e0d2d0292a4456ae92f0b846113d68194e0ba77dfec3c51f67a976d6e2"))
                   };
 
         chainTxData = ChainTxData{
-            1571094065, // * UNIX timestamp of last known number of transactions
-            215256,       // * total number of transactions between genesis and that timestamp
+            1611605222, // * UNIX timestamp of last known number of transactions
+            351394,       // * total number of transactions between genesis and that timestamp
                         //   (the tx=... number in the SetBestChain debug.log lines)
             0.01        // * estimated number of transactions per second after that timestamp
         };
@@ -542,36 +544,36 @@ public:
         consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
-        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
+        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 2398377599; // Dec 31st, 2045
 
         // Deployment of BIP68, BIP112, and BIP113.
         consensus.vDeployments[Consensus::DEPLOYMENT_CSV].bit = 0;
         consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nStartTime = 1506556800; // September 28th, 2017
-        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nTimeout = 1538092800; // September 28th, 2018
+        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nTimeout = 2398377599; // Dec 31st, 2045
 
         // Deployment of DIP0001
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].bit = 1;
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].nStartTime = 1505692800; // Sep 18th, 2017
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].nTimeout = 1537228800; // Sep 18th, 2018
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].nTimeout = 2398377599; // Dec 31st, 2045
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].nWindowSize = 100;
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].nThreshold = 50; // 50% of 100
 
         // Deployment of BIP147
         consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].bit = 2;
         consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].nStartTime = 1517792400; // Feb 5th, 2018
-        consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].nTimeout = 1549328400; // Feb 5th, 2019
+        consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].nTimeout = 2398377599; // Dec 31st, 2045
         consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].nWindowSize = 100;
         consensus.vDeployments[Consensus::DEPLOYMENT_BIP147].nThreshold = 50; // 50% of 100
 
         // Deployment of DIP0003
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].bit = 3;
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nStartTime = 1535752800; // Sep 1st, 2018
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 1567288800; // Sep 1st, 2019
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nTimeout = 2398377599; // Dec 31st, 2045
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nWindowSize = 100;
-        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 50; // 50% of 100
+        consensus.vDeployments[Consensus::DEPLOYMENT_DIP0003].nThreshold = 2; // 50% of 100
 
-        consensus.CuckooHardForkBlockHeight = 3;
-        consensus.CuckooRequiredBlockHeight = 3;
+        consensus.CuckooHardForkBlockHeight = 3000;
+        consensus.CuckooRequiredBlockHeight = 3000;
 
         // The best chain should have at least this much work.
         consensus.nMinimumChainWork = uint256S("0x000000000000000000000000000000000000000000000000000000000000000");
