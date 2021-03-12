@@ -439,8 +439,9 @@ unsigned int Midas(const CBlockIndex *pindexLast, const CBlockHeader *pblock, co
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
 {
     // this is only active on devnets
+    int currentBlockHeight = pindexLast->nHeight+1;
     if (pindexLast->nHeight < params.nMinimumDifficultyBlocks) {
-        unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
+        unsigned int nProofOfWorkLimit = (currentBlockHeight >= params.CuckooHardForkBlockHeight)? UintToArith256(params.cuckooPowLimit).GetCompact() : UintToArith256(params.powLimit).GetCompact();
         return nProofOfWorkLimit;
     }
 
