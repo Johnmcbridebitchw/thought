@@ -8,6 +8,7 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include <string>
 
 /** A hasher class for SHA-256. */
 class CSHA256
@@ -26,4 +27,15 @@ public:
     CSHA256& Reset();
 };
 
+/** Autodetect the best available SHA256 implementation.
+ *  Returns the name of the implementation.
+ */
+std::string SHA256DAutoDetect();
+
+/** Compute multiple double-SHA256's of 64-byte blobs.
+ *  output:  pointer to a blocks*32 byte output buffer
+ *  input:   pointer to a blocks*64 byte input buffer
+ *  blocks:  the number of hashes to compute.
+ */
+void SHA256D64(unsigned char* output, const unsigned char* input, size_t blocks);
 #endif // THOUGHT_CRYPTO_SHA256_H
