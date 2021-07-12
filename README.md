@@ -16,7 +16,7 @@ source software which enables the use of this currency.
 For more information, see https://thought.live.
 
 For an immediately useable binary version of the Thought Core software, see
-https://github.com/thoughtnetwork/thought/releases.
+https://github.com/thoughtnetwork/thought-wallet.
 
 
 License
