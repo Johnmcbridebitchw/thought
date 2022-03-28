@@ -980,8 +980,9 @@ std::string CopyrightHolders(const std::string& strPrefix, unsigned int nStartYe
     std::string strCopyrightHolders = strPrefix + strprintf(" %u-%u ", nStartYear, nEndYear) + strprintf(_(COPYRIGHT_HOLDERS), _(COPYRIGHT_HOLDERS_SUBSTITUTION));
 
     // Check for untranslated substitution to make sure Thought Core copyright is not removed by accident
-    if (strprintf(COPYRIGHT_HOLDERS, COPYRIGHT_HOLDERS_SUBSTITUTION).find("Thought Network Ltd") == std::string::npos) {
-        strCopyrightHolders += "\n" + strPrefix + strprintf(" %u-%u ", 2009, nEndYear) + "The Dash Core developers";
+    if (strprintf(COPYRIGHT_HOLDERS, COPYRIGHT_HOLDERS_SUBSTITUTION).find("Core") == std::string::npos) {
+        strCopyrightHolders += "\n" + strPrefix + " 2014-2017 The Dash Core developers"
+		            + "\n" + strPrefix + " 2009-2015 The Bitcoin Core developers";
     }
     return strCopyrightHolders;
 }
