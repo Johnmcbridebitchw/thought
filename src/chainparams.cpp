@@ -250,10 +250,10 @@ public:
         consensus.CuckooRequiredBlockHeight = 248800;
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000009f10b8450da69"); // 933662
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000009f11cd8f3c0a6"); // 1314126
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x0033fcb9b3caa3271705c610afdf544684d28e6b975a3b97be3b05ad3a5eaaf4"); // 933662
+        consensus.defaultAssumeValid = uint256S("0x00000f6c1b2cf55842736830bb3586f6171959f2d79f300e1a2cbd7ef943f869"); // 1314126
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -330,6 +330,9 @@ public:
             ( 500000, uint256S("0052548ec1345c8769322d9298297cefd5aa65504a02619a128bfb62d11d89f9"))
             ( 615460, uint256S("0074d0258d568298cbd1e6a2a12e0076059bcd4e55eeab9c5ad41989a4d3e5de"))
             ( 933662, uint256S("0033fcb9b3caa3271705c610afdf544684d28e6b975a3b97be3b05ad3a5eaaf4"))
+            ( 1036062, uint256S("000da1b7f88d5571c8b17d598c6f38df90e2e8b44a426950166c0eea3bad02b2"))
+            ( 1138462, uint256S("00008a3a2328e2b7143ef1862312e69ccab7907ab26365b673f23c186d3c60cc"))
+            ( 1314126, uint256S("00000f6c1b2cf55842736830bb3586f6171959f2d79f300e1a2cbd7ef943f869"))
         };
 
         chainTxData = ChainTxData{
@@ -422,10 +425,10 @@ public:
 
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000002c058eef78"); // 351394
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000002c071d46b3"); // 453224
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x0020e6e0d2d0292a4456ae92f0b846113d68194e0ba77dfec3c51f67a976d6e2"); // 351394
+        consensus.defaultAssumeValid = uint256S("0x004ca72e4195eff0fd071142c6ec8988f3436071d13c26e1ece0ca232a74dc18"); // 453224
 
         pchMessageStart[0] = 0x2b;
         pchMessageStart[1] = 0x99;
@@ -492,6 +495,7 @@ public:
             ( 203853, uint256S("0x0080d0bf98c3780b426892ba549c89abcd7c3c12812287888b087c5d759ddd42"))
             ( 206391, uint256S("0x00b4035a037a5522141b8be953ddf0382cdbd2e065e7fcaf7ff64eaf2963e9bb"))
             ( 351394, uint256S("0x0020e6e0d2d0292a4456ae92f0b846113d68194e0ba77dfec3c51f67a976d6e2"))
+            ( 453224, uint256S("0x004ca72e4195eff0fd071142c6ec8988f3436071d13c26e1ece0ca232a74dc18"))
                   };
 
         chainTxData = ChainTxData{
