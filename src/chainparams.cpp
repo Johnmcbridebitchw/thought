@@ -187,7 +187,7 @@ public:
         consensus.nBudgetPaymentsStartBlock = 385627; // actual historical value
         consensus.nBudgetPaymentsCycleBlocks = 26700; // ~(60*24*30)/1.618, actual number of blocks per month is 324846 / 12 = 27070
         consensus.nBudgetPaymentsWindowBlocks = 100;
-        consensus.nSuperblockStartBlock = 1647957; // Approx Mar 2023
+        consensus.nSuperblockStartBlock = 2290357; // Approx Mar 2023
         consensus.nSuperblockStartHash = uint256S("0052548ec1345c8769322d9298297cefd5aa65504a02619a128bfb62d11d89f9"); // update this
         consensus.nSuperblockCycle = 26700; // ~(60*24*30)/1.618, actual number of blocks per month is 324846 / 12 = 27070
         consensus.nGovernanceMinQuorum = 40;
@@ -333,6 +333,7 @@ public:
             ( 1036062, uint256S("000da1b7f88d5571c8b17d598c6f38df90e2e8b44a426950166c0eea3bad02b2"))
             ( 1138462, uint256S("00008a3a2328e2b7143ef1862312e69ccab7907ab26365b673f23c186d3c60cc"))
             ( 1314126, uint256S("00000f6c1b2cf55842736830bb3586f6171959f2d79f300e1a2cbd7ef943f869"))
+            ( 1647955, uint256S("0000279c4f19d8922d7e99d51be6e4d7586000817d81bee4231713fce9f23db3"))
         };
 
         chainTxData = ChainTxData{
