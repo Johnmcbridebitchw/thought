@@ -79,6 +79,8 @@ const std::string ThoughtGUI::DEFAULT_UIPLATFORM =
 #endif
         ;
 
+using namespace boost::placeholders;
+
 /** Display name for default wallet name. Uses tilde to avoid name
  * collisions in the future with additional wallets */
 const QString ThoughtGUI::DEFAULT_WALLET = "~Default";
