@@ -63,6 +63,8 @@
 # error "Thought Core cannot be compiled without assertions."
 #endif
 
+using namespace boost::placeholders;
+
 /**
  * Global state
  */

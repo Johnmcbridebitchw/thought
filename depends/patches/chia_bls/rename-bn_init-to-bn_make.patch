@@ -1,0 +1,252 @@
+From af3fae2c5011cf63e4ae0a1a6849aa01ab402e4f Mon Sep 17 00:00:00 2001
+From: Sam Heybey <sam@heybey.org>
+Date: Sat, 23 Mar 2024 10:34:33 -0400
+Subject: [PATCH] rename bn_init to bn_make
+
+Fixes static linking compatibility with OpenSSL 1.1 and later.
+---
+ contrib/relic/bench/bench_bn.c                |  2 +-
+ contrib/relic/include/relic_bn.h              | 18 +++++++++---------
+ contrib/relic/include/relic_label.h           |  4 ++--
+ contrib/relic/src/bn/relic_bn_mem.c           |  2 +-
+ contrib/relic/src/eb/relic_eb_curve.c         |  4 ++--
+ contrib/relic/src/ed/relic_ed_curve.c         |  8 ++++----
+ contrib/relic/src/ep/relic_ep_curve.c         |  8 ++++----
+ contrib/relic/src/epx/relic_ep2_curve.c       |  8 ++++----
+ contrib/relic/src/fp/relic_fp_prime.c         |  6 +++---
+ contrib/relic/src/low/easy/relic_fp_inv_low.c |  2 +-
+ 10 files changed, 31 insertions(+), 31 deletions(-)
+
+diff --git a/contrib/relic/bench/bench_bn.c b/contrib/relic/bench/bench_bn.c
+index ac3d436..9c0691c 100755
+--- a/contrib/relic/bench/bench_bn.c
++++ b/contrib/relic/bench/bench_bn.c
+@@ -50,7 +50,7 @@ static void memory(void) {
+ 		bn_new(a[i]);
+ 		bn_clean(a[i]);
+ 	}
+-	BENCH_SMALL("bn_init", bn_init(a[i], BN_DIGS));
++	BENCH_SMALL("bn_make", bn_make(a[i], BN_DIGS));
+ 	for (int i = 0; i < BENCH; i++) {
+ 		bn_free(a[i]);
+ 	}
+diff --git a/contrib/relic/include/relic_bn.h b/contrib/relic/include/relic_bn.h
+index 6de6d33..2995359 100755
+--- a/contrib/relic/include/relic_bn.h
++++ b/contrib/relic/include/relic_bn.h
+@@ -157,7 +157,7 @@ typedef bn_st *bn_t;
+ 	if ((A) == NULL) {														\
+ 		THROW(ERR_NO_MEMORY);												\
+ 	}																		\
+-	bn_init(A, BN_SIZE);													\
++	bn_make(A, BN_SIZE);													\
+ 
+ #elif ALLOC == STATIC
+ #define bn_new(A)															\
+@@ -165,16 +165,16 @@ typedef bn_st *bn_t;
+ 	if ((A) != NULL) {														\
+ 		(A)->dp = NULL;														\
+ 	}																		\
+-	bn_init(A, BN_SIZE);													\
++	bn_make(A, BN_SIZE);													\
+ 
+ #elif ALLOC == AUTO
+ #define bn_new(A)															\
+-	bn_init(A, BN_SIZE);													\
++	bn_make(A, BN_SIZE);													\
+ 
+ #elif ALLOC == STACK
+ #define bn_new(A)															\
+ 	A = (bn_t)alloca(sizeof(bn_st));										\
+-	bn_init(A, BN_SIZE);													\
++	bn_make(A, BN_SIZE);													\
+ 
+ #endif
+ 
+@@ -194,7 +194,7 @@ typedef bn_st *bn_t;
+ 	if (A == NULL) {														\
+ 		THROW(ERR_NO_MEMORY);												\
+ 	}																		\
+-	bn_init(A, D);															\
++	bn_make(A, D);															\
+ 
+ #elif ALLOC == STATIC
+ #define bn_new_size(A, D)													\
+@@ -202,16 +202,16 @@ typedef bn_st *bn_t;
+ 	if (A != NULL) {														\
+ 		(A)->dp = NULL;														\
+ 	}																		\
+-	bn_init(A, D);															\
++	bn_make(A, D);															\
+ 
+ #elif ALLOC == AUTO
+ #define bn_new_size(A, D)													\
+-	bn_init(A, D);															\
++	bn_make(A, D);															\
+ 
+ #elif ALLOC == STACK
+ #define bn_new_size(A, D)													\
+ 	A = (bn_t)alloca(sizeof(bn_st));										\
+-	bn_init(A, D);															\
++	bn_make(A, D);															\
+ 
+ #endif
+ 
+@@ -420,7 +420,7 @@ typedef bn_st *bn_t;
+  * @throw ERR_PRECISION		- if the required precision cannot be represented
+  * 							by the library.
+  */
+-void bn_init(bn_t a, int digits);
++void bn_make(bn_t a, int digits);
+ 
+ /**
+  * Cleans a multiple precision integer.
+diff --git a/contrib/relic/include/relic_label.h b/contrib/relic/include/relic_label.h
+index b2d7604..962e550 100755
+--- a/contrib/relic/include/relic_label.h
++++ b/contrib/relic/include/relic_label.h
+@@ -177,7 +177,7 @@
+ #define bn_st	PREFIX(bn_st)
+ #define bn_t	PREFIX(bn_t)
+ 
+-#undef bn_init
++#undef bn_make
+ #undef bn_clean
+ #undef bn_grow
+ #undef bn_trim
+@@ -279,7 +279,7 @@
+ #undef bn_rec_jsf
+ #undef bn_rec_glv
+ 
+-#define bn_init 	PREFIX(bn_init)
++#define bn_make 	PREFIX(bn_make)
+ #define bn_clean 	PREFIX(bn_clean)
+ #define bn_grow 	PREFIX(bn_grow)
+ #define bn_trim 	PREFIX(bn_trim)
+diff --git a/contrib/relic/src/bn/relic_bn_mem.c b/contrib/relic/src/bn/relic_bn_mem.c
+index 3f6a189..fc3545f 100755
+--- a/contrib/relic/src/bn/relic_bn_mem.c
++++ b/contrib/relic/src/bn/relic_bn_mem.c
+@@ -40,7 +40,7 @@
+ /* Public definitions                                                         */
+ /*============================================================================*/
+ 
+-void bn_init(bn_t a, int digits) {
++void bn_make(bn_t a, int digits) {
+ #if ALLOC == DYNAMIC
+ 	if (digits % BN_SIZE != 0) {
+ 		/* Pad the number of digits to a multiple of the block. */
+diff --git a/contrib/relic/src/eb/relic_eb_curve.c b/contrib/relic/src/eb/relic_eb_curve.c
+index 0bf7572..9530cdb 100755
+--- a/contrib/relic/src/eb/relic_eb_curve.c
++++ b/contrib/relic/src/eb/relic_eb_curve.c
+@@ -82,8 +82,8 @@ void eb_curve_init(void) {
+ 	fb_zero(ctx->eb_g.x);
+ 	fb_zero(ctx->eb_g.y);
+ 	fb_zero(ctx->eb_g.z);
+-	bn_init(&(ctx->eb_r), FB_DIGS);
+-	bn_init(&(ctx->eb_h), FB_DIGS);
++	bn_make(&(ctx->eb_r), FB_DIGS);
++	bn_make(&(ctx->eb_h), FB_DIGS);
+ }
+ 
+ void eb_curve_clean(void) {
+diff --git a/contrib/relic/src/ed/relic_ed_curve.c b/contrib/relic/src/ed/relic_ed_curve.c
+index 3492ce9..c2560bd 100755
+--- a/contrib/relic/src/ed/relic_ed_curve.c
++++ b/contrib/relic/src/ed/relic_ed_curve.c
+@@ -57,12 +57,12 @@ void ed_curve_init(void) {
+ #endif
+ #endif
+ 	ed_set_infty(&ctx->ed_g);
+-	bn_init(&ctx->ed_r, FP_DIGS);
+-	bn_init(&ctx->ed_h, FP_DIGS);
++	bn_make(&ctx->ed_r, FP_DIGS);
++	bn_make(&ctx->ed_h, FP_DIGS);
+ #if defined(ED_ENDOM) && (ED_MUL == LWNAF || ED_FIX == COMBS || ED_FIX == LWNAF || !defined(STRIP))
+ 	for (int i = 0; i < 3; i++) {
+-		bn_init(&(ctx->ed_v1[i]), FP_DIGS);
+-		bn_init(&(ctx->ed_v2[i]), FP_DIGS);
++		bn_make(&(ctx->ed_v1[i]), FP_DIGS);
++		bn_make(&(ctx->ed_v2[i]), FP_DIGS);
+ 	}
+ #endif
+ }
+diff --git a/contrib/relic/src/ep/relic_ep_curve.c b/contrib/relic/src/ep/relic_ep_curve.c
+index 5d66583..a696bde 100755
+--- a/contrib/relic/src/ep/relic_ep_curve.c
++++ b/contrib/relic/src/ep/relic_ep_curve.c
+@@ -105,12 +105,12 @@ void ep_curve_init(void) {
+ #endif
+ #endif
+ 	ep_set_infty(&ctx->ep_g);
+-	bn_init(&ctx->ep_r, FP_DIGS);
+-	bn_init(&ctx->ep_h, FP_DIGS);
++	bn_make(&ctx->ep_r, FP_DIGS);
++	bn_make(&ctx->ep_h, FP_DIGS);
+ #if defined(EP_ENDOM) && (EP_MUL == LWNAF || EP_FIX == COMBS || EP_FIX == LWNAF || !defined(STRIP))
+ 	for (int i = 0; i < 3; i++) {
+-		bn_init(&(ctx->ep_v1[i]), FP_DIGS);
+-		bn_init(&(ctx->ep_v2[i]), FP_DIGS);
++		bn_make(&(ctx->ep_v1[i]), FP_DIGS);
++		bn_make(&(ctx->ep_v2[i]), FP_DIGS);
+ 	}
+ #endif
+ }
+diff --git a/contrib/relic/src/epx/relic_ep2_curve.c b/contrib/relic/src/epx/relic_ep2_curve.c
+index 894617e..8a4b962 100755
+--- a/contrib/relic/src/epx/relic_ep2_curve.c
++++ b/contrib/relic/src/epx/relic_ep2_curve.c
+@@ -244,10 +244,10 @@ void ep2_curve_init(void) {
+ #endif
+ #endif
+ 	ep2_set_infty(&(ctx->ep2_g));
+-	bn_init(&(ctx->ep2_r), FP_DIGS);
+-	bn_init(&(ctx->ep2_h), FP_DIGS);
+-	bn_init(&(ctx->ep2_s3), FP_DIGS);
+-	bn_init(&(ctx->ep2_s32), FP_DIGS);
++	bn_make(&(ctx->ep2_r), FP_DIGS);
++	bn_make(&(ctx->ep2_h), FP_DIGS);
++	bn_make(&(ctx->ep2_s3), FP_DIGS);
++	bn_make(&(ctx->ep2_s32), FP_DIGS);
+ }
+ 
+ void ep2_curve_clean(void) {
+diff --git a/contrib/relic/src/fp/relic_fp_prime.c b/contrib/relic/src/fp/relic_fp_prime.c
+index c17e503..8de23b2 100755
+--- a/contrib/relic/src/fp/relic_fp_prime.c
++++ b/contrib/relic/src/fp/relic_fp_prime.c
+@@ -294,14 +294,14 @@ static void fp3_calc(void) {
+ void fp_prime_init(void) {
+ 	ctx_t *ctx = core_get();
+ 	ctx->fp_id = 0;
+-	bn_init(&(ctx->prime), FP_DIGS);
++	bn_make(&(ctx->prime), FP_DIGS);
+ #if FP_RDC == QUICK || !defined(STRIP)
+ 	ctx->sps_len = 0;
+ 	memset(ctx->sps, 0, sizeof(ctx->sps));
+ #endif
+ #if FP_RDC == MONTY || !defined(STRIP)
+-	bn_init(&(ctx->conv), FP_DIGS);
+-	bn_init(&(ctx->one), FP_DIGS);
++	bn_make(&(ctx->conv), FP_DIGS);
++	bn_make(&(ctx->one), FP_DIGS);
+ #endif
+ }
+ 
+diff --git a/contrib/relic/src/low/easy/relic_fp_inv_low.c b/contrib/relic/src/low/easy/relic_fp_inv_low.c
+index 7b6f3f4..773f285 100755
+--- a/contrib/relic/src/low/easy/relic_fp_inv_low.c
++++ b/contrib/relic/src/low/easy/relic_fp_inv_low.c
+@@ -42,7 +42,7 @@
+ void fp_invn_low(dig_t *c, const dig_t *a) {
+ 	bn_st e;
+ 
+-	bn_init(&e, FP_DIGS);
++	bn_make(&e, FP_DIGS);
+ 
+ 	e.used = FP_DIGS;
+ 	dv_copy(e.dp, fp_prime_get(), FP_DIGS);
+-- 
+2.34.1
+

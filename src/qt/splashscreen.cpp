@@ -24,7 +24,11 @@
 #include <QApplication>
 #include <QCloseEvent>
 #include <QDesktopWidget>
+#include <QMouseEvent>
 #include <QPainter>
+#include <QWindow>
+
+using namespace boost::placeholders;
 
 SplashScreen::SplashScreen(Qt::WindowFlags f, const NetworkStyle *networkStyle) :
     QWidget(0, f), curAlignment(0)
@@ -192,7 +196,7 @@ void SplashScreen::unsubscribeFromCoreSignals()
     uiInterface.InitMessage.disconnect(boost::bind(InitMessage, this, _1));
     uiInterface.ShowProgress.disconnect(boost::bind(ShowProgress, this, _1, _2));
 #ifdef ENABLE_WALLET
-    Q_FOREACH(CWallet* const & pwallet, connectedWallets) {
+    for (CWallet* const & pwallet : connectedWallets) {
         pwallet->ShowProgress.disconnect(boost::bind(ShowProgress, this, _1, _2));
     }
 #endif
@@ -219,4 +223,19 @@ void SplashScreen::closeEvent(QCloseEvent *event)
 {
     StartShutdown(); // allows an "emergency" shutdown during startup
     event->ignore();
+}
+
+void SplashScreen::mousePressEvent(QMouseEvent *event)
+{
+    shouldMove = !this->windowHandle()->startSystemMove();
+    mousePressPos = event->globalPos();
+    windowPressPos = this->pos();
+}
+
+void SplashScreen::mouseMoveEvent(QMouseEvent *event)
+{
+    if (shouldMove) {
+        auto diff = event->globalPos() - mousePressPos;
+        this->move(windowPressPos + diff);
+    }
 }
