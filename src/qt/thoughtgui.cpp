@@ -1273,7 +1273,7 @@ void ThoughtGUI::dropEvent(QDropEvent *event)
 {
     if(event->mimeData()->hasUrls())
     {
-        Q_FOREACH(const QUrl &uri, event->mimeData()->urls())
+        for (const QUrl &uri : event->mimeData()->urls())
         {
             Q_EMIT receivedURI(uri.toString());
         }
@@ -1495,7 +1495,7 @@ UnitDisplayStatusBarControl::UnitDisplayStatusBarControl(const PlatformStyle *pl
     QList<ThoughtUnits::Unit> units = ThoughtUnits::availableUnits();
     int max_width = 0;
     const QFontMetrics fm(font());
-    Q_FOREACH (const ThoughtUnits::Unit unit, units)
+    for (const ThoughtUnits::Unit unit : units)
     {
         max_width = qMax(max_width, fm.width(ThoughtUnits::name(unit)));
     }
@@ -1514,7 +1514,7 @@ void UnitDisplayStatusBarControl::mousePressEvent(QMouseEvent *event)
 void UnitDisplayStatusBarControl::createContextMenu()
 {
     menu = new QMenu(this);
-    Q_FOREACH(ThoughtUnits::Unit u, ThoughtUnits::availableUnits())
+    for (ThoughtUnits::Unit u : ThoughtUnits::availableUnits())
     {
         QAction *menuAction = new QAction(QString(ThoughtUnits::name(u)), this);
         menuAction->setData(QVariant(u));

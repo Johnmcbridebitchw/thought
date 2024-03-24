@@ -7,7 +7,8 @@
 #define THOUGHT_QT_SPLASHSCREEN_H
 
 #include <functional>
-#include <QSplashScreen>
+
+#include <QWidget>
 
 class CWallet;
 class NetworkStyle;
