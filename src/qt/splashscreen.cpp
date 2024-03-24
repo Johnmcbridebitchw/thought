@@ -24,7 +24,9 @@
 #include <QApplication>
 #include <QCloseEvent>
 #include <QDesktopWidget>
+#include <QMouseEvent>
 #include <QPainter>
+#include <QWindow>
 
 using namespace boost::placeholders;
 
@@ -221,4 +223,19 @@ void SplashScreen::closeEvent(QCloseEvent *event)
 {
     StartShutdown(); // allows an "emergency" shutdown during startup
     event->ignore();
+}
+
+void SplashScreen::mousePressEvent(QMouseEvent *event)
+{
+    shouldMove = !this->windowHandle()->startSystemMove();
+    mousePressPos = event->globalPos();
+    windowPressPos = this->pos();
+}
+
+void SplashScreen::mouseMoveEvent(QMouseEvent *event)
+{
+    if (shouldMove) {
+        auto diff = event->globalPos() - mousePressPos;
+        this->move(windowPressPos + diff);
+    }
 }

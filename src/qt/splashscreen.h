@@ -30,6 +30,8 @@ public:
 protected:
     void paintEvent(QPaintEvent *event);
     void closeEvent(QCloseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
 
 public Q_SLOTS:
     /** Slot to call finish() method as it's not defined as slot */
@@ -55,6 +57,9 @@ private:
     QString curMessage;
     QColor curColor;
     int curAlignment;
+    bool shouldMove;
+    QPoint mousePressPos;
+    QPoint windowPressPos;
 
     QList<CWallet*> connectedWallets;
 
